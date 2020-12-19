@@ -10,7 +10,8 @@ using S = StudentApp.Services.Model;
 namespace StudentApp.API.Controllers.V2
 {
     [ApiVersion("2.0")]
-    [Route("api/v{version:apiVersion}/users")]
+    //[Route("api/v{version:apiVersion}/users")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : Controller
     {
@@ -61,10 +62,7 @@ namespace StudentApp.API.Controllers.V2
 
             var data = await _service.CreateAsync(_mapper.Map<S.User>(value.User));
 
-            if (data != null)
-                return _mapper.Map<User>(data);
-            else
-                return null;
+            return data != null ? _mapper.Map<User>(data) : null;
 
         }
         #endregion

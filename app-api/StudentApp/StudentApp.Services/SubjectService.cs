@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace StudentApp.Services
 {
-    class SubjectService : ISubjectService
+    public class SubjectService : ISubjectService
     {
         private AppSettings _settings;
         private readonly IMapper _mapper;

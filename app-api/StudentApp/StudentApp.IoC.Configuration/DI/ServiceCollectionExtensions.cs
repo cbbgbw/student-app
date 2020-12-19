@@ -14,6 +14,7 @@ namespace StudentApp.IoC.Configuration.DI
             if (services != null)
             {
                 services.AddTransient<IUserService, UserService>();
+                services.AddTransient<ISubjectService, SubjectService>();
             }
         }
 
