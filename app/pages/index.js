@@ -1,5 +1,7 @@
-import Head from 'next/head'
-import Link from 'next/link'
+import Head from "next/head";
+import Link from "next/link";
+
+import "./styles.css";
 
 export default function Home() {
   return (
@@ -11,14 +13,14 @@ export default function Home() {
 
       <main>
         <h1 className="title">
-          Read{' '}
+          Read{" "}
           <Link href="/posts/first-post">
             <a>this page!</a>
           </Link>
         </h1>
 
         <p className="description">
-          Get started by editing <code>pages/index.js</code>
+          Get started by editing <code>pages/index.tsx</code>
         </p>
 
         <div className="grid">
@@ -58,7 +60,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
         </a>
       </footer>
@@ -209,5 +211,5 @@ export default function Home() {
         }
       `}</style>
     </div>
-  )
+  );
 }
