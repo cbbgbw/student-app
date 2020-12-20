@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    height: 100%;
+    width:100%;
+}
+
+h1 {
+    font-size: 40px;
+}
+
+@font-face {
+    font-family: "Source Sans Pro";
+    /*noinspection CssUnknownTarget*/
+    src: url('/fonts/SourceSansPro-Regular.ttf');
+    font-style:normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Source Sans Pro Semi-Bold";
+    /*noinspection CssUnknownTarget*/
+    src: url('/fonts/SourceSansPro-SemiBold.ttf');
+    font-style: normal;
+    font-weight: auto;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Source Sans Pro Black";
+    /*noinspection CssUnknownTarget*/
+    src: url('/fonts/SourceSansPro-Black.ttf');
+    font-style: normal;
+    font-weight: auto;
+    font-display: swap;
+}
