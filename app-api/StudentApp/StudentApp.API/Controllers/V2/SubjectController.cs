@@ -50,8 +50,25 @@ namespace StudentApp.API.Controllers.V2
         #endregion
 
         #region PUT
-        //[HttpPut()]
-        //public async Task<bool>
+
+        [HttpPut]
+        public async Task<bool> UpdateSubject(DC.Subject subject)
+        {
+            if (subject == null)
+                throw new ArgumentNullException("subject");
+
+            return await _service.UpdateAsync(_mapper.Map<S.Subject>(subject));
+        }
+        #endregion
+
+        #region DELETE
+
+        [HttpDelete("{id}")]
+        public async Task<bool> DeleteSubject(Guid id)
+        {
+            return await _service.DeleteAsync(id);
+        }
+
         #endregion
     }
 }
