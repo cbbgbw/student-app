@@ -43,7 +43,7 @@ function initStore(preloadedState = initialState) {
   });
 }
 
-export const initializeStore = (preloadedState: InitialState) => {
+export const initializeStore = (preloadedState?: InitialState) => {
   let _store = store ?? initStore(preloadedState);
 
   // After navigating to a page with an initial Zustand state, merge that state

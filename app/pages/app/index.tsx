@@ -2,8 +2,9 @@ import React, { FC } from "react";
 import styles from "./index.module.scss";
 import { EntitiesModal } from "../../types/types";
 import { Add } from "../../components/Add/Add";
-import { ModalWrapper } from "../../forms/ModalWrapper";
+import { ModalType, ModalWrapper } from "../../forms/ModalWrapper";
 import { useStore } from "../../utils/storeProvider";
+import { initializeStore } from "../../utils/storeUtils";
 
 const App: FC = () => {
   const { setModalType } = useStore();
@@ -40,5 +41,13 @@ const App: FC = () => {
     </>
   );
 };
+
+export function getServerSideProps() {
+  const zustandStore = initializeStore();
+
+  return {
+    props: { initialZustandState: JSON.stringify(zustandStore.getState()) }
+  };
+}
 
 export default App;
