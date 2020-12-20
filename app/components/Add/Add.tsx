@@ -5,10 +5,11 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 export type AddProps = {
   name: string;
+  onClick: () => void;
 };
 
-export const Add: FC<AddProps> = ({ name }) => (
-  <button className={styles.add}>
+export const Add: FC<AddProps> = ({ name, onClick }) => (
+  <button className={styles.add} onClick={onClick}>
     <h1>
       Dodaj <br />
       {name}
