@@ -19,15 +19,12 @@ namespace StudentApp.API.DataContracts
         public string Description { get; set; }
 
         [Required]
-        //[DataType(DataType.Custom)]
         public Guid CurrentSubjectStateKEY { get; set; }
 
         [Required]
-        //[DataType(DataType.Custom)]
         public bool HasProjectToPass { get; set; }
 
         [Required]
-        //[DataType(DataType.Custom)]
         public int Semester { get; set; }
 
         [DataType(DataType.DateTime)]
@@ -36,7 +33,6 @@ namespace StudentApp.API.DataContracts
         [DataType(DataType.DateTime)]
         public DateTime ModifyTime { get; set; }
 
-        //[DataType(DataType.Custom)]
         public bool isArchive { get; set; }
     }
 }
