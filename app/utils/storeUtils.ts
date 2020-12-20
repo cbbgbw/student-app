@@ -16,15 +16,21 @@ import { useMemo } from "react";
 import create, { SetState, State } from "zustand";
 import { ModalType } from "../forms/ModalWrapper";
 
-let store;
+type Store = ReturnType<typeof initStore>;
+
+let store: ReturnType<typeof initStore>;
 
 const initialState = {
   modalType: ModalType.None
 };
 
+type InitialState = typeof initialState;
+
 const actions = (set: SetState<State>) => ({
   setModalType: (newModalType: ModalType) => set({ modalType: newModalType })
 });
+
+type Actions = ReturnType<typeof actions>;
 
 function initStore(preloadedState = initialState) {
   return create((set) => {
@@ -37,7 +43,7 @@ function initStore(preloadedState = initialState) {
   });
 }
 
-export const initializeStore = (preloadedState) => {
+export const initializeStore = (preloadedState: InitialState) => {
   let _store = store ?? initStore(preloadedState);
 
   // After navigating to a page with an initial Zustand state, merge that state
@@ -59,21 +65,23 @@ export const initializeStore = (preloadedState) => {
   return _store;
 };
 
-export function useHydrate(initialState) {
+export function useHydrate(initialState: InitialState) {
   const state =
     typeof initialState === "string" ? JSON.parse(initialState) : initialState;
   return useMemo(() => initializeStore(state), [state]);
 }
 
-export const getModalType = (state) => ({
+type Statee = Actions & InitialState;
+
+export const getModalType = (state: Statee) => ({
   modalType: state.modalType
 });
 
-export const getModalTypeSetter = (state) => ({
+export const getModalTypeSetter = (state: Statee) => ({
   setModalType: state.setModalType
 });
 
-export const getModalTypeFuncs = ({ modalType, setModalType }) => ({
+export const getModalTypeFuncs = ({ modalType, setModalType }: Statee) => ({
   modalType,
   setModalType
 });
