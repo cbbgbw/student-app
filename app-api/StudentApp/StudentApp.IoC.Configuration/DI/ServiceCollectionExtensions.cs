@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StudentApp.Services;
 using StudentApp.Services.Contracts;
 using System.Reflection;
+using StudentApp.Tools.Configurations;
 
 namespace StudentApp.IoC.Configuration.DI
 {
@@ -13,6 +14,7 @@ namespace StudentApp.IoC.Configuration.DI
         {
             if (services != null)
             {
+                services.AddDbContext<DataContext>();
                 services.AddTransient<IUserService, UserService>();
                 services.AddTransient<ISubjectService, SubjectService>();
             }

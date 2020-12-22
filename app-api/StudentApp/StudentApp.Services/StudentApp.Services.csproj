@@ -13,6 +13,7 @@
     <ProjectReference Include="..\StudentApp.API.Common\StudentApp.API.Common.csproj" />
     <ProjectReference Include="..\StudentApp.Services.Contracts\StudentApp.Services.Contracts.csproj" />
     <ProjectReference Include="..\StudentApp.Services.Model\StudentApp.Services.Model.csproj" />
+    <ProjectReference Include="..\StudentApp.Tools\StudentApp.Tools.csproj" />
   </ItemGroup>
 
 </Project>
