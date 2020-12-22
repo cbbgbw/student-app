@@ -17,13 +17,11 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
-    - name: Go to dotnet project directory
-      run: cd app-api
     - name: Check directory
       run: ls
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./app-api
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore ./app-api
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal ./app-api
