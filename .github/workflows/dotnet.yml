@@ -18,7 +18,7 @@ jobs:
       with:
         dotnet-version: 3.1.301
     - name: Go to dotnet project directory
-      run: cd app-api
+      run: ls
     - name: Restore dependencies
       run: dotnet restore ./StudentApp.sln
     - name: Build
