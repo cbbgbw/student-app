@@ -19,6 +19,8 @@ jobs:
         dotnet-version: 3.1.301
     - name: Go to dotnet project directory
       run: cd app-api
+    - name: Check directory
+      run: ls
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
