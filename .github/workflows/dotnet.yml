@@ -20,8 +20,8 @@ jobs:
     - name: Go to dotnet project directory
       run: cd app-api
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./StudentApp.sln
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore ./StudentApp.sln
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal ./StudentApp.sln
