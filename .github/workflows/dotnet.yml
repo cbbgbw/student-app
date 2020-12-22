@@ -18,10 +18,10 @@ jobs:
       with:
         dotnet-version: 3.1.301
     - name: Go to dotnet project directory
-      run: ls
+      run: cd app-api
     - name: Restore dependencies
-      run: dotnet restore ./StudentApp.sln
+      run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore ./StudentApp.sln
+      run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal ./StudentApp.sln
+      run: dotnet test --no-build --verbosity normal
