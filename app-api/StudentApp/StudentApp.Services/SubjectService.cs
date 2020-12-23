@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,12 @@ namespace StudentApp.Services
 
         public async Task<Subject> CreateAsync(Subject subject)
         {
+            if (string.IsNullOrEmpty(subject.Name))
+                throw new AppException("Subject Name is required.");
+            
             await _context.Subjects.AddAsync(subject);
+            await _context.SaveChangesAsync();
+            
             return subject;
         }
 
@@ -45,7 +51,7 @@ namespace StudentApp.Services
 
         public async Task<Subject> GetAsync(Guid SubjectKEY)
         {
-            return _context.Subjects.SingleAsync(subject => subject.SubjectKEY == SubjectKEY).Result;
+            return _context.Subjects.SingleAsync(subject => subject.SubjectKey == SubjectKEY).Result;
 
             // Temp def of Subject without db
             //return new Subject
