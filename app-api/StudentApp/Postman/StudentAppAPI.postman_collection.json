@@ -1,0 +1,60 @@
+{
+	"info": {
+		"_postman_id": "494ef759-ced3-4178-9894-9bdc56c651fd",
+		"name": "StudentAppAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Subject",
+			"item": [
+				{
+					"name": "GET SINGLE",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ApiURL}}/subject/3fa85f64-5717-4562-b3fc-2c963f66afa6",
+							"host": [
+								"{{ApiURL}}"
+							],
+							"path": [
+								"subject",
+								"3fa85f64-5717-4562-b3fc-2c963f66afa6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"date\": \"2020-12-23T17:28:43.699Z\",\r\n  \"subject\": {\r\n    \"subjectKEY\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"name\": \"string\",\r\n    \"description\": \"string\",\r\n    \"currentSubjectStateKEY\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"hasProjectToPass\": true,\r\n    \"semester\": 1,\r\n    \"createTime\": \"2020-12-23T17:28:43.699Z\",\r\n    \"modifyTime\": \"2020-12-23T17:28:43.699Z\",\r\n    \"isArchive\": true\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ApiURL}}/subject",
+							"host": [
+								"{{ApiURL}}"
+							],
+							"path": [
+								"subject"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
