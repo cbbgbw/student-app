@@ -10,7 +10,6 @@ namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
         {
             CreateMap<DC.User, S.User>().ReverseMap();
             CreateMap<DC.Address, S.Address>().ReverseMap();
-
             CreateMap<DC.Subject, S.Subject>().ReverseMap();
         }
     }

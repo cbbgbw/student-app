@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudentApp.API.DataContracts.Requests
+namespace StudentApp.API.DataContracts.Requests.Subject.POST
 {
-    public class SubjectCreationRequest
+    public class SubjectPostRequest
     {
         public DateTime Date { get; set; }
-        public Subject Subject { get; set; }
+        public SubjectPost Subject { get; set; }
     }
 }

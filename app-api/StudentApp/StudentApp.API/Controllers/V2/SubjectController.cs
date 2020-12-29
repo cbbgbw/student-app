@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using DC = StudentApp.API.DataContracts;
-using RQ = StudentApp.API.DataContracts.Requests;
+using RQ = StudentApp.API.DataContracts.Requests.Subject.POST;
 using StudentApp.Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -38,7 +38,7 @@ namespace StudentApp.API.Controllers.V2
 
         #region POST
         [HttpPost]
-        public async Task<DC.Subject> CreateSubject([FromBody] RQ.SubjectCreationRequest value)
+        public async Task<DC.Subject> CreateSubject([FromBody] RQ.SubjectPostRequest value)
         {
             if (value == null)
                 throw new ArgumentNullException("value.Subject");

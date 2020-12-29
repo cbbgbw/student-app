@@ -15,6 +15,7 @@ namespace StudentApp.IoC.Configuration.DI
         {
             if (services != null)
             {
+                //We use single DataContext in entire project
                 services.AddDbContext<DataContext>(options => options.UseSqlServer(configuration.GetConnectionString("DataContext")));
                 services.AddTransient<IUserService, UserService>();
                 services.AddTransient<ISubjectService, SubjectService>();
