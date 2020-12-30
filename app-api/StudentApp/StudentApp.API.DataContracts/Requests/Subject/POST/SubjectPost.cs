@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudentApp.API.DataContracts
+namespace StudentApp.API.DataContracts.Requests.Subject.POST
 {
-    public class Subject
+    public class SubjectPost
     {
         public Guid SubjectKEY { get; set; }
 
@@ -19,20 +19,9 @@ namespace StudentApp.API.DataContracts
         public string Description { get; set; }
 
         [Required]
-        public Guid StatusDefinitionKey { get; set; }
-
-        [Required]
         public bool HasProjectToPass { get; set; }
 
         [Required]
         public int Semester { get; set; }
-
-        [DataType(DataType.DateTime)]
-        public DateTime CreateTime { get; set; }
-
-        [DataType(DataType.DateTime)]
-        public DateTime ModifyTime { get; set; }
-
-        public bool isArchive { get; set; }
     }
 }

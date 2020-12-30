@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudentApp.API.Controllers.V2;
 using StudentApp.API.DataContracts;
-using StudentApp.API.DataContracts.Requests;
+using StudentApp.API.DataContracts.Requests.Subject.POST;
 using StudentApp.Services.Contracts;
 
 namespace StudentApp.API.Tests.Controllers.ControllerTests.V1
@@ -30,20 +30,16 @@ namespace StudentApp.API.Tests.Controllers.ControllerTests.V1
         [TestMethod]
         public async Task CreateSubject_Nominal_OK()
         {
-            var subject = await _controller.CreateSubject(new SubjectCreationRequest
+            var subject = await _controller.CreateSubject(new SubjectPostRequest
             {
                 Date = DateTime.Now,
-                Subject = new Subject
+                Subject = new SubjectPost
                 {
                     SubjectKEY = Guid.NewGuid(),
                     Name = "Math",
                     Description = "One of main subjects",
-                    CurrentSubjectStateKEY = Guid.NewGuid(),
                     HasProjectToPass = true,
-                    Semester = 1,
-                    CreateTime = DateTime.Now,
-                    ModifyTime = DateTime.Now,
-                    isArchive = false
+                    Semester = 1
                 }
             });
             
@@ -60,20 +56,16 @@ namespace StudentApp.API.Tests.Controllers.ControllerTests.V1
         [TestMethod]
         public async Task CreateAndGetSubject_OK()
         {
-            var subject = await _controller.CreateSubject(new SubjectCreationRequest
+            var subject = await _controller.CreateSubject(new SubjectPostRequest
             {
                 Date = DateTime.Now,
-                Subject = new Subject
+                Subject = new SubjectPost
                 {
                     SubjectKEY = Guid.NewGuid(),
                     Name = "Math",
                     Description = "One of main subjects",
-                    CurrentSubjectStateKEY = Guid.NewGuid(),
                     HasProjectToPass = true,
-                    Semester = 1,
-                    CreateTime = DateTime.Now,
-                    ModifyTime = DateTime.Now,
-                    isArchive = false
+                    Semester = 1
                 }
             });
 

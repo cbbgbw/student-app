@@ -14,7 +14,8 @@ namespace StudentApp.Tools.Configurations
         public DataContext(DbContextOptions options) : base(options)
         {
         }
-        public DbSet<S.Subject> Subjects { get; set; }
+
+        public DbSet<S.Subject> Subject { get; set; }
 
     }
 }
