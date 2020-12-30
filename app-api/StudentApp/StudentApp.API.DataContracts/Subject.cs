@@ -19,7 +19,7 @@ namespace StudentApp.API.DataContracts
         public string Description { get; set; }
 
         [Required]
-        public Guid CurrentSubjectStateKEY { get; set; }
+        public Guid StatusDefinitionKey { get; set; }
 
         [Required]
         public bool HasProjectToPass { get; set; }

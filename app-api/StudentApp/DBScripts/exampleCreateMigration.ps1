@@ -1,0 +1,1 @@
+dotnet ef migrations add Example -s ..\StudentApp.API\StudentApp.API.csproj

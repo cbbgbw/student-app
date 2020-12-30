@@ -8,7 +8,7 @@ namespace StudentApp.Tools.Migrations.SqliteMigrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Subjects",
+                name: "Subject",
                 columns: table => new
                 {
                     SubjectKey = table.Column<Guid>(type: "UNIQUEIDENTIFIER", nullable: false),
@@ -17,20 +17,20 @@ namespace StudentApp.Tools.Migrations.SqliteMigrations
                     CurrentSubjectStateKey = table.Column<Guid>(type: "UNIQUEIDENTIFIER", nullable: false),
                     HasProjectToPass = table.Column<bool>(type: "INTEGER", nullable: false),
                     Semester = table.Column<int>(type: "INTEGER", nullable: false),
-                    CreateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ModifyTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreateTime = table.Column<DateTime>(type: "DATETIME", nullable: false),
+                    ModifyTime = table.Column<DateTime>(type: "DATETIME", nullable: false),
                     IsArchive = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Subjects", x => x.SubjectKey);
+                    table.PrimaryKey("PK_Subject", x => x.SubjectKey);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Subjects");
+                name: "Subject");
         }
     }
 }

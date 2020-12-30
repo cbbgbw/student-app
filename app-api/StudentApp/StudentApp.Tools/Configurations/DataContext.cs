@@ -15,7 +15,7 @@ namespace StudentApp.Tools.Configurations
         {
         }
 
-        public DbSet<S.Subject> Subjects { get; set; }
+        public DbSet<S.Subject> Subject { get; set; }
 
     }
 }

@@ -43,7 +43,7 @@ namespace StudentApp.API.Controllers.V2
             if (value == null)
                 throw new ArgumentNullException("value.Subject");
 
-            var data = await _service.CreateAsync(_mapper.Map<S.Subject>(value.Subject));
+            var data = await _service.CreateAsync(_mapper.Map<S.Subject>(value));
 
             return data != null ? _mapper.Map<DC.Subject>(data) : null;
         }
