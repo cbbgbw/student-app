@@ -15,20 +15,19 @@ namespace StudentApp.IoC.Configuration.DI
         {
             if (services != null)
             {
-                //We use single DataContext in entire project
-                services.AddDbContext<DataContext>(options => options.UseSqlServer(configuration.GetConnectionString("DataContext")));
+                services.AddDbContext<DataContext>(options => options.UseSqlServer(configuration.GetConnectionString("DataContext"), b => b.MigrationsAssembly("StudentApp.API")));
+                //services.AddDbContext<DataContext>(options => options.UseSqlite(configuration.GetConnectionString("DataContext")));
+
                 services.AddTransient<IUserService, UserService>();
                 services.AddTransient<ISubjectService, SubjectService>();
+                services.AddTransient<IProjectService, ProjectService>();
             }
         }
 
         public static void ConfigureMappings(this IServiceCollection services)
         {
-            if (services != null)
-            {
-                //Automap settings
-                services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            }
+            //Automap settings
+            services?.AddAutoMapper(Assembly.GetExecutingAssembly());
         }
     }
 }

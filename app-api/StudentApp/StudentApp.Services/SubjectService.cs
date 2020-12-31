@@ -49,23 +49,9 @@ namespace StudentApp.Services
             throw new NotImplementedException();
         }
 
-        public async Task<Subject> GetAsync(Guid SubjectKEY)
+        public async Task<Subject> GetSingleAsync(Guid SubjectKEY)
         {
             return _context.Subject.SingleAsync(subject => subject.SubjectKey == SubjectKEY).Result;
-
-            // Temp def of Subject without db
-            //return new Subject
-            //{
-            //    SubjectKEY = SubjectKEY,
-            //    Name = "",
-            //    Description = "",
-            //    CurrentSubjectStateKEY = Guid.NewGuid(),
-            //    HasProjectToPass = false,
-            //    Semester = 1,
-            //    CreateTime = DateTime.Now,
-            //    ModifyTime = DateTime.Now,
-            //    isArchive = false
-            //};
         }
     }
 }

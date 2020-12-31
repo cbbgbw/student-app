@@ -30,7 +30,7 @@ namespace StudentApp.API.Controllers.V2
         [HttpGet("{id}")]
         public async Task<DC.Subject> Get(Guid id)
         {
-            var data = await _service.GetAsync(id);
+            var data = await _service.GetSingleAsync(id);
 
             return data != null ? _mapper.Map<DC.Subject>(data) : null;
         }
