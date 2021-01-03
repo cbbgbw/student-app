@@ -15,11 +15,11 @@ namespace StudentApp.Tools.Migrations.SqliteMigrations
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     CurrentSubjectStateKey = table.Column<Guid>(type: "UNIQUEIDENTIFIER", nullable: false),
-                    HasProjectToPass = table.Column<bool>(type: "INTEGER", nullable: false),
+                    HasProjectToPass = table.Column<bool>(type: "BIT", nullable: false),
                     Semester = table.Column<int>(type: "INTEGER", nullable: false),
                     CreateTime = table.Column<DateTime>(type: "DATETIME", nullable: false),
                     ModifyTime = table.Column<DateTime>(type: "DATETIME", nullable: false),
-                    IsArchive = table.Column<bool>(type: "INTEGER", nullable: false)
+                    IsArchive = table.Column<bool>(type: "BIT", nullable: false)
                 },
                 constraints: table =>
                 {

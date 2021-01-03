@@ -1,117 +1,124 @@
-import React, { FC } from "react";
-import Modal from "react-modal";
-import styles from "./Modal.module.scss";
-import { Button } from "../Forms/Button/Button";
+import React, { FC } from 'react'
+import Modal from 'react-modal'
+import styles from './Modal.module.scss'
+import { Button } from '../Forms/Button/Button'
 
-type ReusableModalProps = {
-  isOpen: boolean;
-  children: any;
-  headerText: Header;
-  onModalLeave: () => void;
-  acceptButtonText: string;
-  cancelButtonText: string;
-};
+interface ReusableModalProps {
+  isOpen: boolean
+  children: any
+  headerText: Header
+  onModalLeave: () => void
+  onSubmit: () => void
+  acceptButtonText: string
+  cancelButtonText: string
+}
 
-type Header = {
-  title: string;
-  description: string;
-};
+interface Header {
+  title: string
+  description: string
+}
 
 export const ReusableModal: FC<ReusableModalProps> = ({
   isOpen,
   children,
+  onSubmit,
   headerText: { description, title },
   onModalLeave,
   cancelButtonText,
-  acceptButtonText
-}) => {
-  return (
-    <>
-      <Modal
-        className={styles.reusableModal}
-        overlayClassName={styles.modalOverlay}
-        isOpen={isOpen}
-      >
-        <header className={"modal-header"}>
-          <h2>{title}</h2>
-          <p>{description}</p>
-        </header>
-        {children}
-
-        <section className={"bottom-section"}>
-          <div className={"bottom-buttons"}>
-            <div className={"flex-end"}>
-              <Button contrast={true} onClick={onModalLeave}>
-                {cancelButtonText}
-              </Button>
-              <Button contrast={false} onClick={() => {}}>
-                {acceptButtonText}
-              </Button>
-            </div>
+  acceptButtonText,
+}) => (
+  <Modal
+    className={styles.reusableModal}
+    overlayClassName={styles.modalOverlay}
+    isOpen={isOpen}
+    ariaHideApp={false}
+  >
+    <header className="modal-header">
+      <h2>{title}</h2>
+      <p>{description}</p>
+    </header>
+    <form onSubmit={onSubmit}>
+      {children}
+      <section className="bottom-section">
+        <div className="bottom-buttons">
+          <div className="flex-end">
+            <Button contrast={true} onClick={onModalLeave}>
+              {cancelButtonText}
+            </Button>
+            <Button type="submit" contrast={false}>
+              {acceptButtonText}
+            </Button>
           </div>
-          {/*<ChildrenWithinDivInRow>*/}
+        </div>
+      </section>
+    </form>
 
-          {/*</ChildrenWithinDivInRow>*/}
-        </section>
-        <style jsx>{`
-          .modal-header {
-            height: 100px;
+    <style jsx>{`
+      form {
+        display: flex;
+        flex-direction: column;
+        padding-top: 40px;
+        padding-left: 36px;
+      }
 
-            padding-left: 36px;
+      .modal-header {
+        height: 100px;
 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        padding-left: 36px;
 
-            box-sizing: content-box;
-            background-color: #55517a;
-            border-radius: 12px 12px 0 0;
-          }
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 
-          h2 {
-            font-family: "Source Sans Pro", serif;
-            font-size: 26px;
-            margin: 0 0 2px 0;
-            color: #f1f0fa;
-          }
-          p {
-            font-family: "Source Sans Pro", serif;
-            font-size: 16px;
+        box-sizing: content-box;
+        background-color: #55517a;
+        border-radius: 12px 12px 0 0;
+      }
 
-            margin: 2px 0;
-            color: #f1f0fa;
-            opacity: 60%;
-          }
+      h2 {
+        font-family: 'Source Sans Pro', serif;
+        font-size: 26px;
+        margin: 0 0 2px 0;
+        color: #f1f0fa;
+      }
 
-          .bottom-section {
-            position: absolute;
-            bottom: 0;
-            height: 92px;
-            width: 100%;
-          }
+      p {
+        font-family: 'Source Sans Pro', serif;
+        font-size: 16px;
 
-          .bottom-buttons {
-            height: 100%;
+        margin: 2px 0;
+        color: #f1f0fa;
+        opacity: 60%;
+      }
 
-            border-top: 1px solid black;
-            margin: 0 48px;
+      .bottom-section {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 92px;
+        width: 100%;
+      }
 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-          }
+      .bottom-buttons {
+        height: 100%;
 
-          .flex-end {
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-end;
-          }
+        margin: 0 36px;
+        border-top: 1px solid black;
 
-          div > :global(button:last-child) {
-            margin-left: 28px;
-          }
-        `}</style>
-      </Modal>
-    </>
-  );
-};
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .flex-end {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+      }
+
+      div > :global(button:last-child) {
+        margin-left: 28px;
+      }
+    `}</style>
+  </Modal>
+)

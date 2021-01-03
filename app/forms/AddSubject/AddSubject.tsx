@@ -1,70 +1,84 @@
-import { useForm } from "react-hook-form";
-import React from "react";
-import { Input } from "../../components/Forms/Input/Input";
-import { ReusableModal } from "../../components/ReusableModal/Modal";
-import { getModalTypeFuncs } from "../../utils/storeUtils";
-import { ModalType } from "../ModalWrapper";
-import { useStore } from "../../utils/storeProvider";
+import { useForm } from 'react-hook-form'
+import React, { FC } from 'react'
 
-type Inputs = {
-  name: string;
-  description: string;
-  state: string; //TODO In future enum
-};
+import { Input } from '../../components/Forms/Input/Input'
+import { ReusableModal } from '../../components/ReusableModal/Modal'
+import { getModalTypeFuncs } from '../../utils/storeUtils'
+import { ModalType } from '../ModalWrapper'
+import { useStore } from '../../utils/storeProvider'
+import { subjectPost, PostProps } from '../../actions/subject'
+import { useRouter } from 'next/router'
+import { MultiLineInput } from '../../components/Forms/Input/MultilineInput'
 
-export const AddSubject = () => {
-  const { modalType, setModalType } = useStore(getModalTypeFuncs);
+export const AddSubject: FC = () => {
+  const router = useRouter()
+  const { modalType, setModalType } = useStore(getModalTypeFuncs)
 
-  const { handleSubmit, register } = useForm<Inputs>();
+  const { handleSubmit, register } = useForm<PostProps>()
 
-  const onSubmit = (data: unknown) => {
-    console.log(data);
-  };
+  const onSubjectSubmit = async (data: PostProps) => {
+    subjectPost(data).then(({ data }) => {
+      console.log(data)
+      router.push({
+        pathname: '/subject/[key]',
+        query: {
+          key: data.subjectKEY,
+        },
+      })
+    })
+  }
 
   return (
     <ReusableModal
-      isOpen={modalType !== "None"}
+      isOpen={modalType !== 'None'}
       onModalLeave={() => setModalType(ModalType.None)}
       headerText={{
-        title: "Nowy przedmiot",
+        title: 'Nowy przedmiot',
         description:
-          "Po wpisaniu wymaganych danych przejdziesz do widoku przedmiotu"
+          'Po wpisaniu wymaganych danych przejdziesz do widoku przedmiotu',
       }}
-      cancelButtonText={"Anuluj"}
-      acceptButtonText={"Utwórz przedmiot"}
+      cancelButtonText="Anuluj"
+      acceptButtonText="Utwórz przedmiot"
+      onSubmit={handleSubmit(onSubjectSubmit)}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          name={"name"}
-          ref={register({ required: true })}
-          labelText={"Nazwa przedmiotu"}
-        />
-        <Input
-          name={"description"}
-          ref={register({ required: true })}
-          labelText={"Opis"}
-          isMultiline={true}
-        />
-        <Input
-          name={"state"}
-          ref={register({ required: true })}
-          labelText={"Typ"}
-        />
+      <Input
+        name="name"
+        ref={register({ required: true })}
+        labelText="Nazwa przedmiotu"
+      />
+      <MultiLineInput
+        name="description"
+        ref={register({ required: true })}
+        labelText="Opis"
+      />
+      {/* <Input */}
+      {/*  name="type" */}
+      {/*  ref={register(/* { required: true } */}
+      {/*  labelText="Typ" */}
+      {/*  disabled */}
+      {/* /> */}
 
-        <style jsx>{`
-          form {
-            display: flex;
-            flex-direction: column;
-            padding-top: 40px;
-            padding-left: 36px;
-          }
+      <Input
+        name="hasProjectToPass"
+        type="checkbox"
+        ref={register()}
+        labelText="Chcę utworzyć projekt który jednocześnie jest zaliczeniem przedmiotu"
+      />
 
-          .button {
-            width: fit-content;
-            padding: 8px;
-          }
-        `}</style>
-      </form>
+      <style jsx>{`
+        .button {
+          width: fit-content;
+          padding: 8px;
+        }
+      `}</style>
     </ReusableModal>
-  );
-};
+  )
+}
+
+/* TODO
+  Dodać walidację na:
+  puste pola
+  wymagane pola
+
+  Dodać obsługę typu kiedy będzie wspierany
+ */
