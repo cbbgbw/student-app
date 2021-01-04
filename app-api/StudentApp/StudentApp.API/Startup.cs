@@ -40,6 +40,8 @@ namespace StudentApp.API
         private readonly ILogger _logger;
         private IServiceProvider _serviceProvider;
 
+        private readonly string MyAllowSpecificOrigins = "local-app";
+
         public Startup(IConfiguration configuration, IWebHostEnvironment env, IServiceProvider serviceProvider, ILogger<Startup> logger)
         {
             HostingEnvironment = env;
@@ -69,6 +71,14 @@ namespace StudentApp.API
 
                     services.Configure<AppSettings>(_appsettingsConfigurationSection);
                     _logger.LogDebug("Startup::ConfigureServices::AppSettings loaded for DI");
+
+                    services.AddCors(opts =>
+                    {
+                        opts.AddPolicy(name: MyAllowSpecificOrigins,
+                            builder => builder.WithOrigins("http://localhost:3000")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod());
+                    });
 
                     services.AddControllers(
                         opt =>
@@ -211,6 +221,7 @@ namespace StudentApp.API
 
                 app.UseHttpsRedirection();
                 app.UseRouting();
+                app.UseCors(MyAllowSpecificOrigins);
                 app.UseAuthorization();
                 app.UseEndpoints(endpoints =>
                 {

@@ -18,7 +18,6 @@ namespace StudentApp.API.DataContracts.Requests.Subject.POST
         [DataType(DataType.Text)]
         public string Description { get; set; }
         public Guid TypeDefinitionKey { get; set; }
-
         [Required]
         public bool HasProjectToPass { get; set; }
 

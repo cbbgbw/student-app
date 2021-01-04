@@ -21,7 +21,6 @@ namespace StudentApp.API.DataContracts
 
         [Required]
         public bool IsPassed { get; set; }
-
         [Required]
         public bool HasProjectToPass { get; set; }
 

@@ -37,7 +37,6 @@ namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
             CreateMap<S.Project, DC.Project>();
 
             #endregion
-
         }
     }
 }

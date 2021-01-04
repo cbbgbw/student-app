@@ -1,5 +1,5 @@
-import clsx from 'clsx'
 import React, { FC, forwardRef } from 'react'
+import clsx from 'clsx'
 
 interface Props {
   name?: string
@@ -10,25 +10,23 @@ interface Props {
   disabled?: boolean
 }
 
-export const Input = forwardRef<HTMLInputElement, Props>(
+export const MultiLineInput: FC<Props> = forwardRef<
+  HTMLTextAreaElement,
+  Props
+>(
   (
-    {
-      name,
-      type,
-      labelText,
-      labelPosition = 'left',
-      bottomSpace = true,
-      disabled = false,
-    },
+    { name, bottomSpace, labelText, disabled, type, labelPosition },
     ref,
   ) => (
     <div className={clsx('inputBox', bottomSpace && 'bottomSpace')}>
       <label htmlFor={name}>{labelText}</label>
-      <input disabled={disabled} id={name} name={name} ref={ref} type={type} />
+      <textarea id={name} disabled={disabled} name={name} ref={ref} />
       <style jsx>{`
         .inputBox {
           display: flex;
-          flex-direction: ${type === 'checkbox' ? 'row-reverse' : 'column'};
+          flex-direction: ${type === 'checkbox'
+            ? 'row-reverse'
+            : 'column'};
           align-items: ${type === 'checkbox' ? 'center' : 'unset'};
           width: 300px;
         }
@@ -45,7 +43,6 @@ export const Input = forwardRef<HTMLInputElement, Props>(
           margin-bottom: 5px;
         }
 
-        input,
         textarea {
           font-family: 'Source Sans Pro', sans-serif;
           border-radius: 6px;
@@ -58,17 +55,12 @@ export const Input = forwardRef<HTMLInputElement, Props>(
           resize: none;
         }
 
-        input:focus {
+        textarea:focus {
           border: 1px solid #55517a;
         }
 
-        input:disabled {
+        textarea:disabled {
           background-color: #c5c5c7;
-        }
-
-        input[type='checkbox'] {
-          margin-left: 0;
-          margin-right: 8px;
         }
       `}</style>
     </div>

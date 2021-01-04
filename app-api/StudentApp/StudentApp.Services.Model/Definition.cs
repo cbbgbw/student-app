@@ -17,7 +17,7 @@ namespace StudentApp.Services.Model
         public string Value { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime ModifyTime { get; set; }
-
+      
         //[ForeignKey("DefinitionGroupKey")]
         public DefinitionGroup DefinitionGroup { get; set; }
     }

@@ -47,7 +47,6 @@ namespace StudentApp.API.Controllers.V2
             if (results.IsValid)
             {
                 var data = await _service.CreateAsync(_mapper.Map<S.Subject>(value));
-
                 return data != null ? _mapper.Map<DC.Subject>(data) : null;
             }
             return BadRequest(results.Errors);
