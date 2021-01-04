@@ -54,6 +54,11 @@ namespace StudentApp.Services
             return _context.Subject.SingleAsync(subject => subject.SubjectKey == SubjectKEY).Result;
         }
 
+        public async Task<ICollection<Subject>> GetBySemesterAsync(int semester)
+        {
+            return _context.Subject.Where(sub => sub.Semester == semester).ToList();
+        }
+
         public async Task<ICollection<Definition>> GetTypes()
         {
             //TODO Naprawić EF Core o wyszukiwanie Definitions na pdostawie DefinitionsGroup

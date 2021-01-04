@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using S = StudentApp.Services.Model;
 
 namespace StudentApp.API.Controllers.V2
@@ -27,13 +28,23 @@ namespace StudentApp.API.Controllers.V2
             _mapper = mapper;
         }
 
-        #region GET
+        #region GET-SINGLE
         [HttpGet("{id}")]
         public async Task<DC.Subject> Get(Guid id)
         {
             var data = await _service.GetSingleAsync(id);
 
             return data != null ? _mapper.Map<DC.Subject>(data) : null;
+        }
+        #endregion
+
+        #region GET-BY-SEMESTER
+
+        [HttpGet("list/{semester}")]
+        public async Task<ICollection<DC.Subject>> GetBySemester(int semester)
+        {
+            var subjects = await _service.GetBySemesterAsync(semester);
+            return subjects != null ? _mapper.Map<ICollection<DC.Subject>>(subjects) : null;
         }
         #endregion
 

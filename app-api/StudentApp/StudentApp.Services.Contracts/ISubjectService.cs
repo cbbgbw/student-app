@@ -11,6 +11,7 @@ namespace StudentApp.Services.Contracts
         Task<bool> UpdateAsync(Subject subject);
         Task<bool> DeleteAsync(Guid subjectKey);
         Task<Subject> GetSingleAsync(Guid subjectKey);
+        Task<ICollection<Subject>> GetBySemesterAsync(int semester);
         Task<ICollection<Definition>> GetTypes();
     }
 }

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "494ef759-ced3-4178-9894-9bdc56c651fd",
+		"_postman_id": "3e6b85c1-62e3-49e2-93e8-da0c64f5296b",
 		"name": "StudentAppAPI",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -27,13 +27,50 @@
 					"response": []
 				},
 				{
+					"name": "GET TYPES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ApiURL}}/subject/types",
+							"host": [
+								"{{ApiURL}}"
+							],
+							"path": [
+								"subject",
+								"types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BY SEMESTER",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ApiURL}}/subject/list/0",
+							"host": [
+								"{{ApiURL}}"
+							],
+							"path": [
+								"subject",
+								"list",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "POST",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"date\": \"2020-12-23T17:28:43.699Z\",\r\n  \"subject\": {\r\n    \"subjectKEY\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"name\": \"string\",\r\n    \"description\": \"string\",\r\n    \"currentSubjectStateKEY\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"hasProjectToPass\": true,\r\n    \"semester\": 1,\r\n    \"createTime\": \"2020-12-23T17:28:43.699Z\",\r\n    \"modifyTime\": \"2020-12-23T17:28:43.699Z\",\r\n    \"isArchive\": true\r\n  }\r\n}",
+							"raw": "{\r\n  \"date\": \"2021-01-04T14:46:52.915Z\",\r\n  \"subject\": {\r\n    \"subjectKEY\": \"3fa85f64-5717-4562-b3fc-2c963f66afa8\",\r\n    \"name\": \"Programowanie obiektowe\",\r\n    \"description\": \"\",\r\n    \"typeDefinitionKey\": \"00000000-0000-0000-0000-000000000021\",\r\n    \"hasProjectToPass\": true,\r\n    \"semester\": 0\r\n  }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -52,9 +89,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
