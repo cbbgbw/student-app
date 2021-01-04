@@ -28,8 +28,4 @@
     <ProjectReference Include="..\StudentApp.Services.Model\StudentApp.Services.Model.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\SQLServerMigrations\" />
-  </ItemGroup>
-
 </Project>

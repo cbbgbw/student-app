@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using S = StudentApp.Services.Model;
 
 namespace StudentApp.API.Controllers.V2
@@ -38,14 +39,18 @@ namespace StudentApp.API.Controllers.V2
 
         #region POST
         [HttpPost]
-        public async Task<DC.Subject> CreateSubject([FromBody] RQ.SubjectPostRequest value)
+        public async Task<ActionResult<DC.Subject>> CreateSubject([FromBody] RQ.SubjectPostRequest value)
         {
-            if (value == null)
-                throw new ArgumentNullException("value.Subject");
+            RQ.SubjectPostValidatior validator = new RQ.SubjectPostValidatior(_service);
+            var results = validator.Validate(value.Subject);
 
-            var data = await _service.CreateAsync(_mapper.Map<S.Subject>(value));
+            if (results.IsValid)
+            {
+                var data = await _service.CreateAsync(_mapper.Map<S.Subject>(value));
 
-            return data != null ? _mapper.Map<DC.Subject>(data) : null;
+                return data != null ? _mapper.Map<DC.Subject>(data) : null;
+            }
+            return BadRequest(results.Errors);
         }
         #endregion
 
@@ -67,6 +72,20 @@ namespace StudentApp.API.Controllers.V2
         public async Task<bool> DeleteSubject(Guid id)
         {
             return await _service.DeleteAsync(id);
+        }
+
+        #endregion
+
+
+        #region TYPE
+        [HttpGet("types")]
+        public async Task<Dictionary<Guid, string>> GetTypes()
+        {
+            var data = _service.GetTypes();
+
+            var pairs = data.Result.Select(pair => new KeyValuePair<Guid, string>(pair.DefinitionKey, pair.Value));
+
+            return pairs.ToDictionary(p => p.Key, p => p.Value);
         }
 
         #endregion

@@ -53,5 +53,14 @@ namespace StudentApp.Services
         {
             return _context.Subject.SingleAsync(subject => subject.SubjectKey == SubjectKEY).Result;
         }
+
+        public async Task<ICollection<Definition>> GetTypes()
+        {
+            //TODO Naprawić EF Core o wyszukiwanie Definitions na pdostawie DefinitionsGroup
+           //var retVal = await _context.DefinitionGroup.SingleAsync(group => object.Equals(group.GroupName, "SUBJECT_TYPES"));
+           //return retVal.Definitions;
+
+           return _context.Definition.Where(p => p.GroupName == "SUBJECT_TYPES").ToList();
+        }
     }
 }
