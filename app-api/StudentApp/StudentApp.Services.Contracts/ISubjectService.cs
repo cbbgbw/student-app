@@ -1,5 +1,6 @@
 ﻿using StudentApp.Services.Model;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace StudentApp.Services.Contracts
@@ -8,7 +9,8 @@ namespace StudentApp.Services.Contracts
     {
         Task<Subject> CreateAsync(Subject subject);
         Task<bool> UpdateAsync(Subject subject);
-        Task<bool> DeleteAsync(Guid SubjectKEY);
-        Task<Subject> GetAsync(Guid SubjectKEY);
+        Task<bool> DeleteAsync(Guid subjectKey);
+        Task<Subject> GetSingleAsync(Guid subjectKey);
+        Task<ICollection<Definition>> GetTypes();
     }
 }

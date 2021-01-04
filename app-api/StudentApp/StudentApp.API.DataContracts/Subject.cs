@@ -17,10 +17,10 @@ namespace StudentApp.API.DataContracts
 
         [DataType(DataType.Text)]
         public string Description { get; set; }
+        public Guid TypeDefinitionKey { get; set; }
 
         [Required]
-        public Guid StatusDefinitionKey { get; set; }
-
+        public bool IsPassed { get; set; }
         [Required]
         public bool HasProjectToPass { get; set; }
 

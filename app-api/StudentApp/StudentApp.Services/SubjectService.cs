@@ -49,23 +49,18 @@ namespace StudentApp.Services
             throw new NotImplementedException();
         }
 
-        public async Task<Subject> GetAsync(Guid SubjectKEY)
+        public async Task<Subject> GetSingleAsync(Guid SubjectKEY)
         {
             return _context.Subject.SingleAsync(subject => subject.SubjectKey == SubjectKEY).Result;
+        }
 
-            // Temp def of Subject without db
-            //return new Subject
-            //{
-            //    SubjectKEY = SubjectKEY,
-            //    Name = "",
-            //    Description = "",
-            //    CurrentSubjectStateKEY = Guid.NewGuid(),
-            //    HasProjectToPass = false,
-            //    Semester = 1,
-            //    CreateTime = DateTime.Now,
-            //    ModifyTime = DateTime.Now,
-            //    isArchive = false
-            //};
+        public async Task<ICollection<Definition>> GetTypes()
+        {
+            //TODO Naprawić EF Core o wyszukiwanie Definitions na pdostawie DefinitionsGroup
+           //var retVal = await _context.DefinitionGroup.SingleAsync(group => object.Equals(group.GroupName, "SUBJECT_TYPES"));
+           //return retVal.Definitions;
+
+           return _context.Definition.Where(p => p.GroupName == "SUBJECT_TYPES").ToList();
         }
     }
 }

@@ -1,1 +1,1 @@
-dotnet ef migrations add Example -s ..\StudentApp.API\StudentApp.API.csproj
+dotnet ef migrations add InitialMigration2 -s ..\StudentApp.API\StudentApp.API.csproj --output-dir ..\StudentApp.API\Migrations\SQLServerMigrations
