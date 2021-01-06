@@ -6,7 +6,9 @@ using StudentApp.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using S = StudentApp.Services.Model;
@@ -43,14 +45,17 @@ namespace StudentApp.API.Controllers.V2
         [HttpGet("list/{semester}")]
         public async Task<ICollection<DC.Subject>> GetBySemester(int semester)
         {
-            var subjects = await _service.GetBySemesterAsync(semester);
+            var subjects = await _service.GetAllBySemesterAsync(semester);
             return subjects != null ? _mapper.Map<ICollection<DC.Subject>>(subjects) : null;
         }
         #endregion
 
         #region POST
         [HttpPost]
-        public async Task<ActionResult<DC.Subject>> CreateSubject([FromBody] RQ.SubjectPostRequest value)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> CreateSubject([FromBody] RQ.SubjectPostRequest value)
         {
             RQ.SubjectPostValidatior validator = new RQ.SubjectPostValidatior(_service);
             var results = validator.Validate(value.Subject);
@@ -58,7 +63,8 @@ namespace StudentApp.API.Controllers.V2
             if (results.IsValid)
             {
                 var data = await _service.CreateAsync(_mapper.Map<S.Subject>(value));
-                return data != null ? _mapper.Map<DC.Subject>(data) : null;
+
+                return data == 1 ? Ok() : Problem("Brak dostępu do db", null, 500);
             }
             return BadRequest(results.Errors);
         }
@@ -87,7 +93,7 @@ namespace StudentApp.API.Controllers.V2
         #endregion
 
 
-        #region TYPE
+        #region GET TYPE
         [HttpGet("types")]
         public async Task<Dictionary<Guid, string>> GetTypes()
         {
