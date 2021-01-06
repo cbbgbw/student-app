@@ -93,7 +93,7 @@ namespace StudentApp.API.Controllers.V2
         #endregion
 
 
-        #region GET TYPE
+        #region GET TYPES
         [HttpGet("types")]
         public async Task<Dictionary<Guid, string>> GetTypes()
         {

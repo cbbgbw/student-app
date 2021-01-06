@@ -17,10 +17,6 @@ namespace StudentApp.Tools.Configurations
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            /* Configuring realtions */
-
-   
-
             DateTime date = DateTime.Now;
             modelBuilder.Entity<S.Status>().HasData(new S.Status[]
             {
@@ -41,6 +37,8 @@ namespace StudentApp.Tools.Configurations
                     ModifyTime = date
             });
 
+
+            /* Configuring realtions */
             modelBuilder.Entity<S.Definition>(entity =>
             {
                 entity.HasOne(d => d.DefinitionGroup)
@@ -67,12 +65,77 @@ namespace StudentApp.Tools.Configurations
                 ModifyTime = date
             });
 
+
+            modelBuilder.Entity<S.DefinitionGroup>().HasData(
+                new S.DefinitionGroup
+                {
+                    DefinitionGroupKey = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                    Description = "Typ projektu",
+                    GroupName = "PROJECT_TYPES",
+                    CreateTime = date,
+                    ModifyTime = date
+                });
+
+            /* II mig */
+            modelBuilder.Entity<S.Definition>().HasData(new
+            {
+                DefinitionKey = Guid.Parse("00000000-0000-0000-0000-000000000012"),
+                DefinitionGroupKey = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                GroupName = "PROJECT_TYPES",
+                Value = "Projekt",
+                CreateTime = date,
+                ModifyTime = date
+            }, new
+            {
+                DefinitionKey = Guid.Parse("00000000-0000-0000-0000-000000000022"),
+                DefinitionGroupKey = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                GroupName = "PROJECT_TYPES",
+                Value = "Egzamin",
+                CreateTime = date,
+                ModifyTime = date
+            });
+
+            modelBuilder.Entity<S.Category>().HasData(new
+            {
+                CategoryKey = Guid.NewGuid(),
+                ProjectTypeKey = Guid.Parse("00000000-0000-0000-0000-000000000022"),
+                CategoryName = "Odpowiedź ustna",
+                OrderIndex = 1,
+                CreateTime = date,
+                ModifyTime = date
+            }, new
+            {
+                CategoryKey = Guid.NewGuid(),
+                ProjectTypeKey = Guid.Parse("00000000-0000-0000-0000-000000000022"),
+                CategoryName = "Kartkówka",
+                OrderIndex = 2,
+                CreateTime = date,
+                ModifyTime = date
+            });
+
+            modelBuilder.Entity<S.Category>().HasData(new
+            {
+                CategoryKey = Guid.NewGuid(),
+                ProjectTypeKey = Guid.Parse("00000000-0000-0000-0000-000000000012"),
+                CategoryName = "Projekt zespołowy",
+                OrderIndex = 1,
+                CreateTime = date,
+                ModifyTime = date
+            }, new
+            {
+                CategoryKey = Guid.NewGuid(),
+                ProjectTypeKey = Guid.Parse("00000000-0000-0000-0000-000000000012"),
+                CategoryName = "Projekt zaliczeniowy",
+                OrderIndex = 2,
+                CreateTime = date,
+                ModifyTime = date
+            });
         }
 
         public DbSet<S.Subject> Subject { get; set; }
         public DbSet<S.Project> Project { get; set; }
-        public DbSet<S.DefinitionGroup> DefinitionGroup { get; set; }
         public DbSet<S.Definition> Definition { get; set; }
-
+        public DbSet<S.Category> Category { get; set; }
+        public DbSet<S.Status> Status { get; set; }
     }
 }

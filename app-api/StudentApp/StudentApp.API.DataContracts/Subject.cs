@@ -26,13 +26,6 @@ namespace StudentApp.API.DataContracts
 
         [Required]
         public int Semester { get; set; }
-
-        [DataType(DataType.DateTime)]
-        public DateTime CreateTime { get; set; }
-
-        [DataType(DataType.DateTime)]
-        public DateTime ModifyTime { get; set; }
-
         public bool isArchive { get; set; }
     }
 }

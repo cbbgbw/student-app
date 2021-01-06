@@ -9,7 +9,12 @@ namespace StudentApp.Services.Contracts
 {
     public interface IProjectService
     {
-        Task<Project> CreateAsync(Project project);
         Task<Project> GetSingleAsync(Guid projectKey);
+        Task<Project> CreateAsync(Project project);
+        Task<ICollection<Project>> GetAllBySubjectAsync(Guid subjectKey);
+        Task<ICollection<Definition>> GetTypesAsync();
+        Task<ICollection<Status>> GetAllStatusesAsync();
+        Task<ICollection<Category>> GetAllCategoriesOrderedByIndexAsync(Guid typeDefinitionKey);
+
     }
 }

@@ -26,16 +26,29 @@ namespace StudentApp.Services
             _context = context;
         }
 
+        public async Task<Project> GetSingleAsync(Guid projectKey)
+        {
+            var data = await _context.Project.SingleAsync(project => project.ProjectKey == projectKey);
+            return data;
+        }
         public async Task<Project> CreateAsync(Project project)
         {
-            if (string.IsNullOrEmpty((project.Name)))
-                throw new AppException("Project Name is required");
+            await _context.Project.AddAsync(project);
+            await _context.SaveChangesAsync();
+
             return project;
         }
 
-        public async Task<Project> GetSingleAsync(Guid projectKey)
+        public async Task<ICollection<Project>> GetAllBySubjectAsync(Guid subjectKey) => _context.Project.Where(proj => proj.SubjectKey == subjectKey).ToList();
+
+        //TODO przenieść typy do JSON (PROJECT_TYPES)
+        public async Task<ICollection<Definition>> GetTypesAsync() =>_context.Definition.Where(d => d.GroupName == "PROJECT_TYPES").ToList();
+
+        public async Task<ICollection<Status>> GetAllStatusesAsync() => _context.Status.ToList();
+
+        public async Task<ICollection<Category>> GetAllCategoriesOrderedByIndexAsync(Guid typeDefinitionKey)
         {
-            return _context.Project.SingleAsync(project => project.ProjectKey == projectKey).Result;
+            return _context.Category.Where(d => d.ProjectTypeKey == typeDefinitionKey).OrderBy(p => p.OrderIndex).ToList();
         }
     }
 }
