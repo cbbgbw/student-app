@@ -5,16 +5,23 @@ import { Input } from '../../components/Forms/Input/Input'
 import { ReusableModal } from '../../components/ReusableModal/Modal'
 import { getModalTypeFuncs } from '../../utils/storeUtils'
 import { useStore } from '../../utils/storeProvider'
-import { subjectPost, PostProps } from '../../actions/subject'
+import {
+  subjectPost,
+  PostProps,
+  useSubjectTypes,
+} from '../../actions/subject'
 import { useRouter } from 'next/router'
 import { MultiLineInput } from '../../components/Forms/Input/MultilineInput'
 import { ModalType } from '../../types/types'
+import { Select } from '../../components/Forms/Select/Select'
 
 export const AddSubject: FC = () => {
   const router = useRouter()
   const { modalType, setModalType } = useStore(getModalTypeFuncs)
 
   const { handleSubmit, register } = useForm<PostProps>()
+
+  const { subjectTypes } = useSubjectTypes()
 
   const onSubjectSubmit = async (data: PostProps) => {
     subjectPost(data).then(({ data }) => {
@@ -45,17 +52,19 @@ export const AddSubject: FC = () => {
         ref={register({ required: true })}
         labelText="Nazwa przedmiotu"
       />
+
+      <Select
+        name="typeDefinitionKey"
+        ref={register({ required: true })}
+        labelText="Typ przedmiotu"
+        selectOptions={subjectTypes}
+      />
+
       <MultiLineInput
         name="description"
-        ref={register({ required: true })}
+        ref={register()}
         labelText="Opis"
       />
-      {/* <Input */}
-      {/*  name="type" */}
-      {/*  ref={register(/* { required: true } */}
-      {/*  labelText="Typ" */}
-      {/*  disabled */}
-      {/* /> */}
 
       <Input
         name="hasProjectToPass"

@@ -35,7 +35,7 @@ namespace StudentApp.API.Tests.Controllers.ControllerTests.V1
                 Date = DateTime.Now,
                 Subject = new SubjectPost
                 {
-                    SubjectKEY = Guid.NewGuid(),
+                    SubjectKey = Guid.NewGuid(),
                     Name = "Math",
                     Description = "One of main subjects",
                     HasProjectToPass = true,
@@ -61,7 +61,7 @@ namespace StudentApp.API.Tests.Controllers.ControllerTests.V1
                 Date = DateTime.Now,
                 Subject = new SubjectPost
                 {
-                    SubjectKEY = Guid.NewGuid(),
+                    SubjectKey = Guid.NewGuid(),
                     Name = "Math",
                     Description = "One of main subjects",
                     HasProjectToPass = true,

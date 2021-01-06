@@ -12,6 +12,7 @@ export interface PostProps {
   name: string
   description: string
   hasProjectToPass: boolean
+  type: string
 }
 
 export const subjectPost = async (newSubject: PostProps) => {
@@ -50,5 +51,17 @@ export const useSubject = (key: string | string[] | undefined) => {
       isLoading: undefined,
       isError: undefined,
     }
+  }
+}
+
+export const useSubjectTypes = () => {
+  const { data, error } = useSWR<Record<string, string> | undefined>(
+    `${baseURL}/subject/types`,
+  )
+
+  return {
+    subjectTypes: data,
+    isLoading: !error && !data,
+    isError: error,
   }
 }
