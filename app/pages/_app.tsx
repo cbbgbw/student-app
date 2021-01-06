@@ -1,19 +1,17 @@
-import "../style.css";
-import type { AppProps } from "next/app";
-import React from "react";
-import { useHydrate } from "../utils/storeUtils";
-import { StoreProvider } from "../utils/storeProvider";
+import '../style.css'
+import type { AppProps } from 'next/app'
+import React, { FC } from 'react'
+import { useHydrate } from '../utils/storeUtils'
+import { StoreProvider } from '../utils/storeProvider'
 
 export const MyApp = ({ Component, pageProps }: AppProps) => {
-  const store = useHydrate(pageProps.initialZustandState);
+  const store = useHydrate(pageProps.initialZustandState)
   return (
-    <>
-      <StoreProvider store={store}>
-        <Component {...pageProps} />
-      </StoreProvider>
-    </>
-  );
-};
+    <StoreProvider store={store}>
+      <Component {...pageProps} />
+    </StoreProvider>
+  )
+}
 
 // Only uncomment this method if you have blocking data requirements for
 // every single page in your application. This disables the ability to
@@ -27,4 +25,4 @@ export const MyApp = ({ Component, pageProps }: AppProps) => {
 //   return { ...appProps }
 // }
 
-export default MyApp;
+export default MyApp

@@ -12,76 +12,82 @@
 // }));
 //
 
-import { useMemo } from "react";
-import create, { SetState, State } from "zustand";
-import { ModalType } from "../forms/ModalWrapper";
+import { useMemo } from 'react'
+import create, { SetState, State } from 'zustand'
+import { ModalType } from '../types/types'
 
-type Store = ReturnType<typeof initStore>;
+type Store = ReturnType<typeof initStore>
 
-let store: ReturnType<typeof initStore>;
+let store: Store | undefined
 
 const initialState = {
-  modalType: ModalType.None
-};
+  modalType: ModalType.None,
+}
 
-type InitialState = typeof initialState;
+type InitialState = typeof initialState
 
 const actions = (set: SetState<State>) => ({
-  setModalType: (newModalType: ModalType) => set({ modalType: newModalType })
-});
+  setModalType: (newModalType: ModalType) =>
+    set({ modalType: newModalType }),
+})
 
-type Actions = ReturnType<typeof actions>;
+type Actions = ReturnType<typeof actions>
 
 function initStore(preloadedState = initialState) {
   return create((set) => {
-    const as = actions(set);
+    const as = actions(set)
     return {
       ...initialState,
       ...preloadedState,
-      ...as
-    };
-  });
+      ...as,
+    }
+  })
 }
 
 export const initializeStore = (preloadedState?: InitialState) => {
-  let _store = store ?? initStore(preloadedState);
+  let _store = store ?? initStore(preloadedState)
 
   // After navigating to a page with an initial Zustand state, merge that state
   // with the current state in the store, and create a new store
   if (preloadedState && store) {
     _store = initStore({
       ...store.getState(),
-      ...preloadedState
-    });
+      ...preloadedState,
+    })
     // Reset the current store
-    store = undefined;
+    store = undefined
   }
 
   // For SSG and SSR always create a new store
-  if (typeof window === "undefined") return _store;
+  if (typeof window === 'undefined') return _store
   // Create the store once in the client
-  if (!store) store = _store;
+  if (!store) store = _store
 
-  return _store;
-};
+  return _store
+}
 
 export function useHydrate(initialState: InitialState) {
   const state =
-    typeof initialState === "string" ? JSON.parse(initialState) : initialState;
-  return useMemo(() => initializeStore(state), [state]);
+    typeof initialState === 'string'
+      ? JSON.parse(initialState)
+      : initialState
+  return useMemo(() => initializeStore(state), [state])
 }
 
-type Statee = Actions & InitialState;
+type Statee = Actions & InitialState
 
 export const getModalType = (state: Statee) => ({
-  modalType: state.modalType
-});
+  modalType: state.modalType,
+})
 
 export const getModalTypeSetter = (state: Statee) => ({
-  setModalType: state.setModalType
-});
+  setModalType: state.setModalType,
+})
 
-export const getModalTypeFuncs = ({ modalType, setModalType }: Statee) => ({
+export const getModalTypeFuncs = ({
   modalType,
-  setModalType
-});
+  setModalType,
+}: Statee) => ({
+  modalType,
+  setModalType,
+})

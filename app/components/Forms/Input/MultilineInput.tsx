@@ -10,10 +10,7 @@ interface Props {
   disabled?: boolean
 }
 
-export const MultiLineInput: FC<Props> = forwardRef<
-  HTMLTextAreaElement,
-  Props
->(
+export const MultiLineInput = forwardRef<HTMLTextAreaElement, Props>(
   (
     { name, bottomSpace, labelText, disabled, type, labelPosition },
     ref,

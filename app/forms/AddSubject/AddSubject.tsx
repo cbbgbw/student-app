@@ -4,11 +4,11 @@ import React, { FC } from 'react'
 import { Input } from '../../components/Forms/Input/Input'
 import { ReusableModal } from '../../components/ReusableModal/Modal'
 import { getModalTypeFuncs } from '../../utils/storeUtils'
-import { ModalType } from '../ModalWrapper'
 import { useStore } from '../../utils/storeProvider'
 import { subjectPost, PostProps } from '../../actions/subject'
 import { useRouter } from 'next/router'
 import { MultiLineInput } from '../../components/Forms/Input/MultilineInput'
+import { ModalType } from '../../types/types'
 
 export const AddSubject: FC = () => {
   const router = useRouter()
@@ -18,7 +18,6 @@ export const AddSubject: FC = () => {
 
   const onSubjectSubmit = async (data: PostProps) => {
     subjectPost(data).then(({ data }) => {
-      console.log(data)
       router.push({
         pathname: '/subject/[key]',
         query: {

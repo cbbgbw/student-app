@@ -1,12 +1,7 @@
 import React, { FC } from 'react'
 import { AddSubject } from './AddSubject/AddSubject'
 import { useStore } from '../utils/storeProvider'
-
-export enum ModalType {
-  None = 'None',
-  AddSubject = 'AddSubject',
-  AddProject = 'AddProject',
-}
+import { ModalType } from '../types/types'
 
 export const ModalWrapper: FC = () => {
   const { modalType } = useStore()
