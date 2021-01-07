@@ -200,7 +200,7 @@
 													"\r",
 													"    const request = JSON.parse(pm.request.body.raw)\r",
 													"    console.log(request)\r",
-													"    pm.environment.set('subjectKEY', request.subject.subjectKEY)\r",
+													"    pm.environment.set('subjectKey', request.subject.subjectKEY)\r",
 													"\r",
 													"})\r",
 													"\r",
@@ -275,13 +275,13 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{ApiURL}}/subject/{{subjectKEY}}",
+											"raw": "{{ApiURL}}/subject/{{subjectKey}}",
 											"host": [
 												"{{ApiURL}}"
 											],
 											"path": [
 												"subject",
-												"{{subjectKEY}}"
+												"{{subjectKey}}"
 											]
 										}
 									},
@@ -361,7 +361,7 @@
 													"        pm.expect(key).to.have.lengthOf(36)\r",
 													"    })\r",
 													"    \r",
-													"    pm.environment.set(\"selectedStatusType\", keys[0])\r",
+													"    pm.environment.set(\"selectedStatus\", keys[0])\r",
 													"})\r",
 													"\r",
 													"//https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#asserting-a-value-type"
@@ -396,6 +396,13 @@
 													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
 													"    pm.response.to.have.status(200)\r",
 													"})\r",
+													"\r",
+													"const jsonData = pm.response.json();\r",
+													"const randIndex = Math.floor(Math.random() * jsonData.length)\r",
+													"const key = jsonData[randIndex].categoryKey\r",
+													"\r",
+													"pm.environment.set(\"randomSelectedCategory\", key)\r",
+													"\r",
 													""
 												],
 												"type": "text/javascript"
@@ -426,6 +433,140 @@
 												"project",
 												"categories",
 												"{{selectedProjectType}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Subjects",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Odpowiedź jest w prawidłowej formie\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const keys = Object.keys(jsonData)\r",
+													"\r",
+													"    keys.forEach(key =>{\r",
+													"        pm.expect(jsonData[key]).to.be.a('string') //check value\r",
+													"        pm.expect(key).to.be.a('string') //check key\r",
+													"\r",
+													"        pm.expect(key).to.have.lengthOf(36)\r",
+													"    })\r",
+													"    \r",
+													"    const randIndex = Math.floor(Math.random() * keys.length)\r",
+													"\r",
+													"    pm.environment.set(\"selectedSubject\", keys[randIndex])\r",
+													"})\r",
+													"\r",
+													"//https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#asserting-a-value-type"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/project/subjects",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project",
+												"subjects"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add Project",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"necessaryToPassRand\", Boolean(Math.floor(Math.random())))"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
+													"    pm.response.to.have.status(200)\r",
+													"\r",
+													"    const request = JSON.parse(pm.request.body.raw)\r",
+													"    console.log(request)\r",
+													"    pm.environment.set('createdProjectKey', request.project.projectKey)\r",
+													"\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"date\": \"2021-01-04T14:46:52.915Z\",\r\n  \"project\": {\r\n    \"projectKey\": \"{{$guid}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"typeDefinitionKey\": \"{{selectedProjectType}}\",\r\n    \"description\": \"{{$randomLoremSentences}}\",\r\n    \"deadlineTime\":\"2021-01-04T14:46:52.915Z\",\r\n    \"necessaryToPass\": {{necessaryToPassRand}},\r\n    \"ProjectStatusKey\": \"{{selectedStatus}}\",\r\n    \"categoryKey\": \"{{randomSelectedCategory}}\",\r\n    \"subjectKey\": \"{{selectedSubject}}\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{ApiURL}}/project",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get created Project",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/project/{{createdProjectKey}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project",
+												"{{createdProjectKey}}"
 											]
 										}
 									},

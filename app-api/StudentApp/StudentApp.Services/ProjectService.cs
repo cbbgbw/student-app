@@ -31,12 +31,12 @@ namespace StudentApp.Services
             var data = await _context.Project.SingleAsync(project => project.ProjectKey == projectKey);
             return data;
         }
-        public async Task<Project> CreateAsync(Project project)
+
+        public async Task<int> CreateAsync(Project project)
         {
             await _context.Project.AddAsync(project);
-            await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
 
-            return project;
         }
 
         public async Task<ICollection<Project>> GetAllBySubjectAsync(Guid subjectKey) => _context.Project.Where(proj => proj.SubjectKey == subjectKey).ToList();
@@ -49,6 +49,11 @@ namespace StudentApp.Services
         public async Task<ICollection<Category>> GetAllCategoriesOrderedByIndexAsync(Guid typeDefinitionKey)
         {
             return _context.Category.Where(d => d.ProjectTypeKey == typeDefinitionKey).OrderBy(p => p.OrderIndex).ToList();
+        }
+
+        public async Task<ICollection<Subject>> GetAllSubjectsAsync()
+        {
+            return _context.Subject.ToList();
         }
     }
 }

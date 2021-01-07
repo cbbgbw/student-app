@@ -57,7 +57,7 @@ namespace StudentApp.API.Controllers.V2
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> CreateSubject([FromBody] RQ.SubjectPostRequest value)
         {
-            RQ.SubjectPostValidatior validator = new RQ.SubjectPostValidatior(_service);
+            RQ.SubjectPostValidator validator = new RQ.SubjectPostValidator(_service);
             var results = validator.Validate(value.Subject);
 
             if (results.IsValid)

@@ -11,6 +11,5 @@ namespace StudentApp.API.DataContracts
         public Guid CategoryKey { get; set; }
         public Guid ProjectTypeKey { get; set; }
         public string CategoryName { get; set; }
-        public int OrderIndex { get; set; }
     }
 }

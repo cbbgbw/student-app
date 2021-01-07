@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentApp.API.DataContracts.Requests.Project.GET;
 using RQ = StudentApp.API.DataContracts.Requests.Project.POST;
@@ -30,7 +31,7 @@ namespace StudentApp.API.Controllers.V2
 
         #region GET-SINGLE
 
-        [HttpGet("{id}")]
+        [HttpGet("{projectKey}")]
         public async Task<DC.Project> GetSingle(Guid projectKey)
         {
             var data = await _service.GetSingleAsync(projectKey);
@@ -43,14 +44,22 @@ namespace StudentApp.API.Controllers.V2
         #region POST
 
         [HttpPost]
-        public async Task<DC.Project> CreateProject([FromBody] RQ.ProjectPostRequest project)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> CreateProject([FromBody] RQ.ProjectPostRequest project)
         {
-            if (project == null)
-                throw new AppException("project.Project");
+            RQ.ProjectPostValidator validator = new RQ.ProjectPostValidator(_service);
+            var results = validator.Validate(project.Project);
 
-            var data = await _service.CreateAsync(_mapper.Map<S.Project>(project));
+            if (results.IsValid)
+            {
+                var data = await _service.CreateAsync(_mapper.Map<S.Project>(project));
 
-            return data != null ? _mapper.Map<DC.Project>(data) : null;
+                return data == 1 ? Ok() : Problem("Brak dostępu do bazy danych", null, 500);
+            }
+
+            return BadRequest(results.Errors);
         }
         #endregion
 
@@ -90,6 +99,19 @@ namespace StudentApp.API.Controllers.V2
             var data = await _service.GetAllCategoriesOrderedByIndexAsync(typeDefinitionKey);
 
             return data != null ? _mapper.Map<ICollection<DC.Category>>(data) : null;
+        }
+
+        #endregion
+
+        #region GET SUBJECTS
+
+        [HttpGet("subjects")]
+        public async Task<Dictionary<Guid, string>> GetSubjects()
+        {
+            var data = _service.GetAllSubjectsAsync();
+            var pairs = data.Result.Select(pair => new KeyValuePair<Guid, string>(pair.SubjectKey, pair.Name));
+
+            return pairs.ToDictionary(p => p.Key, p => p.Value);
         }
 
         #endregion
