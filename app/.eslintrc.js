@@ -12,8 +12,7 @@ module.exports = {
     'alloy/typescript',
   ],
   rules: {
-    'react/react-in-jsx-scope': 'off',
-  },
+    'react/react-in-jsx-scope': 'off'},
   globals: {
     React: 'writable',
   },

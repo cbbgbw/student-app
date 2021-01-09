@@ -28,7 +28,7 @@ interface Subject {
   subjectKEY: string
   name: string
   description?: string
-  statusDefinitionKey: string
+  typeDefinitionKey: string
   hasProjectToPass: boolean
   semester: number
   createTime: string
@@ -55,12 +55,24 @@ export const useSubject = (key: string | string[] | undefined) => {
 }
 
 export const useSubjectTypes = () => {
-  const { data, error } = useSWR<Record<string, string> | undefined>(
+  const { data, error } = useSWR<Record<string, string>>(
     `${baseURL}/subject/types`,
   )
 
   return {
     subjectTypes: data,
+    isLoading: !error && !data,
+    isError: error,
+  }
+}
+
+export const useSubjectsBySemester = (semester: number) => {
+  const { data, error } = useSWR<Subject[] | undefined>(
+    `${baseURL}/subject/list/${semester}`,
+  )
+
+  return {
+    subjectArray: data,
     isLoading: !error && !data,
     isError: error,
   }

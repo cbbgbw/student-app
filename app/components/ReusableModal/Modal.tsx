@@ -122,3 +122,5 @@ export const ReusableModal: FC<ReusableModalProps> = ({
     `}</style>
   </Modal>
 )
+
+// TODO Dodać animację https://codepen.io/designcouch/pen/obvKxm
