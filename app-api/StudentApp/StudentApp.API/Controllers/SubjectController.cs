@@ -1,19 +1,16 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using DC = StudentApp.API.DataContracts;
-using RQ = StudentApp.API.DataContracts.Requests.Subject.POST;
-using StudentApp.Services.Contracts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mime;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using StudentApp.Services.Contracts;
+using DC = StudentApp.API.DataContracts;
+using RQ = StudentApp.API.DataContracts.Requests.Subject.POST;
 using S = StudentApp.Services.Model;
 
-namespace StudentApp.API.Controllers.V2
+namespace StudentApp.API.Controllers
 {
     //[ApiVersion("2.0")]
     [Route("api/subject")]
@@ -42,10 +39,10 @@ namespace StudentApp.API.Controllers.V2
 
         #region GET-BY-SEMESTER
 
-        [HttpGet("list/{semester}")]
-        public async Task<ICollection<DC.Subject>> GetBySemester(int semester)
+        [HttpGet("list/{semesterKey}")]
+        public async Task<ICollection<DC.Subject>> GetBySemester(Guid semesterKey)
         {
-            var subjects = await _service.GetAllBySemesterAsync(semester);
+            var subjects = await _service.GetAllBySemesterAsync(semesterKey);
             return subjects != null ? _mapper.Map<ICollection<DC.Subject>>(subjects) : null;
         }
         #endregion

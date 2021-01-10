@@ -5,6 +5,9 @@ using StudentApp.Services.Contracts;
 using StudentApp.Services.Model;
 using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using SQLitePCL;
+using StudentApp.Tools.Configurations;
 
 namespace StudentApp.Services
 {
@@ -12,43 +15,26 @@ namespace StudentApp.Services
     {
         private AppSettings _settings;
         private readonly IMapper _mapper;
+        private readonly DataContext _context;
 
-        public UserService(IOptions<AppSettings> settings, IMapper mapper)
+        public UserService(IOptions<AppSettings> settings, IMapper mapper, DataContext context)
         {
             _settings = settings?.Value;
             _mapper = mapper;
+            _context = context;
         }
 
-        public async Task<User> CreateAsync(User user)
+        public async Task<User> GetSingleAsync(Guid userKey)
         {
-            return user;
+            return await _context.User.SingleAsync(user => user.UserKey == userKey);
         }
 
-        public async Task<bool> UpdateAsync(User user)
+        public async Task<int> CreateAsync(User user)
         {
-            throw new NotImplementedException();
+            await _context.User.AddAsync(user);
+            return await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> DeleteAsync(string id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public async Task<User> GetAsync(string id)
-        {
-            return new User
-            {
-                Id = id,
-                Firstname = "Firstname",
-                Lastname = "Lastname",
-                Address = new Address
-                {
-                    City = "City",
-                    Country = "Country",
-                    Street = "Street",
-                    ZipCode = "ZipCode"
-                }
-            };
-        }
     }
 }

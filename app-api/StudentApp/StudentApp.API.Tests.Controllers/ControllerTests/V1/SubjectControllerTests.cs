@@ -7,7 +7,7 @@ using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using StudentApp.API.Controllers.V2;
+using StudentApp.API.Controllers;
 using StudentApp.API.DataContracts;
 using StudentApp.API.DataContracts.Requests.Subject.POST;
 using StudentApp.Services.Contracts;

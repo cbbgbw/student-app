@@ -1,1 +1,1 @@
-dotnet ef migrations remove
+dotnet ef migrations remove -s ..\StudentApp.API\StudentApp.API.csproj

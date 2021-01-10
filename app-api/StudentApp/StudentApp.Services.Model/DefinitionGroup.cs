@@ -16,6 +16,7 @@ namespace StudentApp.Services.Model
         public string GroupName { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime ModifyTime { get; set; }
-        public ICollection<Definition> Definitions { get; set; }
+
+        public virtual ICollection<Definition> Definitions { get; set; }
     }
 }

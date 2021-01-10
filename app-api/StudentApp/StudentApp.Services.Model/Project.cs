@@ -26,6 +26,7 @@ namespace StudentApp.Services.Model
         public DateTime ModifyTime { get; set; }
         public bool IsArchive { get; set; }
       
+
         [ForeignKey("TypeDefinitionKey")]
         public Definition DefinitionType { get; set; }
 

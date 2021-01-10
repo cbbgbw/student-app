@@ -15,10 +15,11 @@ namespace StudentApp.Services.Model
         public Guid DefinitionGroupKey { get; set; }
         public string GroupName { get; set; }
         public string Value { get; set; }
+        public bool Default { get; set; } = false;
         public DateTime CreateTime { get; set; }
         public DateTime ModifyTime { get; set; }
-      
-        //[ForeignKey("DefinitionGroupKey")]
-        public DefinitionGroup DefinitionGroup { get; set; }
+
+        [ForeignKey(nameof(DefinitionGroupKey))]
+        public virtual DefinitionGroup DefinitionGroup { get; set; }
     }
 }

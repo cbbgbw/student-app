@@ -37,22 +37,13 @@ namespace StudentApp.Tools.Configurations
                     ModifyTime = date
             });
 
-
-            /* Configuring realtions */
-            modelBuilder.Entity<S.Definition>(entity =>
-            {
-                entity.HasOne(d => d.DefinitionGroup)
-                    .WithMany(dg => dg.Definitions)
-                    .HasForeignKey("DefinitionGroupKey");
-            });
-
-
             modelBuilder.Entity<S.Definition>().HasData(new
             {
                 DefinitionKey = Guid.Parse("00000000-0000-0000-0000-000000000011"),
                 DefinitionGroupKey = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 GroupName = "SUBJECT_TYPES",
                 Value = "Laboratoria",
+                Default = false,
                 CreateTime = date,
                 ModifyTime = date
             }, new
@@ -61,6 +52,7 @@ namespace StudentApp.Tools.Configurations
                 DefinitionGroupKey = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 GroupName = "SUBJECT_TYPES",
                 Value = "Wykład",
+                Default = false,
                 CreateTime = date,
                 ModifyTime = date
             });
@@ -83,6 +75,7 @@ namespace StudentApp.Tools.Configurations
                 DefinitionGroupKey = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 GroupName = "PROJECT_TYPES",
                 Value = "Projekt",
+                Default = false,
                 CreateTime = date,
                 ModifyTime = date
             }, new
@@ -91,6 +84,7 @@ namespace StudentApp.Tools.Configurations
                 DefinitionGroupKey = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 GroupName = "PROJECT_TYPES",
                 Value = "Egzamin",
+                Default = false,
                 CreateTime = date,
                 ModifyTime = date
             });
@@ -130,12 +124,54 @@ namespace StudentApp.Tools.Configurations
                 CreateTime = date,
                 ModifyTime = date
             });
+
+
+            /* User admin creating */
+            Guid userDefinitionGroupKey = Guid.NewGuid();
+            string userLoginName = "admin";
+            modelBuilder.Entity<S.DefinitionGroup>().HasData(
+                new S.DefinitionGroup
+                {
+                    DefinitionGroupKey = userDefinitionGroupKey,
+                    Description = "Semestr użytkownika " + userLoginName,
+                    GroupName = userLoginName + "_SEMESTERS",
+                    CreateTime = date,
+                    ModifyTime = date
+                });
+
+            modelBuilder.Entity<S.Definition>().HasData(new
+            {
+                DefinitionKey = Guid.NewGuid(),
+                DefinitionGroupKey = userDefinitionGroupKey,
+                GroupName = userLoginName + "_SEMESTERS",
+                Value = "1",
+                Default = true,
+                CreateTime = date,
+                ModifyTime = date
+            });
+
+            modelBuilder.Entity<S.User>().HasData(
+                new S.User
+                {
+                    UserKey = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                    FirstName = "admin",
+                    LastName = "",
+                    LoginName = userLoginName,
+                    Password = "cyberbug2021",
+                    EmailAddress = "",
+                    SemesterDefinitionGroupKey = userDefinitionGroupKey,
+                    CreateTime = date,
+                    ModifyTime = date,
+
+                });
         }
 
-        public DbSet<S.Subject> Subject { get; set; }
-        public DbSet<S.Project> Project { get; set; }
-        public DbSet<S.Definition> Definition { get; set; }
-        public DbSet<S.Category> Category { get; set; }
-        public DbSet<S.Status> Status { get; set; }
+        public virtual DbSet<S.User> User { get; set; }
+        public virtual DbSet<S.Subject> Subject { get; set; }
+        public virtual DbSet<S.Project> Project { get; set; }
+        public virtual DbSet<S.Definition> Definition { get; set; }
+        public virtual DbSet<S.DefinitionGroup> DefinitionGroup { get; set; }
+        public virtual DbSet<S.Category> Category { get; set; }
+        public virtual DbSet<S.Status> Status { get; set; }
     }
 }

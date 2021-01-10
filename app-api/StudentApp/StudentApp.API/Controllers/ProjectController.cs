@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StudentApp.API.DataContracts.Requests.Project.GET;
+using StudentApp.Services.Contracts;
 using RQ = StudentApp.API.DataContracts.Requests.Project.POST;
 using DC = StudentApp.API.DataContracts;
-using DCProj = StudentApp.API.DataContracts.Requests.Project;
-using StudentApp.Services.Contracts;
 using S = StudentApp.Services.Model;
-using StudentApp.Tools.Configurations;
 
-namespace StudentApp.API.Controllers.V2
+namespace StudentApp.API.Controllers
 {
     [Route("api/project")]
     [ApiController]

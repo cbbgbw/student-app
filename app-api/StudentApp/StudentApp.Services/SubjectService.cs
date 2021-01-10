@@ -49,18 +49,19 @@ namespace StudentApp.Services
             return _context.Subject.SingleAsync(subject => subject.SubjectKey == SubjectKEY).Result;
         }
 
-        public async Task<ICollection<Subject>> GetAllBySemesterAsync(int semester)
+        public async Task<ICollection<Subject>> GetAllBySemesterAsync(Guid semesterKey)
         {
-            return _context.Subject.Where(sub => sub.Semester == semester).ToList();
+            return _context.Subject.Where(sub => sub.SemesterDefinitionKey == semesterKey).ToList();
         }
 
         public async Task<ICollection<Definition>> GetTypes()
         {
-            //TODO Naprawić EF Core o wyszukiwanie Definitions na pdostawie DefinitionsGroup
-           //var retVal = await _context.DefinitionGroup.SingleAsync(group => object.Equals(group.GroupName, "SUBJECT_TYPES"));
-           //return retVal.Definitions;
+            var retVal = await _context.DefinitionGroup
+                .Include(dg => dg.Definitions)
+                .AsSplitQuery()
+                .SingleAsync(group => Equals(group.GroupName, "SUBJECT_TYPES"));
 
-           return _context.Definition.Where(d => d.GroupName == "SUBJECT_TYPES").ToList();
+            return retVal.Definitions;
         }
     }
 }

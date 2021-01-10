@@ -17,10 +17,14 @@ namespace StudentApp.Services.Model
         public bool IsPassed { get; set; }
         public Guid TypeDefinitionKey { get; set; }
         public bool HasProjectToPass { get; set; }
-        public int Semester { get; set; }
+        public Guid SemesterDefinitionKey { get; set; }
         public DateTime CreateTime { get; set; }
         public DateTime ModifyTime { get; set; }
         public bool IsArchive { get; set; }
+
+
+        [ForeignKey(nameof(SemesterDefinitionKey))]
+        public Definition SemesterDefinition { get; set; }
 
         [ForeignKey("TypeDefinitionKey")]
         public Definition StatusDefinition { get; set; }

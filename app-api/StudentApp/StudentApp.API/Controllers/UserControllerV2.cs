@@ -1,13 +1,13 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using StudentApp.API.DataContracts;
 using StudentApp.API.DataContracts.Requests;
 using StudentApp.Services.Contracts;
-using System;
-using System.Threading.Tasks;
 using S = StudentApp.Services.Model;
+using User = StudentApp.API.DataContracts.User;
 
-namespace StudentApp.API.Controllers.V2
+namespace StudentApp.API.Controllers
 {
     [ApiVersion("2.0")]
     //[Route("api/v{version:apiVersion}/users")]
@@ -36,9 +36,9 @@ namespace StudentApp.API.Controllers.V2
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<User> Get(string id)
+        public async Task<User> Get(Guid userKey)
         {
-            var data = await _service.GetAsync(id);
+            var data = await _service.GetSingleAsync(userKey);
 
             if (data != null)
                 return _mapper.Map<User>(data);
@@ -64,25 +64,6 @@ namespace StudentApp.API.Controllers.V2
 
             return data != null ? _mapper.Map<User>(data) : null;
 
-        }
-        #endregion
-
-        #region PUT
-        [HttpPut()]
-        public async Task<bool> UpdateUser(User parameter)
-        {
-            if (parameter == null)
-                throw new ArgumentNullException("parameter");
-
-            return await _service.UpdateAsync(_mapper.Map<S.User>(parameter));
-        }
-        #endregion
-
-        #region DELETE
-        [HttpDelete("{id}")]
-        public async Task<bool> DeleteDevice(string id)
-        {
-            return await _service.DeleteAsync(id);
         }
         #endregion
     }
