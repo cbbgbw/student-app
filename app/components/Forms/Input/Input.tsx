@@ -1,13 +1,10 @@
 import clsx from 'clsx'
-import React, { FC, forwardRef } from 'react'
+import React, { forwardRef, InputHTMLAttributes } from 'react'
 
-interface Props {
-  name?: string
-  type?: string
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
   labelText?: string
   labelPosition?: 'flex-start' | 'center' | 'flex-end'
   bottomSpace?: boolean
-  disabled?: boolean
 }
 
 export const Input = forwardRef<HTMLInputElement, Props>(
@@ -24,11 +21,19 @@ export const Input = forwardRef<HTMLInputElement, Props>(
   ) => (
     <div className={clsx('inputBox', bottomSpace && 'bottomSpace')}>
       <label htmlFor={name}>{labelText}</label>
-      <input disabled={disabled} id={name} name={name} ref={ref} type={type} />
+      <input
+        disabled={disabled}
+        id={name}
+        name={name}
+        ref={ref}
+        type={type}
+      />
       <style jsx>{`
         .inputBox {
           display: flex;
-          flex-direction: ${type === 'checkbox' ? 'row-reverse' : 'column'};
+          flex-direction: ${type === 'checkbox'
+            ? 'row-reverse'
+            : 'column'};
           align-items: ${type === 'checkbox' ? 'center' : 'unset'};
           width: 300px;
         }

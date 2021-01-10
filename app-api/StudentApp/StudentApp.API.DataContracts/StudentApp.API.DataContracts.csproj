@@ -22,10 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Requests\Subject\GET\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\StudentApp.Services.Contracts\StudentApp.Services.Contracts.csproj" />
   </ItemGroup>
 

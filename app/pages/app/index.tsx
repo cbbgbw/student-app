@@ -2,7 +2,6 @@ import React, { FC } from 'react'
 
 import { EntitiesModal } from '../../types/types'
 import { Add } from '../../components/Add/Add'
-import { ModalWrapper } from '../../forms/ModalWrapper'
 import { useStore } from '../../utils/storeProvider'
 import { initializeStore } from '../../utils/storeUtils'
 
@@ -40,7 +39,6 @@ const App: FC = () => {
         <section className={styles.addSection}>
           {generateAddButtons()}
         </section>
-        <ModalWrapper />
       </section>
     </>
   )

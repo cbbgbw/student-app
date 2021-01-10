@@ -1,4 +1,4 @@
-import React, { FC, forwardRef } from 'react'
+import React, { forwardRef } from 'react'
 import clsx from 'clsx'
 
 interface Props {
@@ -10,12 +10,16 @@ interface Props {
   disabled?: boolean
 }
 
-export const MultiLineInput: FC<Props> = forwardRef<
-  HTMLTextAreaElement,
-  Props
->(
+export const MultiLineInput = forwardRef<HTMLTextAreaElement, Props>(
   (
-    { name, bottomSpace, labelText, disabled, type, labelPosition },
+    {
+      name,
+      bottomSpace = true,
+      labelText,
+      disabled,
+      type,
+      labelPosition,
+    },
     ref,
   ) => (
     <div className={clsx('inputBox', bottomSpace && 'bottomSpace')}>

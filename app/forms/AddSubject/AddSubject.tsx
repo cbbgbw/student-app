@@ -4,11 +4,12 @@ import React, { FC } from 'react'
 import { Input } from '../../components/Forms/Input/Input'
 import { ReusableModal } from '../../components/ReusableModal/Modal'
 import { getModalTypeFuncs } from '../../utils/storeUtils'
-import { ModalType } from '../ModalWrapper'
 import { useStore } from '../../utils/storeProvider'
-import { subjectPost, PostProps } from '../../actions/subject'
+import { PostProps, subjectPost, useSubjectTypes } from '../../actions/subject'
 import { useRouter } from 'next/router'
 import { MultiLineInput } from '../../components/Forms/Input/MultilineInput'
+import { ModalType } from '../../types/types'
+import { Select } from '../../components/Forms/Select/Select'
 
 export const AddSubject: FC = () => {
   const router = useRouter()
@@ -16,16 +17,19 @@ export const AddSubject: FC = () => {
 
   const { handleSubmit, register } = useForm<PostProps>()
 
+  const { subjectTypes } = useSubjectTypes()
+
   const onSubjectSubmit = async (data: PostProps) => {
-    subjectPost(data).then(({ data }) => {
-      console.log(data)
-      router.push({
-        pathname: '/subject/[key]',
-        query: {
-          key: data.subjectKEY,
-        },
+    subjectPost(data)
+      .then(({ data }) => {
+        router.push({
+          pathname: '/subjects/[key]',
+          query: {
+            key: data.subjectKEY,
+          },
+        })
       })
-    })
+      .then(() => setModalType(ModalType.None))
   }
 
   return (
@@ -46,17 +50,19 @@ export const AddSubject: FC = () => {
         ref={register({ required: true })}
         labelText="Nazwa przedmiotu"
       />
+
+      <Select
+        name="typeDefinitionKey"
+        ref={register({ required: true })}
+        labelText="Typ przedmiotu"
+        selectOptions={subjectTypes}
+      />
+
       <MultiLineInput
         name="description"
-        ref={register({ required: true })}
+        ref={register()}
         labelText="Opis"
       />
-      {/* <Input */}
-      {/*  name="type" */}
-      {/*  ref={register(/* { required: true } */}
-      {/*  labelText="Typ" */}
-      {/*  disabled */}
-      {/* /> */}
 
       <Input
         name="hasProjectToPass"

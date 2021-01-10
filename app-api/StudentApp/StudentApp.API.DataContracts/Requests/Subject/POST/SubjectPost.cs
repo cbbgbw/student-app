@@ -9,7 +9,7 @@ namespace StudentApp.API.DataContracts.Requests.Subject.POST
 {
     public class SubjectPost
     {
-        public Guid SubjectKEY { get; set; }
+        public Guid SubjectKey { get; set; }
 
         [Required]
         [DataType(DataType.Text)]

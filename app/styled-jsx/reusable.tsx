@@ -4,8 +4,8 @@ export const ChildrenWithinDivInRow: FC = ({ children }) => (
   <div>
     {children}
     <style jsx>{`
-      div {
-        display: flex;
+      div { 
+        display: flex; 
         flex-direction: row;
       }
     `}</style>
