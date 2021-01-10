@@ -28,15 +28,10 @@ namespace StudentApp.Services
             _context = context;
         }
 
-        public async Task<Subject> CreateAsync(Subject subject)
+        public async Task<int> CreateAsync(Subject subject)
         {
-            if (string.IsNullOrEmpty(subject.Name))
-                throw new AppException("Subject Name is required.");
-            
             await _context.Subject.AddAsync(subject);
-            await _context.SaveChangesAsync();
-            
-            return subject;
+            return await _context.SaveChangesAsync();
         }
 
         public async Task<bool> UpdateAsync(Subject subject)
@@ -54,7 +49,7 @@ namespace StudentApp.Services
             return _context.Subject.SingleAsync(subject => subject.SubjectKey == SubjectKEY).Result;
         }
 
-        public async Task<ICollection<Subject>> GetBySemesterAsync(int semester)
+        public async Task<ICollection<Subject>> GetAllBySemesterAsync(int semester)
         {
             return _context.Subject.Where(sub => sub.Semester == semester).ToList();
         }
@@ -65,7 +60,7 @@ namespace StudentApp.Services
            //var retVal = await _context.DefinitionGroup.SingleAsync(group => object.Equals(group.GroupName, "SUBJECT_TYPES"));
            //return retVal.Definitions;
 
-           return _context.Definition.Where(p => p.GroupName == "SUBJECT_TYPES").ToList();
+           return _context.Definition.Where(d => d.GroupName == "SUBJECT_TYPES").ToList();
         }
     }
 }

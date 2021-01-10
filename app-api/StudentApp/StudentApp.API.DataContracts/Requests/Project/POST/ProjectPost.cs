@@ -10,18 +10,16 @@ namespace StudentApp.API.DataContracts.Requests.Project.POST
     public class ProjectPost
     {
         public Guid ProjectKey { get; set; }
-        [Required]
         public string Name { get; set; }
-        //public Guid TypeDefinitionKey { get; set; }
+        public Guid TypeDefinitionKey { get; set; }
         public string Description { get; set; }
-        [Required]
         public DateTime DeadlineTime { get; set; }
         public bool NecessaryToPass { get; set; }
-        //public Guid CurrentProjectStateKey { get; set; }
-        //public Guid CategoryKey { get; set; }
+        public Guid ProjectStatusKey { get; set; }
+        public Guid CategoryKey { get; set; }
         public Guid SubjectKey { get; set; }
-        public int Mark { get; set; }
+
+        //TODO dodać obsługę obszaru roboczego
         //public Guid WorkingAreaKey { get; set; }
-        public bool IsArchive { get; set; }
     }
 }

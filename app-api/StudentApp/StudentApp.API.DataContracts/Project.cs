@@ -21,17 +21,11 @@ namespace StudentApp.API.DataContracts
         [DataType(DataType.DateTime)]
         public DateTime DeadlineTime { get; set; }
         public bool NecessaryToPass { get; set; }
-        public Guid CurrentProjectStateKey { get; set; }
+        public Guid ProjectStatusKey { get; set; }
         public Guid CategoryKey { get; set; }
         public Guid SubjectKey { get; set; }
         public int Mark { get; set; }
         public Guid WorkingAreaKey { get; set; }
-
-        [DataType(DataType.DateTime)]
-        public DateTime CreateTime { get; set; }
-
-        [DataType(DataType.DateTime)]
-        public DateTime ModifyTime { get; set; }
         public bool IsArchive { get; set; }
     }
 }

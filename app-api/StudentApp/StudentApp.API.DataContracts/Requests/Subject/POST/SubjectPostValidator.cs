@@ -6,10 +6,10 @@ using StudentApp.Services.Contracts;
 
 namespace StudentApp.API.DataContracts.Requests.Subject.POST
 {
-    public class SubjectPostValidatior : AbstractValidator<SubjectPost>
+    public class SubjectPostValidator : AbstractValidator<SubjectPost>
     {
 
-        public SubjectPostValidatior (ISubjectService service)
+        public SubjectPostValidator (ISubjectService service)
         {
             bool validateType(Guid typeKey)
             {

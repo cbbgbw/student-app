@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentApp.Tools.Configurations;
 
 namespace StudentApp.API.Migrations.SQLServerMigrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210106153840_0.0.1-06.01.2021-DefultInserts")]
+    partial class _00106012021DefultInserts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,39 +49,21 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
                     b.HasData(
                         new
                         {
-                            CategoryKey = new Guid("8b79b0a3-83ba-4ca7-bdce-3aa035f224a6"),
+                            CategoryKey = new Guid("40cc05c5-70c4-4766-b0a2-e1e47d618d2b"),
                             CategoryName = "Odpowiedź ustna",
-                            CreateTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
-                            ModifyTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            CreateTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
+                            ModifyTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             OrderIndex = 1,
                             ProjectTypeKey = new Guid("00000000-0000-0000-0000-000000000022")
                         },
                         new
                         {
-                            CategoryKey = new Guid("a695f015-326f-41b2-ae5a-c021cb8cc49f"),
+                            CategoryKey = new Guid("47d77b7f-7e82-4564-828b-c97eb4d1f7e6"),
                             CategoryName = "Kartkówka",
-                            CreateTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
-                            ModifyTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
-                            OrderIndex = 2,
-                            ProjectTypeKey = new Guid("00000000-0000-0000-0000-000000000022")
-                        },
-                        new
-                        {
-                            CategoryKey = new Guid("f2e2285b-faeb-4d09-88a3-390af93534e4"),
-                            CategoryName = "Projekt zespołowy",
-                            CreateTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
-                            ModifyTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            CreateTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
+                            ModifyTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             OrderIndex = 1,
-                            ProjectTypeKey = new Guid("00000000-0000-0000-0000-000000000012")
-                        },
-                        new
-                        {
-                            CategoryKey = new Guid("3eccbed0-4883-4e82-a1fe-832ffa0b52ee"),
-                            CategoryName = "Projekt zaliczeniowy",
-                            CreateTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
-                            ModifyTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
-                            OrderIndex = 2,
-                            ProjectTypeKey = new Guid("00000000-0000-0000-0000-000000000012")
+                            ProjectTypeKey = new Guid("00000000-0000-0000-0000-000000000022")
                         });
                 });
 
@@ -114,37 +98,37 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
                         new
                         {
                             DefinitionKey = new Guid("00000000-0000-0000-0000-000000000011"),
-                            CreateTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            CreateTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             DefinitionGroupKey = new Guid("00000000-0000-0000-0000-000000000001"),
                             GroupName = "SUBJECT_TYPES",
-                            ModifyTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            ModifyTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             Value = "Laboratoria"
                         },
                         new
                         {
                             DefinitionKey = new Guid("00000000-0000-0000-0000-000000000021"),
-                            CreateTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            CreateTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             DefinitionGroupKey = new Guid("00000000-0000-0000-0000-000000000001"),
                             GroupName = "SUBJECT_TYPES",
-                            ModifyTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            ModifyTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             Value = "Wykład"
                         },
                         new
                         {
                             DefinitionKey = new Guid("00000000-0000-0000-0000-000000000012"),
-                            CreateTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            CreateTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             DefinitionGroupKey = new Guid("00000000-0000-0000-0000-000000000002"),
                             GroupName = "PROJECT_TYPES",
-                            ModifyTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            ModifyTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             Value = "Projekt"
                         },
                         new
                         {
                             DefinitionKey = new Guid("00000000-0000-0000-0000-000000000022"),
-                            CreateTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            CreateTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             DefinitionGroupKey = new Guid("00000000-0000-0000-0000-000000000002"),
                             GroupName = "PROJECT_TYPES",
-                            ModifyTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            ModifyTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             Value = "Egzamin"
                         });
                 });
@@ -175,18 +159,18 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
                         new
                         {
                             DefinitionGroupKey = new Guid("00000000-0000-0000-0000-000000000001"),
-                            CreateTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            CreateTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             Description = "Typ zajęć",
                             GroupName = "SUBJECT_TYPES",
-                            ModifyTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994)
+                            ModifyTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078)
                         },
                         new
                         {
                             DefinitionGroupKey = new Guid("00000000-0000-0000-0000-000000000002"),
-                            CreateTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            CreateTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             Description = "Typ projektu",
                             GroupName = "PROJECT_TYPES",
-                            ModifyTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994)
+                            ModifyTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078)
                         });
                 });
 
@@ -281,9 +265,9 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
                         {
                             StatusKey = new Guid("00000000-0000-0000-0000-000000000001"),
                             Color = "ffffff",
-                            CreateTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            CreateTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             Description = "",
-                            ModifyTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            ModifyTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             Name = "Nowy",
                             Type = 0
                         },
@@ -291,9 +275,9 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
                         {
                             StatusKey = new Guid("00000000-0000-0000-0000-000000000002"),
                             Color = "ffffff",
-                            CreateTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            CreateTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             Description = "",
-                            ModifyTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            ModifyTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             Name = "Otwarty",
                             Type = 1
                         },
@@ -301,9 +285,9 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
                         {
                             StatusKey = new Guid("00000000-0000-0000-0000-000000000003"),
                             Color = "ffffff",
-                            CreateTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            CreateTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             Description = "",
-                            ModifyTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            ModifyTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             Name = "W trakcie",
                             Type = 2
                         },
@@ -311,9 +295,9 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
                         {
                             StatusKey = new Guid("00000000-0000-0000-0000-000000000004"),
                             Color = "ffffff",
-                            CreateTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            CreateTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             Description = "",
-                            ModifyTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            ModifyTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             Name = "Wstrzymany",
                             Type = 3
                         },
@@ -321,9 +305,9 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
                         {
                             StatusKey = new Guid("00000000-0000-0000-0000-000000000005"),
                             Color = "ffffff",
-                            CreateTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            CreateTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             Description = "",
-                            ModifyTime = new DateTime(2021, 1, 7, 20, 53, 30, 84, DateTimeKind.Local).AddTicks(6994),
+                            ModifyTime = new DateTime(2021, 1, 6, 16, 38, 39, 819, DateTimeKind.Local).AddTicks(4078),
                             Name = "Zakończony",
                             Type = 4
                         });

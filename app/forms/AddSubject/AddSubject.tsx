@@ -20,15 +20,14 @@ export const AddSubject: FC = () => {
   const { subjectTypes } = useSubjectTypes()
 
   const onSubjectSubmit = async (data: PostProps) => {
-    subjectPost(data)
-      .then(({ data }) => {
+    const subjectKey = await subjectPost(data)
+    
         router.push({
           pathname: '/subjects/[key]',
           query: {
-            key: data.subjectKEY,
+            key: subjectKey,
           },
         })
-      })
       .then(() => setModalType(ModalType.None))
   }
 

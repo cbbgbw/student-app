@@ -16,15 +16,15 @@ export const SubjectListView = () => {
   const renderSubjects = () =>
     !subjectTypesRequest.isLoading &&
     !isLoading &&
-    subjectArray?.map(({ name, subjectKEY, typeDefinitionKey }) => (
+    subjectArray?.map(({ name, subjectKey, typeDefinitionKey }) => (
       <ListSubject
-        key={subjectKEY}
+        key={subjectKey}
         type={
           subjectTypesRequest?.subjectTypes &&
           subjectTypesRequest?.subjectTypes[typeDefinitionKey]
         }
         name={name}
-        subjectKey={subjectKEY}
+        subjectKey={subjectKey}
       />
     ))
 
