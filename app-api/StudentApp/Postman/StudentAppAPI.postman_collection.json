@@ -6,135 +6,42 @@
 	},
 	"item": [
 		{
-			"name": "Subject",
-			"item": [
-				{
-					"name": "GET SINGLE",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{ApiURL}}/subject/3fa85f64-5717-4562-b3fc-2c963f66afa6",
-							"host": [
-								"{{ApiURL}}"
-							],
-							"path": [
-								"subject",
-								"3fa85f64-5717-4562-b3fc-2c963f66afa6"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET TYPES",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{ApiURL}}/subject/types",
-							"host": [
-								"{{ApiURL}}"
-							],
-							"path": [
-								"subject",
-								"types"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET BY SEMESTER",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{ApiURL}}/subject/list/0",
-							"host": [
-								"{{ApiURL}}"
-							],
-							"path": [
-								"subject",
-								"list",
-								"0"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"date\": \"2021-01-04T14:46:52.915Z\",\r\n  \"subject\": {\r\n    \"subjectKEY\": \"{{$guid}}\",\r\n    \"name\": \"Programowanie obiektowe\",\r\n    \"description\": \"\",\r\n    \"typeDefinitionKey\": \"00000000-0000-0000-0000-000000000021\",\r\n    \"hasProjectToPass\": true,\r\n    \"semester\": 0\r\n  }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{ApiURL}}/subject",
-							"host": [
-								"{{ApiURL}}"
-							],
-							"path": [
-								"subject"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Project",
-			"item": [
-				{
-					"name": "GET TYPES",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{ApiURL}}/project/types",
-							"host": [
-								"{{ApiURL}}"
-							],
-							"path": [
-								"project",
-								"types"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET STATUSES",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{ApiURL}}/project/statuses",
-							"host": [
-								"{{ApiURL}}"
-							],
-							"path": [
-								"project",
-								"statuses"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Tests",
 			"item": [
+				{
+					"name": "Pre",
+					"item": [
+						{
+							"name": "Clear environment variables",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.environment.clear()"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ApiURL}}/subject/types",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"subject",
+										"types"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
 				{
 					"name": "Add",
 					"item": [
@@ -200,7 +107,7 @@
 													"\r",
 													"    const request = JSON.parse(pm.request.body.raw)\r",
 													"    console.log(request)\r",
-													"    pm.environment.set('subjectKey', request.subject.subjectKEY)\r",
+													"    pm.environment.set('subjectKey', request.subject.subjectKey)\r",
 													"\r",
 													"})\r",
 													"\r",
@@ -226,7 +133,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"date\": \"2021-01-04T14:46:52.915Z\",\r\n  \"subject\": {\r\n    \"subjectKEY\": \"{{$guid}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"description\": \"{{$randomLoremSentences}}\",\r\n    \"typeDefinitionKey\": \"{{selectedSubjectType}}\",\r\n    \"hasProjectToPass\": {{$randomBoolean}},\r\n    \"semester\": 0\r\n  }\r\n}",
+											"raw": "{\r\n  \"date\": \"2021-01-04T14:46:52.915Z\",\r\n  \"subject\": {\r\n    \"subjectKey\": \"{{$guid}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"description\": \"{{$randomLoremSentences}}\",\r\n    \"typeDefinitionKey\": \"{{selectedSubjectType}}\",\r\n    \"hasProjectToPass\": {{$randomBoolean}},\r\n    \"semester\": 0\r\n  }\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -573,6 +480,59 @@
 									"response": []
 								}
 							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Others",
+			"item": [
+				{
+					"name": "Subject",
+					"item": [
+						{
+							"name": "Get by Semester",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ApiURL}}/subject/list/0",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"subject",
+										"list",
+										"0"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Project",
+					"item": [
+						{
+							"name": "Get by Subject",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ApiURL}}/project/subject/12DCDD15-FA06-4C94-9CDC-FC2BFC5E44B3",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"project",
+										"subject",
+										"12DCDD15-FA06-4C94-9CDC-FC2BFC5E44B3"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}

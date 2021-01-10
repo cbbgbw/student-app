@@ -21,11 +21,11 @@ export const subjectPost = async (newSubject: PostProps) => {
     subjectKey: uuidv4(),
     semester: 1,
   }
-  return await post<Post>(Path.Subject, subject)
+  return post<Post>(Path.Subject, subject).then(() => subject.subjectKey)
 }
 
 interface Subject {
-  subjectKEY: string
+  subjectKey: string
   name: string
   description?: string
   typeDefinitionKey: string
