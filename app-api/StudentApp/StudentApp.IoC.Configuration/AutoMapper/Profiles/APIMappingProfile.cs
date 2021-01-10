@@ -33,7 +33,6 @@ namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
                 .ForMember(dest => dest.CreateTime, opt => opt.MapFrom(src => src.Date))
                 .ForMember(dest => dest.ModifyTime, opt => opt.MapFrom(src => src.Date));
 
-
             CreateMap<S.Project, DC.Project>();
 
             #endregion

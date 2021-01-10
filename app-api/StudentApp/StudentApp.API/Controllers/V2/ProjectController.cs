@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -40,6 +41,13 @@ namespace StudentApp.API.Controllers.V2
         }
 
         #endregion
+
+        [HttpGet("subject/{subjectKey}")]
+        public async Task<ICollection<DC.Project>> GetAllBySubject(Guid subjectKey)
+        {
+            var projects = _service.GetAllBySubjectAsync(subjectKey).Result;
+            return projects != null ? _mapper.Map<ICollection<DC.Project>>(projects) : null;
+        }
 
         #region POST
 
