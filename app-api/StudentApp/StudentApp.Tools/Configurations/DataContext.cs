@@ -17,6 +17,31 @@ namespace StudentApp.Tools.Configurations
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            /*TODO napisać konfigurację relacji encji (m.in. dla wykluczenia zachowania akcji onDelete)*/
+            /* Entities configuration */
+            modelBuilder.Entity<S.User>(entity =>
+            {
+                entity.HasOne(d => d.SemesterDefinitionGroup)
+                    .WithOne(e => e.SemesterDefinitionGroup);
+            });
+
+            modelBuilder.Entity<S.Subject>(entity =>
+            {
+                entity.HasOne(d => d.SemesterDefinition)
+                    .WithOne(e => e.SubjectSemesterDefinition)
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(d => d.StatusDefinition)
+                    .WithOne(e => e.SubjectStatusDefinition)
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasMany(d => d.Projects)
+                    .WithOne(e => e.Subject)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            
+
             DateTime date = DateTime.Now;
             modelBuilder.Entity<S.Status>().HasData(new S.Status[]
             {
@@ -146,6 +171,24 @@ namespace StudentApp.Tools.Configurations
                 GroupName = userLoginName + "_SEMESTERS",
                 Value = "1",
                 Default = true,
+                CreateTime = date,
+                ModifyTime = date
+            }, new
+            {
+                DefinitionKey = Guid.NewGuid(),
+                DefinitionGroupKey = userDefinitionGroupKey,
+                GroupName = userLoginName + "_SEMESTERS",
+                Value = "2",
+                Default = false,
+                CreateTime = date,
+                ModifyTime = date
+            }, new
+            {
+                DefinitionKey = Guid.NewGuid(),
+                DefinitionGroupKey = userDefinitionGroupKey,
+                GroupName = userLoginName + "_SEMESTERS",
+                Value = "3",
+                Default = false,
                 CreateTime = date,
                 ModifyTime = date
             });
