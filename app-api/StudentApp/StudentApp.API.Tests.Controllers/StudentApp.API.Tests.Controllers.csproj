@@ -45,6 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ControllerTests\V1\" />
     <Folder Include="Playlists\" />
   </ItemGroup>
 

@@ -22,23 +22,47 @@ namespace StudentApp.Tools.Configurations
             modelBuilder.Entity<S.User>(entity =>
             {
                 entity.HasOne(d => d.SemesterDefinitionGroup)
-                    .WithOne(e => e.SemesterDefinitionGroup);
+                    .WithOne(e => e.SemesterDefinitionGroup)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<S.Subject>(entity =>
             {
                 entity.HasOne(d => d.SemesterDefinition)
-                    .WithOne(e => e.SubjectSemesterDefinition)
+                    .WithMany(e => e.SubjectSemesterDefinitions)
                     .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasOne(d => d.StatusDefinition)
-                    .WithOne(e => e.SubjectStatusDefinition)
+                    .WithMany(e => e.SubjectStatusDefinitions)
                     .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasMany(d => d.Projects)
                     .WithOne(e => e.Subject)
                     .OnDelete(DeleteBehavior.Cascade);
             });
+
+            modelBuilder.Entity<S.Project>(entity =>
+            {
+                entity.HasOne(d => d.Subject)
+                    .WithMany(e => e.Projects)
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(d => d.DefinitionType)
+                    .WithMany(e => e.ProjectStatusDefinitions)
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(e => e.Projects)
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(e => e.Projects)
+                    .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<S.DefinitionGroup>();
+
+            
 
             
 
