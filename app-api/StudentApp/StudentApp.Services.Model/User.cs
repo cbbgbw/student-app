@@ -20,5 +20,6 @@ namespace StudentApp.Services.Model
 
         [ForeignKey(nameof(SemesterDefinitionGroupKey))]
         public DefinitionGroup SemesterDefinitionGroup { get; set; }
+        
     }
 }

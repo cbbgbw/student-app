@@ -21,5 +21,9 @@ namespace StudentApp.Services.Model
 
         [ForeignKey(nameof(DefinitionGroupKey))]
         public virtual DefinitionGroup DefinitionGroup { get; set; }
+
+        public ICollection<Subject> SubjectStatusDefinitions { get; set; }
+        public ICollection<Subject> SubjectSemesterDefinitions { get; set; }
+        public ICollection<Project> ProjectStatusDefinitions { get; set; }
     }
 }

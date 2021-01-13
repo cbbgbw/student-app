@@ -19,6 +19,7 @@ namespace StudentApp.IoC.Configuration.DI
                 services.AddTransient<IUserService, UserService>();
                 services.AddTransient<ISubjectService, SubjectService>();
                 services.AddTransient<IProjectService, ProjectService>();
+                services.AddTransient<ISemesterService, SemesterService>();
             }
         }
 

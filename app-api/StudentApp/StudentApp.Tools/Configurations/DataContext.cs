@@ -17,6 +17,55 @@ namespace StudentApp.Tools.Configurations
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            /*TODO napisać konfigurację relacji encji (m.in. dla wykluczenia zachowania akcji onDelete)*/
+            /* Entities configuration */
+            modelBuilder.Entity<S.User>(entity =>
+            {
+                entity.HasOne(d => d.SemesterDefinitionGroup)
+                    .WithOne(e => e.SemesterDefinitionGroup)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<S.Subject>(entity =>
+            {
+                entity.HasOne(d => d.SemesterDefinition)
+                    .WithMany(e => e.SubjectSemesterDefinitions)
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(d => d.StatusDefinition)
+                    .WithMany(e => e.SubjectStatusDefinitions)
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasMany(d => d.Projects)
+                    .WithOne(e => e.Subject)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<S.Project>(entity =>
+            {
+                entity.HasOne(d => d.Subject)
+                    .WithMany(e => e.Projects)
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(d => d.DefinitionType)
+                    .WithMany(e => e.ProjectStatusDefinitions)
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(e => e.Projects)
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(e => e.Projects)
+                    .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<S.DefinitionGroup>();
+
+            
+
+            
+
             DateTime date = DateTime.Now;
             modelBuilder.Entity<S.Status>().HasData(new S.Status[]
             {
@@ -146,6 +195,24 @@ namespace StudentApp.Tools.Configurations
                 GroupName = userLoginName + "_SEMESTERS",
                 Value = "1",
                 Default = true,
+                CreateTime = date,
+                ModifyTime = date
+            }, new
+            {
+                DefinitionKey = Guid.NewGuid(),
+                DefinitionGroupKey = userDefinitionGroupKey,
+                GroupName = userLoginName + "_SEMESTERS",
+                Value = "2",
+                Default = false,
+                CreateTime = date,
+                ModifyTime = date
+            }, new
+            {
+                DefinitionKey = Guid.NewGuid(),
+                DefinitionGroupKey = userDefinitionGroupKey,
+                GroupName = userLoginName + "_SEMESTERS",
+                Value = "3",
+                Default = false,
                 CreateTime = date,
                 ModifyTime = date
             });

@@ -22,6 +22,6 @@ namespace StudentApp.API.DataContracts.Requests.Subject.POST
         public bool HasProjectToPass { get; set; }
 
         [Required]
-        public int Semester { get; set; }
+        public Guid SemesterDefinitionKey { get; set; }
     }
 }

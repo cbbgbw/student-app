@@ -107,7 +107,7 @@
 													"\r",
 													"    const request = JSON.parse(pm.request.body.raw)\r",
 													"    console.log(request)\r",
-													"    pm.environment.set('subjectKey', request.subject.subjectKey)\r",
+													"    pm.environment.set('createdSubjectKey', request.subject.subjectKey)\r",
 													"\r",
 													"})\r",
 													"\r",
@@ -133,7 +133,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"date\": \"2021-01-04T14:46:52.915Z\",\r\n  \"subject\": {\r\n    \"subjectKey\": \"{{$guid}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"description\": \"{{$randomLoremSentences}}\",\r\n    \"typeDefinitionKey\": \"{{selectedSubjectType}}\",\r\n    \"hasProjectToPass\": {{$randomBoolean}},\r\n    \"semester\": 0\r\n  }\r\n}",
+											"raw": "{\r\n  \"date\": \"2021-01-04T14:46:52.915Z\",\r\n  \"subject\": {\r\n    \"subjectKey\": \"{{$guid}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"description\": \"{{$randomLoremSentences}}\",\r\n    \"typeDefinitionKey\": \"{{selectedSubjectType}}\",\r\n    \"hasProjectToPass\": {{$randomBoolean}},\r\n    \"semesterDefinitionKey\": \"{{$guid}}\"\r\n  }\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -182,13 +182,13 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{ApiURL}}/subject/{{subjectKey}}",
+											"raw": "{{ApiURL}}/subject/{{createdSubjectKey}}",
 											"host": [
 												"{{ApiURL}}"
 											],
 											"path": [
 												"subject",
-												"{{subjectKey}}"
+												"{{createdSubjectKey}}"
 											]
 										}
 									},
@@ -480,6 +480,87 @@
 									"response": []
 								}
 							]
+						},
+						{
+							"name": "Semester",
+							"item": [
+								{
+									"name": "Add Semester",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
+													"    pm.response.to.have.status(200)\r",
+													"\r",
+													"    const jsonData = pm.response.json();\r",
+													"\r",
+													"    pm.environment.set('createdSemesterKey', jsonData)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/semester/4",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"semester",
+												"4"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get created Semester",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/semester/single/{{createdSemesterKey}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"semester",
+												"single",
+												"{{createdSemesterKey}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						}
 					]
 				}
@@ -529,6 +610,57 @@
 										"project",
 										"subject",
 										"12DCDD15-FA06-4C94-9CDC-FC2BFC5E44B3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Semester",
+					"item": [
+						{
+							"name": "Get all Users Semesters",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ApiURL}}/semester",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"semester"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change Semester by User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{ApiURL}}/semester/94255150-fb84-46e9-b61a-9b8e8890d06e",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"semester",
+										"94255150-fb84-46e9-b61a-9b8e8890d06e"
 									]
 								}
 							},

@@ -25,7 +25,7 @@ namespace StudentApp.API.DataContracts
         public bool HasProjectToPass { get; set; }
 
         [Required]
-        public int Semester { get; set; }
+        public Guid SemesterDefinitionKey { get; set; }
         public bool isArchive { get; set; }
     }
 }
