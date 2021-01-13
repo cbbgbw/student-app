@@ -18,6 +18,6 @@ namespace StudentApp.Services.Model
         public DateTime ModifyTime { get; set; }
 
         public virtual ICollection<Definition> Definitions { get; set; }
-        public User SemesterDefinitionGroup { get; set; }
+        public User UserSemesterDefinitionGroup { get; set; }
     }
 }

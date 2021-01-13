@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StudentApp.API.Migrations.SQLServerMigrations
 {
-    public partial class _00111012021Initial : Migration
+    public partial class _00113012021InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -74,8 +74,7 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
                         name: "FK_Definition_DefinitionGroup_DefinitionGroupKey",
                         column: x => x.DefinitionGroupKey,
                         principalTable: "DefinitionGroup",
-                        principalColumn: "DefinitionGroupKey",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "DefinitionGroupKey");
                 });
 
             migrationBuilder.CreateTable(
@@ -99,8 +98,7 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
                         name: "FK_User_DefinitionGroup_SemesterDefinitionGroupKey",
                         column: x => x.SemesterDefinitionGroupKey,
                         principalTable: "DefinitionGroup",
-                        principalColumn: "DefinitionGroupKey",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "DefinitionGroupKey");
                 });
 
             migrationBuilder.CreateTable(
@@ -159,26 +157,22 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
                         name: "FK_Project_Category_CategoryKey",
                         column: x => x.CategoryKey,
                         principalTable: "Category",
-                        principalColumn: "CategoryKey",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "CategoryKey");
                     table.ForeignKey(
                         name: "FK_Project_Definition_TypeDefinitionKey",
                         column: x => x.TypeDefinitionKey,
                         principalTable: "Definition",
-                        principalColumn: "DefinitionKey",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "DefinitionKey");
                     table.ForeignKey(
                         name: "FK_Project_Status_ProjectStatusKey",
                         column: x => x.ProjectStatusKey,
                         principalTable: "Status",
-                        principalColumn: "StatusKey",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "StatusKey");
                     table.ForeignKey(
                         name: "FK_Project_Subject_SubjectKey",
                         column: x => x.SubjectKey,
                         principalTable: "Subject",
-                        principalColumn: "SubjectKey",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "SubjectKey");
                 });
 
             migrationBuilder.InsertData(
@@ -186,10 +180,10 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
                 columns: new[] { "CategoryKey", "CategoryName", "CreateTime", "ModifyTime", "OrderIndex", "ProjectTypeKey" },
                 values: new object[,]
                 {
-                    { new Guid("13afbe50-33e6-40a1-8d3d-772ea51de83c"), "Odpowiedź ustna", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), 1, new Guid("00000000-0000-0000-0000-000000000022") },
-                    { new Guid("ab5118a4-e7db-4b4d-9f36-c495fdc5be2f"), "Kartkówka", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), 2, new Guid("00000000-0000-0000-0000-000000000022") },
-                    { new Guid("b2ee3a2c-7bfc-470c-97d2-e2cb52cf48bf"), "Projekt zespołowy", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), 1, new Guid("00000000-0000-0000-0000-000000000012") },
-                    { new Guid("c9666768-39ed-4a32-b294-9891a3859317"), "Projekt zaliczeniowy", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), 2, new Guid("00000000-0000-0000-0000-000000000012") }
+                    { new Guid("9a684681-ffac-42e6-97a5-c07fb18e2a32"), "Odpowiedź ustna", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), 1, new Guid("00000000-0000-0000-0000-000000000022") },
+                    { new Guid("c94de30c-a03a-4432-91a1-310ace86050a"), "Kartkówka", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), 2, new Guid("00000000-0000-0000-0000-000000000022") },
+                    { new Guid("27fd71bf-f9e1-4293-a494-be76b477c706"), "Projekt zespołowy", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), 1, new Guid("00000000-0000-0000-0000-000000000012") },
+                    { new Guid("9969b359-b888-4d07-8e0a-f79234f58adb"), "Projekt zaliczeniowy", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), 2, new Guid("00000000-0000-0000-0000-000000000012") }
                 });
 
             migrationBuilder.InsertData(
@@ -197,9 +191,9 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
                 columns: new[] { "DefinitionGroupKey", "CreateTime", "Description", "GroupName", "ModifyTime" },
                 values: new object[,]
                 {
-                    { new Guid("00000000-0000-0000-0000-000000000001"), new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "Typ zajęć", "SUBJECT_TYPES", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192) },
-                    { new Guid("00000000-0000-0000-0000-000000000002"), new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "Typ projektu", "PROJECT_TYPES", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192) },
-                    { new Guid("23dead7a-5218-4f7f-bd41-717f8e76ccc3"), new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "Semestr użytkownika admin", "admin_SEMESTERS", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192) }
+                    { new Guid("00000000-0000-0000-0000-000000000001"), new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "Typ zajęć", "SUBJECT_TYPES", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502) },
+                    { new Guid("00000000-0000-0000-0000-000000000002"), new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "Typ projektu", "PROJECT_TYPES", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502) },
+                    { new Guid("bdfc4999-ea15-4aef-816f-df1d0ab501ee"), new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "Semestr użytkownika admin", "admin_SEMESTERS", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502) }
                 });
 
             migrationBuilder.InsertData(
@@ -207,11 +201,11 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
                 columns: new[] { "StatusKey", "Color", "CreateTime", "Description", "ModifyTime", "Name", "Type" },
                 values: new object[,]
                 {
-                    { new Guid("00000000-0000-0000-0000-000000000001"), "ffffff", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "Nowy", 0 },
-                    { new Guid("00000000-0000-0000-0000-000000000002"), "ffffff", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "Otwarty", 1 },
-                    { new Guid("00000000-0000-0000-0000-000000000003"), "ffffff", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "W trakcie", 2 },
-                    { new Guid("00000000-0000-0000-0000-000000000004"), "ffffff", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "Wstrzymany", 3 },
-                    { new Guid("00000000-0000-0000-0000-000000000005"), "ffffff", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "Zakończony", 4 }
+                    { new Guid("00000000-0000-0000-0000-000000000001"), "ffffff", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "Nowy", 0 },
+                    { new Guid("00000000-0000-0000-0000-000000000002"), "ffffff", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "Otwarty", 1 },
+                    { new Guid("00000000-0000-0000-0000-000000000003"), "ffffff", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "W trakcie", 2 },
+                    { new Guid("00000000-0000-0000-0000-000000000004"), "ffffff", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "Wstrzymany", 3 },
+                    { new Guid("00000000-0000-0000-0000-000000000005"), "ffffff", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "Zakończony", 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -219,19 +213,19 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
                 columns: new[] { "DefinitionKey", "CreateTime", "Default", "DefinitionGroupKey", "GroupName", "ModifyTime", "Value" },
                 values: new object[,]
                 {
-                    { new Guid("00000000-0000-0000-0000-000000000011"), new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), false, new Guid("00000000-0000-0000-0000-000000000001"), "SUBJECT_TYPES", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "Laboratoria" },
-                    { new Guid("00000000-0000-0000-0000-000000000021"), new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), false, new Guid("00000000-0000-0000-0000-000000000001"), "SUBJECT_TYPES", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "Wykład" },
-                    { new Guid("00000000-0000-0000-0000-000000000012"), new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), false, new Guid("00000000-0000-0000-0000-000000000002"), "PROJECT_TYPES", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "Projekt" },
-                    { new Guid("00000000-0000-0000-0000-000000000022"), new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), false, new Guid("00000000-0000-0000-0000-000000000002"), "PROJECT_TYPES", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "Egzamin" },
-                    { new Guid("b30ef1a5-c3b5-4eff-85bb-a1e5ec518604"), new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), true, new Guid("23dead7a-5218-4f7f-bd41-717f8e76ccc3"), "admin_SEMESTERS", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "1" },
-                    { new Guid("63f8352c-adf7-4bdc-9f4a-659cb595e67a"), new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), false, new Guid("23dead7a-5218-4f7f-bd41-717f8e76ccc3"), "admin_SEMESTERS", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "2" },
-                    { new Guid("ce19b202-a089-4283-a48f-87265f5f2b60"), new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), false, new Guid("23dead7a-5218-4f7f-bd41-717f8e76ccc3"), "admin_SEMESTERS", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "3" }
+                    { new Guid("00000000-0000-0000-0000-000000000011"), new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), false, new Guid("00000000-0000-0000-0000-000000000001"), "SUBJECT_TYPES", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "Laboratoria" },
+                    { new Guid("00000000-0000-0000-0000-000000000021"), new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), false, new Guid("00000000-0000-0000-0000-000000000001"), "SUBJECT_TYPES", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "Wykład" },
+                    { new Guid("00000000-0000-0000-0000-000000000012"), new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), false, new Guid("00000000-0000-0000-0000-000000000002"), "PROJECT_TYPES", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "Projekt" },
+                    { new Guid("00000000-0000-0000-0000-000000000022"), new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), false, new Guid("00000000-0000-0000-0000-000000000002"), "PROJECT_TYPES", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "Egzamin" },
+                    { new Guid("c7effbb1-77c8-4b99-824e-d3dcd985c8c8"), new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), true, new Guid("bdfc4999-ea15-4aef-816f-df1d0ab501ee"), "admin_SEMESTERS", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "1" },
+                    { new Guid("9f7116df-ae43-49e9-9144-99a299e38fd5"), new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), false, new Guid("bdfc4999-ea15-4aef-816f-df1d0ab501ee"), "admin_SEMESTERS", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "2" },
+                    { new Guid("5331b1c1-3bdb-4a06-8150-c3eb56a5364f"), new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), false, new Guid("bdfc4999-ea15-4aef-816f-df1d0ab501ee"), "admin_SEMESTERS", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "3" }
                 });
 
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "UserKey", "CreateTime", "EmailAddress", "FirstName", "LastName", "LoginName", "ModifyTime", "Password", "SemesterDefinitionGroupKey" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000001"), new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "", "admin", "", "admin", new DateTime(2021, 1, 12, 18, 14, 58, 638, DateTimeKind.Local).AddTicks(2192), "cyberbug2021", new Guid("23dead7a-5218-4f7f-bd41-717f8e76ccc3") });
+                values: new object[] { new Guid("00000000-0000-0000-0000-000000000001"), new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "", "admin", "", "admin", new DateTime(2021, 1, 13, 18, 31, 48, 929, DateTimeKind.Local).AddTicks(502), "cyberbug2021", new Guid("bdfc4999-ea15-4aef-816f-df1d0ab501ee") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Definition_DefinitionGroupKey",
@@ -261,19 +255,18 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
             migrationBuilder.CreateIndex(
                 name: "IX_Subject_SemesterDefinitionKey",
                 table: "Subject",
-                column: "SemesterDefinitionKey",
-                unique: true);
+                column: "SemesterDefinitionKey");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subject_TypeDefinitionKey",
                 table: "Subject",
-                column: "TypeDefinitionKey",
-                unique: true);
+                column: "TypeDefinitionKey");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_SemesterDefinitionGroupKey",
                 table: "User",
-                column: "SemesterDefinitionGroupKey");
+                column: "SemesterDefinitionGroupKey",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
