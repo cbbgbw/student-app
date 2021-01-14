@@ -37,5 +37,7 @@ namespace StudentApp.Services.Model
 
         [ForeignKey("SubjectKey")]
         public Subject Subject { get; set; }
+
+        public ICollection<Event> ProjectEvents { get; set; }
     }
 }
