@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentApp.Tools.Configurations;
 
 namespace StudentApp.API.Migrations.SQLServerMigrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210113191315_0.0.1-13.01.2021-AddedFrontUser_FixedDataContext")]
+    partial class _00113012021AddedFrontUser_FixedDataContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +53,6 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
                             CategoryName = "Odpowiedź ustna",
                             CreateTime = new DateTime(2021, 1, 13, 20, 13, 15, 319, DateTimeKind.Local).AddTicks(5885),
                             ModifyTime = new DateTime(2021, 1, 13, 20, 13, 15, 319, DateTimeKind.Local).AddTicks(5885),
-
                             OrderIndex = 1,
                             ProjectTypeKey = new Guid("00000000-0000-0000-0000-000000000022")
                         },
@@ -418,11 +419,9 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
 
                     b.HasKey("SubjectKey");
 
-                    b.HasIndex("SemesterDefinitionKey")
-                        .IsUnique();
+                    b.HasIndex("SemesterDefinitionKey");
 
-                    b.HasIndex("TypeDefinitionKey")
-                        .IsUnique();
+                    b.HasIndex("TypeDefinitionKey");
 
                     b.ToTable("Subject");
                 });

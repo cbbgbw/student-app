@@ -17,55 +17,97 @@ namespace StudentApp.Tools.Configurations
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            /*TODO napisać konfigurację relacji encji (m.in. dla wykluczenia zachowania akcji onDelete)*/
             /* Entities configuration */
             modelBuilder.Entity<S.User>(entity =>
             {
                 entity.HasOne(d => d.SemesterDefinitionGroup)
-                    .WithOne(e => e.SemesterDefinitionGroup)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .WithOne(e => e.UserSemesterDefinitionGroup)
+                    .OnDelete(DeleteBehavior.ClientNoAction);
             });
 
             modelBuilder.Entity<S.Subject>(entity =>
             {
                 entity.HasOne(d => d.SemesterDefinition)
                     .WithMany(e => e.SubjectSemesterDefinitions)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.ClientNoAction)
+                    .HasForeignKey(d => d.SemesterDefinitionKey);
 
                 entity.HasOne(d => d.StatusDefinition)
                     .WithMany(e => e.SubjectStatusDefinitions)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.ClientNoAction)
+                    .HasForeignKey(d => d.TypeDefinitionKey);
 
                 entity.HasMany(d => d.Projects)
                     .WithOne(e => e.Subject)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.ClientNoAction);
             });
 
             modelBuilder.Entity<S.Project>(entity =>
             {
                 entity.HasOne(d => d.Subject)
                     .WithMany(e => e.Projects)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.ClientNoAction);
 
                 entity.HasOne(d => d.DefinitionType)
                     .WithMany(e => e.ProjectStatusDefinitions)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.ClientNoAction);
 
                 entity.HasOne(d => d.Category)
                     .WithMany(e => e.Projects)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.ClientNoAction);
 
                 entity.HasOne(d => d.Status)
                     .WithMany(e => e.Projects)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.ClientNoAction);
             });
 
-            modelBuilder.Entity<S.DefinitionGroup>();
+            modelBuilder.Entity<S.DefinitionGroup>(entity =>
+            {
+                entity.HasMany(d => d.Definitions)
+                    .WithOne(e => e.DefinitionGroup)
+                    .OnDelete(DeleteBehavior.ClientNoAction);
 
+                entity.HasOne(d => d.UserSemesterDefinitionGroup)
+                    .WithOne(e => e.SemesterDefinitionGroup)
+                    .OnDelete(DeleteBehavior.ClientNoAction);
+            });
+
+            modelBuilder.Entity<S.Definition>(entity =>
+            {
+                entity.HasOne(d => d.DefinitionGroup)
+                    .WithMany(e => e.Definitions)
+                    .OnDelete(DeleteBehavior.ClientNoAction);
+
+                entity.HasMany(d => d.SubjectSemesterDefinitions)
+                    .WithOne(e => e.SemesterDefinition)
+                    .OnDelete(DeleteBehavior.ClientNoAction);
+
+                entity.HasMany(d => d.SubjectStatusDefinitions)
+                    .WithOne(e => e.StatusDefinition)
+                    .OnDelete(DeleteBehavior.ClientNoAction);
+
+                entity.HasMany(d => d.ProjectStatusDefinitions)
+                    .WithOne(e => e.DefinitionType)
+                    .OnDelete(DeleteBehavior.ClientNoAction);
+            });
+
+            modelBuilder.Entity<S.Category>(entity =>
+            {
+                entity.HasMany(d => d.Projects)
+                    .WithOne(e => e.Category)
+                    .OnDelete(DeleteBehavior.ClientNoAction);
+            });
+
+            modelBuilder.Entity<S.Status>(entity =>
+            {
+                entity.HasMany(d => d.Projects)
+                    .WithOne(e => e.Status)
+                    .OnDelete(DeleteBehavior.ClientNoAction);
+            });
             
 
             
-
+            /* Data inserting */
             DateTime date = DateTime.Now;
             modelBuilder.Entity<S.Status>().HasData(new S.Status[]
             {
@@ -117,8 +159,7 @@ namespace StudentApp.Tools.Configurations
                     ModifyTime = date
                 });
 
-            /* II mig */
-            modelBuilder.Entity<S.Definition>().HasData(new
+            modelBuilder.Entity<S.Definition>().HasData(new S.Definition()
             {
                 DefinitionKey = Guid.Parse("00000000-0000-0000-0000-000000000012"),
                 DefinitionGroupKey = Guid.Parse("00000000-0000-0000-0000-000000000002"),
@@ -127,7 +168,7 @@ namespace StudentApp.Tools.Configurations
                 Default = false,
                 CreateTime = date,
                 ModifyTime = date
-            }, new
+            }, new S.Definition()
             {
                 DefinitionKey = Guid.Parse("00000000-0000-0000-0000-000000000022"),
                 DefinitionGroupKey = Guid.Parse("00000000-0000-0000-0000-000000000002"),
@@ -138,17 +179,17 @@ namespace StudentApp.Tools.Configurations
                 ModifyTime = date
             });
 
-            modelBuilder.Entity<S.Category>().HasData(new
+            modelBuilder.Entity<S.Category>().HasData(new S.Category()
             {
-                CategoryKey = Guid.NewGuid(),
+                CategoryKey = Guid.Parse("9A684681-FFAC-42E6-97A5-C07FB18E2A32"),
                 ProjectTypeKey = Guid.Parse("00000000-0000-0000-0000-000000000022"),
                 CategoryName = "Odpowiedź ustna",
                 OrderIndex = 1,
                 CreateTime = date,
                 ModifyTime = date
-            }, new
+            }, new S.Category()
             {
-                CategoryKey = Guid.NewGuid(),
+                CategoryKey = Guid.Parse("C94DE30C-A03A-4432-91A1-310ACE86050A"),
                 ProjectTypeKey = Guid.Parse("00000000-0000-0000-0000-000000000022"),
                 CategoryName = "Kartkówka",
                 OrderIndex = 2,
@@ -156,9 +197,9 @@ namespace StudentApp.Tools.Configurations
                 ModifyTime = date
             });
 
-            modelBuilder.Entity<S.Category>().HasData(new
+            modelBuilder.Entity<S.Category>().HasData(new S.Category()
             {
-                CategoryKey = Guid.NewGuid(),
+                CategoryKey = Guid.Parse("27FD71BF-F9E1-4293-A494-BE76B477C706"),
                 ProjectTypeKey = Guid.Parse("00000000-0000-0000-0000-000000000012"),
                 CategoryName = "Projekt zespołowy",
                 OrderIndex = 1,
@@ -166,7 +207,7 @@ namespace StudentApp.Tools.Configurations
                 ModifyTime = date
             }, new
             {
-                CategoryKey = Guid.NewGuid(),
+                CategoryKey = Guid.Parse("9969B359-B888-4D07-8E0A-F79234F58ADB"),
                 ProjectTypeKey = Guid.Parse("00000000-0000-0000-0000-000000000012"),
                 CategoryName = "Projekt zaliczeniowy",
                 OrderIndex = 2,
@@ -176,8 +217,12 @@ namespace StudentApp.Tools.Configurations
 
 
             /* User admin creating */
-            Guid userDefinitionGroupKey = Guid.NewGuid();
+            Guid userDefinitionGroupKey = Guid.Parse("BDFC4999-EA15-4AEF-816F-DF1D0AB501EE");
             string userLoginName = "admin";
+
+            Guid user2DefinitionGroupKey = Guid.Parse("CE1C4999-EA15-4AEF-816F-DF1D0AB501EE");
+            string user2LoginName = "admin-front";
+
             modelBuilder.Entity<S.DefinitionGroup>().HasData(
                 new S.DefinitionGroup
                 {
@@ -186,11 +231,19 @@ namespace StudentApp.Tools.Configurations
                     GroupName = userLoginName + "_SEMESTERS",
                     CreateTime = date,
                     ModifyTime = date
+                },
+                new S.DefinitionGroup
+                {
+                    DefinitionGroupKey = user2DefinitionGroupKey,
+                    Description = "Semestr użytkownika " + user2LoginName,
+                    GroupName = user2LoginName + "_SEMESTERS",
+                    CreateTime = date,
+                    ModifyTime = date
                 });
 
             modelBuilder.Entity<S.Definition>().HasData(new
             {
-                DefinitionKey = Guid.NewGuid(),
+                DefinitionKey = Guid.Parse("C7EFFBB1-77C8-4B99-824E-D3DCD985C8C8"),
                 DefinitionGroupKey = userDefinitionGroupKey,
                 GroupName = userLoginName + "_SEMESTERS",
                 Value = "1",
@@ -199,7 +252,7 @@ namespace StudentApp.Tools.Configurations
                 ModifyTime = date
             }, new
             {
-                DefinitionKey = Guid.NewGuid(),
+                DefinitionKey = Guid.Parse("9F7116DF-AE43-49E9-9144-99A299E38FD5"),
                 DefinitionGroupKey = userDefinitionGroupKey,
                 GroupName = userLoginName + "_SEMESTERS",
                 Value = "2",
@@ -208,7 +261,7 @@ namespace StudentApp.Tools.Configurations
                 ModifyTime = date
             }, new
             {
-                DefinitionKey = Guid.NewGuid(),
+                DefinitionKey = Guid.Parse("5331B1C1-3BDB-4A06-8150-C3EB56A5364F"),
                 DefinitionGroupKey = userDefinitionGroupKey,
                 GroupName = userLoginName + "_SEMESTERS",
                 Value = "3",
@@ -227,6 +280,19 @@ namespace StudentApp.Tools.Configurations
                     Password = "cyberbug2021",
                     EmailAddress = "",
                     SemesterDefinitionGroupKey = userDefinitionGroupKey,
+                    CreateTime = date,
+                    ModifyTime = date,
+
+                },
+                new S.User
+                {
+                    UserKey = Guid.Parse("00000000-0000-0000-0000-000000000002"),
+                    FirstName = "admin-front",
+                    LastName = "",
+                    LoginName = user2LoginName,
+                    Password = "cyberbug2021",
+                    EmailAddress = "",
+                    SemesterDefinitionGroupKey = user2DefinitionGroupKey,
                     CreateTime = date,
                     ModifyTime = date,
 
