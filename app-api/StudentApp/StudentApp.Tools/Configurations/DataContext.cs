@@ -107,8 +107,6 @@ namespace StudentApp.Tools.Configurations
             
 
             
-
-
             /* Data inserting */
             DateTime date = DateTime.Now;
             modelBuilder.Entity<S.Status>().HasData(new S.Status[]
