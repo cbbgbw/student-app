@@ -26,11 +26,7 @@ namespace StudentApp.Services
             _context = context;
         }
 
-        public async Task<Project> GetSingleAsync(Guid projectKey)
-        {
-            var data = await _context.Project.SingleAsync(project => project.ProjectKey == projectKey);
-            return data;
-        }
+        public async Task<Project> GetSingleAsync(Guid projectKey) => await _context.Project.SingleAsync(project => project.ProjectKey == projectKey);
 
         public async Task<int> CreateAsync(Project project)
         {
@@ -51,9 +47,14 @@ namespace StudentApp.Services
             return _context.Category.Where(d => d.ProjectTypeKey == typeDefinitionKey).OrderBy(p => p.OrderIndex).ToList();
         }
 
-        public async Task<ICollection<Subject>> GetAllSubjectsAsync()
+        //public async Task<ICollection<Subject>> GetAllSubjectsAsync()
+        //{
+        //    return _context.Subject.ToList();
+        //}
+
+        public Task<ICollection<Project>> GetAllProjectsInSemester(Guid semesterKey)
         {
-            return _context.Subject.ToList();
+            throw new NotImplementedException();
         }
     }
 }

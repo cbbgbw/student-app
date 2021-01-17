@@ -16,33 +16,39 @@ namespace StudentApp.API.Controllers
     [ApiController]
     public class ProjectController : Controller
     {
-        private readonly IProjectService _service;
+        private readonly IProjectService _projectService;
+        private readonly ISubjectService _subjectService;
         private readonly IMapper _mapper;
 
-        public ProjectController(IProjectService service, IMapper mapper)
+        public ProjectController(IProjectService projectService, ISubjectService subjectService, IMapper mapper)
         {
-            _service = service;
+            _projectService = projectService;
+            _subjectService = subjectService;
             _mapper = mapper;
         }
 
-        #region GET-SINGLE
+        #region GET SINGLE
 
         [HttpGet("{projectKey}")]
         public async Task<DC.Project> GetSingle(Guid projectKey)
         {
-            var data = await _service.GetSingleAsync(projectKey);
+            var data = await _projectService.GetSingleAsync(projectKey);
 
             return data != null ? _mapper.Map<DC.Project>(data) : null;
         }
 
         #endregion
 
+        #region GET ALL BY SUBJECT
+
         [HttpGet("subject/{subjectKey}")]
         public async Task<ICollection<DC.Project>> GetAllBySubject(Guid subjectKey)
         {
-            var projects = _service.GetAllBySubjectAsync(subjectKey).Result;
+            var projects = _projectService.GetAllBySubjectAsync(subjectKey).Result;
             return projects != null ? _mapper.Map<ICollection<DC.Project>>(projects) : null;
         }
+
+        #endregion
 
         #region POST
 
@@ -52,12 +58,12 @@ namespace StudentApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> CreateProject([FromBody] RQ.ProjectPostRequest project)
         {
-            RQ.ProjectPostValidator validator = new RQ.ProjectPostValidator(_service);
+            RQ.ProjectPostValidator validator = new RQ.ProjectPostValidator(_projectService, _subjectService);
             var results = validator.Validate(project.Project);
 
             if (results.IsValid)
             {
-                var data = await _service.CreateAsync(_mapper.Map<S.Project>(project));
+                var data = await _projectService.CreateAsync(_mapper.Map<S.Project>(project));
 
                 return data == 1 ? Ok() : Problem("Brak dostępu do bazy danych", null, 500);
             }
@@ -71,7 +77,7 @@ namespace StudentApp.API.Controllers
         [HttpGet("types")]
         public async Task<Dictionary<Guid, string>> GetTypes()
         {
-            var data = await _service.GetTypesAsync();
+            var data = await _projectService.GetTypesAsync();
 
             var pairs = data.Select(pair => new KeyValuePair<Guid, string>(pair.DefinitionKey, pair.Value));
 
@@ -85,7 +91,7 @@ namespace StudentApp.API.Controllers
         [HttpGet("statuses")]
         public async Task<Dictionary<Guid, string>> GetStatuses()
         {
-            var data = await _service.GetAllStatusesAsync();
+            var data = await _projectService.GetAllStatusesAsync();
 
             var pairs = data.Select(pair => new KeyValuePair<Guid, string>(pair.StatusKey, pair.Name));
 
@@ -99,19 +105,19 @@ namespace StudentApp.API.Controllers
         [HttpGet("categories/{typeDefinitionKey}")]
         public async Task<ICollection<DC.Category>> GetCategories(Guid typeDefinitionKey)
         {
-            var data = await _service.GetAllCategoriesOrderedByIndexAsync(typeDefinitionKey);
+            var data = await _projectService.GetAllCategoriesOrderedByIndexAsync(typeDefinitionKey);
 
             return data != null ? _mapper.Map<ICollection<DC.Category>>(data) : null;
         }
 
         #endregion
 
-        #region GET SUBJECTS
+        #region GET ALL SUBJECTS
 
-        [HttpGet("subjects")]
-        public async Task<Dictionary<Guid, string>> GetSubjects()
+        [HttpGet("subjects/{semesterKey}")]
+        public async Task<Dictionary<Guid, string>> GetSubjects(Guid semesterKey)
         {
-            var data = _service.GetAllSubjectsAsync();
+            var data = _subjectService.GetAllBySemesterAsync(semesterKey);
             var pairs = data.Result.Select(pair => new KeyValuePair<Guid, string>(pair.SubjectKey, pair.Name));
 
             return pairs.ToDictionary(p => p.Key, p => p.Value);
