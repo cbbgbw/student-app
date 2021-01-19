@@ -25,6 +25,12 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using StudentApp.Services.Contracts;
 
 #pragma warning disable CS1591
 namespace StudentApp.API
@@ -89,11 +95,49 @@ namespace StudentApp.API
                         }
                         ).SetCompatibilityVersion(CompatibilityVersion.Latest);
 
+
+                    // Jwt authentication
+                    var appSettings = _appsettingsConfigurationSection.Get<AppSettings>();
+                    var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+                    services.AddAuthentication(x =>
+                        {
+                            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                        })
+                        .AddJwtBearer(x =>
+                        {
+                            x.Events = new JwtBearerEvents
+                            {
+                                OnTokenValidated = context =>
+                                {
+                                    var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
+                                    var userKey = Guid.Parse(context.Principal.Identity.Name);
+                                    var user = userService.GetSingleAsync(userKey);
+                                    if (user == null)
+                                    {
+                                        // return unauthorized if user no longer exists
+                                        context.Fail("Unauthorized");
+                                    }
+                                    return Task.CompletedTask;
+                                }
+                            };
+                            x.RequireHttpsMetadata = false;
+                            x.SaveToken = true;
+                            x.TokenValidationParameters = new TokenValidationParameters
+                            {
+                                ValidateIssuerSigningKey = true,
+                                IssuerSigningKey = new SymmetricSecurityKey(key),
+                                ValidateIssuer = false,
+                                ValidateAudience = false
+                            };
+                        });
+
+
                     //API versioning
                     services.AddApiVersioning(
                         o =>
                         {
-                            //o.Conventions.Controller<UserController>().HasApiVersion(1, 0);
+                            //o.Conventions.Controller<UserControllerOLD>().HasApiVersion(1, 0);
                             o.ReportApiVersions = true;
                             o.AssumeDefaultVersionWhenUnspecified = true;
                             o.DefaultApiVersion = new ApiVersion(1, 0);
@@ -222,7 +266,10 @@ namespace StudentApp.API
                 app.UseHttpsRedirection();
                 app.UseRouting();
                 app.UseCors(MyAllowSpecificOrigins);
+
+                app.UseAuthentication();
                 app.UseAuthorization();
+
                 app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();

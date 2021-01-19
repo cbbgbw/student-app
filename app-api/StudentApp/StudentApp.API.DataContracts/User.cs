@@ -7,18 +7,10 @@ namespace StudentApp.API.DataContracts
     /// </summary>
     public class User
     {
-        [DataType(DataType.Text)]
-        public string Id { get; set; }
-
-        [Required]
-        [DataType(DataType.Text)]
+        public string UserKey { get; set; }
         public string Firstname { get; set; }
-
-        [Required]
-        [DataType(DataType.Text)]
         public string Lastname { get; set; }
-
-        public Address Address { get; set; }
+        public string EmailAddress { get; set; }
 
     }
 }

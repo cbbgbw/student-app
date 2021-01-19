@@ -55,7 +55,7 @@ namespace StudentApp.API.Controllers
         public async Task<ActionResult> CreateSubject([FromBody] RQ.SubjectPostRequest value)
         {
             RQ.SubjectPostValidator validator = new RQ.SubjectPostValidator(_service);
-            var results = validator.Validate(value.Subject);
+            var results = await validator.ValidateAsync(value.Subject);
 
             if (results.IsValid)
             {

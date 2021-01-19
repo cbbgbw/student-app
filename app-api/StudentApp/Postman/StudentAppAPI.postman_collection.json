@@ -880,10 +880,82 @@
 							"name": "User",
 							"item": [
 								{
-									"name": "Add User",
+									"name": "Authenticate User",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
+													"    pm.response.to.have.status(200)\r",
+													"\r",
+													"    const jsonData = JSON.parse(responseBody)\r",
+													"    pm.environment.set('authToken', jsonData.token)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
 									"request": {
 										"method": "POST",
 										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"loginName\": \"admin\",\r\n  \"password\": \"cyberbug2021\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{ApiURL}}/user/authenticate",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"user",
+												"authenticate"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add User",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
+													"    pm.response.to.have.status(200)\r",
+													"\r",
+													"    const request = JSON.parse(pm.request.body.raw)\r",
+													"    console.log(request)\r",
+													"    pm.environment.set('createdUserKey', request.user.userKey)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"date\": \"2021-01-17T21:00:49.878Z\",\r\n  \"user\": {\r\n    \"userKey\": \"{{$guid}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"loginName\": \"{{$randomUserName}}\",\r\n    \"password\": \"{{$randomPassword}}\",\r\n    \"emailAddress\": \"{{$randomEmail}}\"\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
 										"url": {
 											"raw": "{{ApiURL}}/user/register",
 											"host": [
@@ -892,6 +964,47 @@
 											"path": [
 												"user",
 												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get created User",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/user/{{createdUserKey}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"user",
+												"{{createdUserKey}}"
 											]
 										}
 									},
@@ -998,6 +1111,39 @@
 									"path": [
 										"semester",
 										"94255150-fb84-46e9-b61a-9b8e8890d06e"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Get all Users",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsIm5iZiI6MTYxMTA4NDQxNSwiZXhwIjoxNjExNjg5MjE1LCJpYXQiOjE2MTEwODQ0MTV9.pmc463Qk1rqJmzHwa0cco9ckXczN_ha9qndDt0Yi-mo",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ApiURL}}/user/all",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"user",
+										"all"
 									]
 								}
 							},

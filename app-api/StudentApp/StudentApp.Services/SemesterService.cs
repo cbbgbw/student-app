@@ -31,7 +31,6 @@ namespace StudentApp.Services
         {
             return _context.Definition.SingleAsync(d => d.DefinitionKey == semesterKey).Result.DefinitionKey;
         }
-
         public async Task<ICollection<Definition>> GetAllSemestersByUser(Guid userKey)
         {
             var query = from u in _context.User

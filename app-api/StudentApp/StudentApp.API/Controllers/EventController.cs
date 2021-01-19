@@ -47,7 +47,7 @@ namespace StudentApp.API.Controllers
         public async Task<ActionResult> CreateEvent([FromBody] RQ.EventPostRequest eventModel)
         {
             RQ.EventPostValidator validator = new RQ.EventPostValidator(_projectService);
-            var results = validator.Validate(eventModel.Event);
+            var results = await validator.ValidateAsync(eventModel.Event);
 
             if (results.IsValid)
             {
