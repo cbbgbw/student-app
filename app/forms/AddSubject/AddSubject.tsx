@@ -3,7 +3,6 @@ import React, { FC } from 'react'
 
 import { Input } from '../../components/Forms/Input/Input'
 import { ReusableModal } from '../../components/ReusableModal/Modal'
-import { getModalTypeFuncs } from '../../utils/storeUtils'
 import { useStore } from '../../utils/storeProvider'
 import { PostProps, subjectPost, useSubjectTypes } from '../../actions/subject'
 import { useRouter } from 'next/router'
@@ -13,7 +12,7 @@ import { Select } from '../../components/Forms/Select/Select'
 
 export const AddSubject: FC = () => {
   const router = useRouter()
-  const { modalType, setModalType } = useStore(getModalTypeFuncs)
+  const { modalType, setModalType } = useStore((state) => state.view)
 
   const { handleSubmit, register } = useForm<PostProps>()
 
@@ -21,13 +20,14 @@ export const AddSubject: FC = () => {
 
   const onSubjectSubmit = async (data: PostProps) => {
     const subjectKey = await subjectPost(data)
-    
-        router.push({
-          pathname: '/subjects/[key]',
-          query: {
-            key: subjectKey,
-          },
-        })
+
+    router
+      .push({
+        pathname: '/subjects/[key]',
+        query: {
+          key: subjectKey,
+        },
+      })
       .then(() => setModalType(ModalType.None))
   }
 
@@ -57,11 +57,7 @@ export const AddSubject: FC = () => {
         selectOptions={subjectTypes}
       />
 
-      <MultiLineInput
-        name="description"
-        ref={register()}
-        labelText="Opis"
-      />
+      <MultiLineInput name="description" ref={register()} labelText="Opis" />
 
       <Input
         name="hasProjectToPass"

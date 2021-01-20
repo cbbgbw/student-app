@@ -66,9 +66,9 @@ export const useSubjectTypes = () => {
   }
 }
 
-export const useSubjectsBySemester = (semester: number) => {
+export const useSubjectsBySemester = () => {
   const { data, error } = useSWR<Subject[] | undefined>(
-    `${baseURL}/subject/list/${semester}`,
+    `${baseURL}/subject/list/${1}`,
   )
 
   return {

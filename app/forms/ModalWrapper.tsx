@@ -1,11 +1,10 @@
 import React, { FC } from 'react'
 import { AddSubject } from './AddSubject/AddSubject'
-import { useStore } from '../utils/storeProvider'
 import { ModalType } from '../types/types'
-import { getModalTypeFuncs } from '../utils/storeUtils'
+import { useModalType } from '../hooks/useModalType'
 
 export const ModalWrapper: FC = () => {
-  const { modalType } = useStore(getModalTypeFuncs)
+  const { modalType } = useModalType()
 
   switch (modalType) {
     case ModalType.AddSubject:

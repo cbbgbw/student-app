@@ -9,8 +9,8 @@ import { LeadingColor } from '../../types/color'
 
 export const SubjectListView = () => {
   useRouter()
-  const { setModalType } = useStore()
-  const { subjectArray, isLoading } = useSubjectsBySemester(1)
+  const setModalType = useStore((state) => state.view.setModalType)
+  const { subjectArray, isLoading } = useSubjectsBySemester()
   const subjectTypesRequest = useSubjectTypes()
 
   const renderSubjects = () =>

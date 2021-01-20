@@ -6,32 +6,45 @@ import { StoreProvider } from '../utils/storeProvider'
 import { Navigation, navWidth } from '../components/Navigation/Navigation'
 import { ModalWrapper } from '../forms/ModalWrapper'
 import { AppBackgroundColor } from '../types/color'
+import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import { AuthProvider } from '../components/Auth/Provider'
+import { ButtonStylesOverride } from '../consts/styles'
 
-export const MyApp = ({ Component, pageProps }: AppProps) => (
-  <StoreProvider store={useHydrate(pageProps.initialZustandState)}>
-    <Navigation />
-    <Component {...pageProps} />
-    <ModalWrapper />
-    <style jsx global>
-      {`
-        body {
-          background-color: ${AppBackgroundColor};
-          padding-left: ${navWidth}px;
-          padding-top: 50px;
-          box-sizing: border-box;
-        }
+const colors = {}
+const theme = extendTheme({
+  colors,
+  components: {
+    Button: ButtonStylesOverride,
+  },
+})
 
-        h1,
-        p,
-        ul {
-          margin: 0;
-          padding: 0;
-        }
-      `}
-    </style>
-  </StoreProvider>
-)
+export const MyApp = ({ Component, pageProps }: AppProps) => {
+  return (
+    <ChakraProvider theme={theme}>
+      <StoreProvider store={useHydrate(pageProps.initialZustandState)}>
+        <AuthProvider>
+          <Component {...pageProps} />
+        </AuthProvider>
+      </StoreProvider>
+      <style jsx global>
+        {`
+          body {
+            background-color: ${AppBackgroundColor};
+            //padding-left: ${navWidth}px;
+            box-sizing: border-box;
+          }
 
+          h1,
+          p,
+          ul {
+            margin: 0;
+            padding: 0;
+          }
+        `}
+      </style>
+    </ChakraProvider>
+  )
+}
 // Only uncomment this method if you have blocking data requirements for
 // every single page in your application. This disables the ability to
 // perform automatic static optimization, causing every page in your app to

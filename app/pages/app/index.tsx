@@ -5,10 +5,33 @@ import { Add } from '../../components/Add/Add'
 import { useStore } from '../../utils/storeProvider'
 import { initializeStore } from '../../utils/storeUtils'
 
-import styles from './index.module.scss'
+// import styles from './index.module.scss'
+import {
+  Box,
+  Button,
+  Flex,
+  Input,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverFooter,
+  PopoverHeader,
+  PopoverTrigger,
+  Portal,
+  Select,
+  Text,
+} from '@chakra-ui/react'
+import { useAuth } from '../../hooks/useAuth'
+import { Popover, PopoverArrow } from '@chakra-ui/popover'
+import { SelectSemesterPopover } from '../../components/ui/Dashboard/SelectSemesterPopover'
+import { useModalType } from '../../hooks/useModalType'
 
 const App: FC = () => {
-  const { setModalType } = useStore()
+  const { setModalType } = useModalType()
 
   const generateAddButtons = () =>
     Object.keys(EntitiesModal).map((value) => (
@@ -35,23 +58,24 @@ const App: FC = () => {
       {/*    <a>Projects</a> */}
       {/*  </Link> */}
       {/* </aside> */}
-      <section className={styles.app}>
-        <section className={styles.addSection}>
-          {generateAddButtons()}
-        </section>
-      </section>
+      <Flex mt={6} mb={6} mr={20} justifyContent="flex-end">
+        <SelectSemesterPopover />
+      </Flex>
+      {/*<section className={styles.app}>*/}
+      {/*  <section className={styles.addSection}>{generateAddButtons()}</section>*/}
+      {/*</section>*/}
     </>
   )
 }
 
-export function getServerSideProps() {
-  const zustandStore = initializeStore()
-
-  return {
-    props: {
-      initialZustandState: JSON.stringify(zustandStore.getState()),
-    },
-  }
-}
+// export function getServerSideProps() {
+//   const zustandStore = initializeStore()
+//
+//   return {
+//     props: {
+//       initialZustandState: JSON.stringify(zustandStore.getState()),
+//     },
+//   }
+// }
 
 export default App
