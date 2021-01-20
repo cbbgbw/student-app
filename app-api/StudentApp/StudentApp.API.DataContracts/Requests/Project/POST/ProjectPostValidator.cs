@@ -10,39 +10,34 @@ namespace StudentApp.API.DataContracts.Requests.Project.POST
 {
     public class ProjectPostValidator : AbstractValidator<ProjectPost>
     {
-        public ProjectPostValidator(IProjectService service)
+        public ProjectPostValidator(IProjectService projectService, ISubjectService subjectService)
         {
             bool validateType(Guid projectTypeKey)
             {
-                var types = service.GetTypesAsync().Result;
+                var types = projectService.GetTypesAsync().Result;
 
                 return types.FirstOrDefault(type => type.DefinitionKey == projectTypeKey) != null;
             }
 
             bool validateStatus(Guid statusKey)
             {
-                var statuses = service.GetAllStatusesAsync().Result;
+                var statuses = projectService.GetAllStatusesAsync().Result;
 
                 return statuses.FirstOrDefault(status => status.StatusKey == statusKey) != null;
             }
 
-            //bool validateCategory(Guid currentTypeKey)
-            //{
-            //    //var types = service.GetTypesAsync().Result;
-            //    //Guid currentTypeKey = types.FirstOrDefault(t => t.DefinitionKey == projectTypeKey).DefinitionKey;
-
-            //    var categories = service.GetAllCategoriesOrderedByIndexAsync(currentTypeKey).Result;
-
-            //    return categories.FirstOrDefault(category => category.CategoryKey == categoryKey) != null;
-            //    return categories.FirstOrDefault(category => category.CategoryKey == categoryKey) != null;
-            //}
-
-            bool validateSubject(Guid subjectKey)
+            bool validateCategory(Guid categoryKey, Guid projectStatusKey)
             {
-                var subjects = service.GetAllSubjectsAsync().Result;
+                var categories = projectService.GetAllCategoriesOrderedByIndexAsync(projectStatusKey).Result;
 
-                return subjects.FirstOrDefault(subject => subject.SubjectKey == subjectKey) != null;
+                return categories.SingleOrDefault(c => c.CategoryKey == categoryKey) != null;
             }
+
+            bool validateProjectSubject(Guid subjectKey)
+            {
+                return subjectService.GetSingleAsync(subjectKey).Result != null;
+            }
+
 
             RuleFor(proj => proj.TypeDefinitionKey)
                 .NotEmpty()
@@ -52,13 +47,13 @@ namespace StudentApp.API.DataContracts.Requests.Project.POST
                 .NotEmpty()
                 .Must(validateStatus).WithMessage("Nie znaleziono podanego statusu,");
 
-            //RuleFor(proj => proj.CategoryKey)
-            //    .NotEmpty()
-            //    .Must(validateCategory).WithMessage("Nie znaleziono podanej kategorii.");
+            RuleFor(proj => proj)
+                .NotEmpty()
+                .Must(proj => validateCategory(proj.CategoryKey, proj.TypeDefinitionKey)).WithMessage("Nie znaleziono podanej kategorii.");
 
             RuleFor(proj => proj.SubjectKey)
                 .NotEmpty()
-                .Must(validateSubject).WithMessage("Nie znaleziono podanego przedmiotu.");
+                .Must(validateProjectSubject).WithMessage("Nie znaleziono podanego przedmiotu");
 
             RuleFor(proj => proj.Name)
                 .NotEmpty();

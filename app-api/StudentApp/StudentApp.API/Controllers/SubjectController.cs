@@ -27,7 +27,7 @@ namespace StudentApp.API.Controllers
             _mapper = mapper;
         }
 
-        #region GET-SINGLE
+        #region GET SINGLE
         [HttpGet("{id}")]
         public async Task<DC.Subject> Get(Guid id)
         {
@@ -37,7 +37,7 @@ namespace StudentApp.API.Controllers
         }
         #endregion
 
-        #region GET-BY-SEMESTER
+        #region GET BY SEMESTER
 
         [HttpGet("list/{semesterKey}")]
         public async Task<ICollection<DC.Subject>> GetBySemester(Guid semesterKey)

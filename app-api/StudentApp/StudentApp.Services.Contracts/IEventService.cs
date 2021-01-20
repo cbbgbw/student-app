@@ -10,6 +10,7 @@ namespace StudentApp.Services.Contracts
     public interface IEventService
     {
         Task<Event> GetSingleAsync(Guid eventKey);
-        Task<Event> CreateAsync(Guid eventKey);
+        Task<int> CreateAsync(Event eventModel);
+        Task<ICollection<Event>> GetAllBySubject(Guid subjectKey);
     }
 }

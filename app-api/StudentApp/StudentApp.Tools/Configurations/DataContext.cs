@@ -59,6 +59,17 @@ namespace StudentApp.Tools.Configurations
                 entity.HasOne(d => d.Status)
                     .WithMany(e => e.Projects)
                     .OnDelete(DeleteBehavior.ClientNoAction);
+
+                entity.HasMany(d => d.ProjectEvents)
+                    .WithOne(e => e.Project)
+                    .OnDelete(DeleteBehavior.ClientNoAction);
+            });
+
+            modelBuilder.Entity<S.Event>(entity =>
+            {
+                entity.HasOne(d => d.Project)
+                    .WithMany(e => e.ProjectEvents)
+                    .OnDelete(DeleteBehavior.ClientNoAction);
             });
 
             modelBuilder.Entity<S.DefinitionGroup>(entity =>
@@ -104,6 +115,8 @@ namespace StudentApp.Tools.Configurations
                     .WithOne(e => e.Status)
                     .OnDelete(DeleteBehavior.ClientNoAction);
             });
+
+            
             
 
             
@@ -302,6 +315,7 @@ namespace StudentApp.Tools.Configurations
         public virtual DbSet<S.User> User { get; set; }
         public virtual DbSet<S.Subject> Subject { get; set; }
         public virtual DbSet<S.Project> Project { get; set; }
+        public virtual DbSet<S.Event> Event { get; set; }
         public virtual DbSet<S.Definition> Definition { get; set; }
         public virtual DbSet<S.DefinitionGroup> DefinitionGroup { get; set; }
         public virtual DbSet<S.Category> Category { get; set; }
