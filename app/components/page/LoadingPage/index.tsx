@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react'
 import React from 'react'
-import { CircleLoader, PacmanLoader } from 'react-spinners'
+import { CircleLoader } from 'react-spinners'
 
 export const LoadingPage = () => (
   <Flex

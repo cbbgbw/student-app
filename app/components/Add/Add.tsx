@@ -13,9 +13,10 @@ export const Add: FC<AddProps> = ({ name, onClick }) => (
     h={160}
     w={160}
     d="flex"
+    alignItems={'flex-start'}
     flexDir="column"
     justifyContent="space-around"
-    onClick={onClick}
+    onClick={() => onClick()}
   >
     <h1>
       Dodaj <br />

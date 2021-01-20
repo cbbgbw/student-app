@@ -1,44 +1,25 @@
-import React, { FC } from 'react'
+import React, { FC, useContext } from 'react'
 
 import { EntitiesModal } from '../../types/types'
 import { Add } from '../../components/Add/Add'
-import { useStore } from '../../utils/storeProvider'
-import { initializeStore } from '../../utils/storeUtils'
 
 // import styles from './index.module.scss'
-import {
-  Box,
-  Button,
-  Flex,
-  Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverFooter,
-  PopoverHeader,
-  PopoverTrigger,
-  Portal,
-  Select,
-  Text,
-} from '@chakra-ui/react'
-import { useAuth } from '../../hooks/useAuth'
-import { Popover, PopoverArrow } from '@chakra-ui/popover'
+import { Flex } from '@chakra-ui/react'
 import { SelectSemesterPopover } from '../../components/ui/Dashboard/SelectSemesterPopover'
-import { useModalType } from '../../hooks/useModalType'
+import { GlobalDataContext } from '../../components/Auth/Provider'
 
 const App: FC = () => {
-  const { setModalType } = useModalType()
+  const { setModalType } = useContext(GlobalDataContext)
 
   const generateAddButtons = () =>
     Object.keys(EntitiesModal).map((value) => (
       <Add
         key={value}
         name={value.toLowerCase()}
-        onClick={() => setModalType(EntitiesModal[value])}
+        onClick={() => {
+          setModalType(EntitiesModal[value])
+          console.log('log')
+        }}
       />
     ))
 
@@ -61,9 +42,13 @@ const App: FC = () => {
       <Flex mt={6} mb={6} mr={20} justifyContent="flex-end">
         <SelectSemesterPopover />
       </Flex>
-      {/*<section className={styles.app}>*/}
-      {/*  <section className={styles.addSection}>{generateAddButtons()}</section>*/}
-      {/*</section>*/}
+      <Flex border="2px solid red" justify="space-around">
+        {generateAddButtons()}
+      </Flex>
+
+      {/* <section className={styles.app}> */}
+      {/*  <section className={styles.addSection}>{generateAddButtons()}</section> */}
+      {/* </section> */}
     </>
   )
 }

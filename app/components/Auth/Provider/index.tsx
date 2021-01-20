@@ -1,14 +1,30 @@
-import React, { FC, useEffect, useState } from 'react'
-import useSWR from 'swr'
+import React, { createContext, FC, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { AuthContext } from '../Context/Context'
-import { baseURL } from '../../../actions/common/common'
-import { Navigation } from '../../Navigation/Navigation'
 import { ModalWrapper } from '../../../forms/ModalWrapper'
 import LoadingPage from '../../page/LoadingPage'
 import { useStore } from '../../../utils/storeProvider'
 import { setSemesters } from '../../../store/modules/user/userSelectors'
 import { useUserSemesters } from '../../../actions/user/useUserSemesters'
+import { ModalType } from '../../../types/types'
+
+interface GlobalDataContext {
+  modalType: ModalType
+  setModalType: (modalType: ModalType) => void
+}
+export const GlobalDataContext = createContext<GlobalDataContext>({
+  modalType: ModalType.AddSubject,
+  setModalType: () => {},
+})
+
+export const GlobalDataProvider: FC = (props) => {
+  const [modalType, setModalType] = useState(ModalType.AddSubject)
+
+  return (
+    <GlobalDataContext.Provider value={{ modalType, setModalType }}>
+      {props.children}
+    </GlobalDataContext.Provider>
+  )
+}
 
 export const AuthProvider: FC = (props) => {
   const { isError, isLoading, mutate, semesters } = useUserSemesters()
@@ -35,11 +51,11 @@ export const AuthProvider: FC = (props) => {
     pathname === 'register' ? (
     <LoadingPage />
   ) : (
-    <>
-      <Navigation />
+    <GlobalDataProvider>
+      {/*<Navigation />*/}
       {props.children}
       <ModalWrapper />
-    </>
+    </GlobalDataProvider>
   )
 }
 

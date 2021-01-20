@@ -5,55 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c4dde2a-edd9-4a1e-a788-fc0bcb9ad7cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/actions/user/useUserSemesters.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/Auth/Context/Context.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/Auth/Provider/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/Forms/IconButton/IconButton.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/SemesterSelect/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/page/LoadingPage/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/Dashboard/SelectSemesterPopover/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/consts/styles.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/consts/theme.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hooks/useAuth.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hooks/useModalType.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hooks/useStateWithLocalStorage.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jest.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/login/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/register/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/icons/account.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/icons/arrow-down.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/icons/menu.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/modules/modules.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/modules/user/user.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/modules/user/userSelectors.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/modules/view/view.test.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/modules/view/view.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testy.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/types/commonTypes.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/types/guid.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/getters.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/storeProvider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app-api/StudentApp/StudentApp.API/Controllers/SemesterController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../app-api/StudentApp/StudentApp.API/Controllers/SemesterController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/Forms/CSelect/CSelect.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/Forms/CTextarea/CTextArea.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.prettierrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/.prettierrc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/actions/common/common.ts" beforeDir="false" afterPath="$PROJECT_DIR$/actions/common/common.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/actions/subject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/actions/subject.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app-config.json" beforeDir="false" afterPath="$PROJECT_DIR$/app-config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/Add/Add.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Add/Add.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Auth/Provider/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Auth/Provider/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Forms/Input/Input.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Forms/Input/Input.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Forms/Select/Select.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/components/Navigation/Navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Navigation/Navigation.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ReusableModal/Modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ReusableModal/Modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/page/LoadingPage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/page/LoadingPage/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/forms/AddSubject/AddSubject.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/AddSubject/AddSubject.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/forms/ModalWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/ModalWrapper.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/next-env.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/next-env.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hooks/useModalType.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/useModalType.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_app.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/app/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/subjects/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/subjects/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/storeProvider.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/storeUtils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/utils/storeUtils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testy.md" beforeDir="false" afterPath="$PROJECT_DIR$/testy.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -228,7 +196,7 @@
       <workItem from="1610910644686" duration="11743000" />
       <workItem from="1610983921428" duration="12802000" />
       <workItem from="1611077790899" duration="10384000" />
-      <workItem from="1611156542486" duration="1060000" />
+      <workItem from="1611156542486" duration="11325000" />
     </task>
     <task id="LOCAL-00001" summary="Poprawki eslintowe/prettierowe bo cos sie wygrzmociło XD">
       <created>1609922949286</created>
@@ -244,7 +212,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609933000810</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Implementacja semestru w front">
+      <created>1611157629772</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1611157629772</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -274,7 +249,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/actions/subject.ts</url>
-          <line>77</line>
+          <line>80</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -282,9 +257,10 @@
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/actions/user/useUserSemesters.ts</url>
-          <line>18</line>
-          <option name="timeStamp" value="19" />
+          <url>file://$PROJECT_DIR$/actions/subject.ts</url>
+          <line>26</line>
+          <properties lambdaOrdinal="0" />
+          <option name="timeStamp" value="27" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

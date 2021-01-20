@@ -1,10 +1,10 @@
-import React, { FC } from 'react'
+import React, { FC, useContext } from 'react'
 import { AddSubject } from './AddSubject/AddSubject'
 import { ModalType } from '../types/types'
-import { useModalType } from '../hooks/useModalType'
+import { GlobalDataContext } from '../components/Auth/Provider'
 
 export const ModalWrapper: FC = () => {
-  const { modalType } = useModalType()
+  const { modalType } = useContext(GlobalDataContext)
 
   switch (modalType) {
     case ModalType.AddSubject:

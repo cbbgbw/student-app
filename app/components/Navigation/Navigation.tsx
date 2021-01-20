@@ -1,19 +1,5 @@
 import React, { FC } from 'react'
-import { CyberpunkTheme } from '../../types/color'
-import AccountIcon from '../../public/icons/account.svg'
-import { IconButton } from '../Forms/IconButton/IconButton'
-import { Popover, PopoverArrow } from '@chakra-ui/popover'
-import {
-  Box,
-  Button,
-  Flex,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  PopoverContent,
-  Select,
-} from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import { useAuth } from '../../hooks/useAuth'
 
 export const navWidth = 100
@@ -35,9 +21,9 @@ export const Navigation: FC = () => {
     <Box paddingTop={20}>
       <Flex pos="absolute" top={0} w="100vw" border="2px solid red" h={20} />
       {/* <Flex padding={25} justify="flex-end"> */}
-      {/*  <Select mr={15} maxW={200}> */}
+      {/*  <CSelect mr={15} maxW={200}> */}
       {/*    {generateSemesters()} */}
-      {/*  </Select> */}
+      {/*  </CSelect> */}
       {/*  <Menu placement="bottom-start"> */}
       {/*    <MenuButton background="transparent" as={Button}> */}
       {/*      <AccountIcon /> */}
