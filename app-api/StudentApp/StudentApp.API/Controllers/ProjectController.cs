@@ -59,7 +59,7 @@ namespace StudentApp.API.Controllers
         public async Task<ActionResult> CreateProject([FromBody] RQ.ProjectPostRequest project)
         {
             RQ.ProjectPostValidator validator = new RQ.ProjectPostValidator(_projectService, _subjectService);
-            var results = validator.Validate(project.Project);
+            var results = await validator.ValidateAsync(project.Project);
 
             if (results.IsValid)
             {

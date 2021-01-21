@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using StudentApp.Tools.Helpers;
 using S = StudentApp.Services.Model;
 
 namespace StudentApp.Tools.Configurations
@@ -63,6 +64,9 @@ namespace StudentApp.Tools.Configurations
                 entity.HasMany(d => d.ProjectEvents)
                     .WithOne(e => e.Project)
                     .OnDelete(DeleteBehavior.ClientNoAction);
+                entity.Property(e => e.ProjectStatusKey)
+                    .HasDefaultValue(Guid.Parse("00000000-0000-0000-0000-000000000001"));
+
             });
 
             modelBuilder.Entity<S.Event>(entity =>
@@ -283,6 +287,11 @@ namespace StudentApp.Tools.Configurations
                 ModifyTime = date
             });
 
+            /* System users */
+            byte[] passwordHash, passwordSalt;
+            string password = "cyberbug2021";
+            PasswordHash.CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
             modelBuilder.Entity<S.User>().HasData(
                 new S.User
                 {
@@ -290,7 +299,8 @@ namespace StudentApp.Tools.Configurations
                     FirstName = "admin",
                     LastName = "",
                     LoginName = userLoginName,
-                    Password = "cyberbug2021",
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt,
                     EmailAddress = "",
                     SemesterDefinitionGroupKey = userDefinitionGroupKey,
                     CreateTime = date,
@@ -303,7 +313,8 @@ namespace StudentApp.Tools.Configurations
                     FirstName = "admin-front",
                     LastName = "",
                     LoginName = user2LoginName,
-                    Password = "cyberbug2021",
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt,
                     EmailAddress = "",
                     SemesterDefinitionGroupKey = user2DefinitionGroupKey,
                     CreateTime = date,

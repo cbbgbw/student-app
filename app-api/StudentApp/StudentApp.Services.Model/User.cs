@@ -12,7 +12,8 @@ namespace StudentApp.Services.Model
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string LoginName { get; set; }
-        public string Password { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
         public string EmailAddress { get; set; }
         public Guid SemesterDefinitionGroupKey { get; set; }
         public DateTime CreateTime { get; set; }

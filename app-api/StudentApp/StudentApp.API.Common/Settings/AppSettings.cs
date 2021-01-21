@@ -8,6 +8,7 @@ namespace StudentApp.API.Common.Settings
         public ApiSettings API { get; set; }
         [Required]
         public Swagger Swagger { get; set; }
+        public string Secret { get; set; }
     }
 
     public class ApiSettings
