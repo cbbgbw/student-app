@@ -17,7 +17,7 @@ export const GlobalDataContext = createContext<GlobalDataContext>({
 })
 
 export const GlobalDataProvider: FC = (props) => {
-  const [modalType, setModalType] = useState(ModalType.AddSubject)
+  const [modalType, setModalType] = useState(ModalType.None)
 
   return (
     <GlobalDataContext.Provider value={{ modalType, setModalType }}>

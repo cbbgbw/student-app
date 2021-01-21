@@ -69,12 +69,19 @@ export const useSubjectTypes = () => {
   }
 }
 
-export const useSubjectsBySemester = () => {
+export const useSubjectsBySemester = (semesterKey: string | undefined) => {
   const { data, error } = useSWR<Subject[] | undefined>(
-    `${baseURL}/subject/list/${1}`,
+    semesterKey ? `${baseURL}/subject/list/${semesterKey}` : null,
   )
 
+  const getAsKeyValue = () =>
+    data?.reduce((prev, subject) => {
+      const { subjectKey, name } = subject
+      return { ...prev, [subjectKey]: name }
+    }, {})
+
   return {
+    getAsKeyValue: getAsKeyValue,
     subjectArray: data,
     isLoading: !error && !data,
     isError: error,

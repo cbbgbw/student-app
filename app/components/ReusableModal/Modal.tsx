@@ -34,7 +34,7 @@ export const ReusableModal: FC<ReusableModalProps> = ({
   cancelButtonText,
   acceptButtonText,
 }) => (
-  <Modal isOpen={isOpen} onClose={onClose}>
+  <Modal scrollBehavior="inside" size="xl" isOpen={isOpen} onClose={onClose}>
     <ModalOverlay />
     <ModalContent>
       <ModalHeader>{title}</ModalHeader>

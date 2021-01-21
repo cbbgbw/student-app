@@ -5,23 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c4dde2a-edd9-4a1e-a788-fc0bcb9ad7cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/components/Forms/CSelect/CSelect.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/Forms/CTextarea/CTextArea.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/actions/project.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/DayPicker/DayPicker.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/forms/AddProject/AddProject.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/actions/common/common.ts" beforeDir="false" afterPath="$PROJECT_DIR$/actions/common/common.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/actions/subject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/actions/subject.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Add/Add.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Add/Add.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/Auth/Provider/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Auth/Provider/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Forms/Input/Input.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Forms/Input/Input.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Forms/Select/Select.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Navigation/Navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Navigation/Navigation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Forms/CSelect/CSelect.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Forms/CSelect/CSelect.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ReusableModal/Modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ReusableModal/Modal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/page/LoadingPage/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/page/LoadingPage/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/forms/AddSubject/AddSubject.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/AddSubject/AddSubject.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/forms/ModalWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/ModalWrapper.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/useModalType.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/useModalType.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/app/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testy.md" beforeDir="false" afterPath="$PROJECT_DIR$/testy.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +65,7 @@
     <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/jest" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="E:\2021\DEV\student-app\app\node_modules\prettier" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="editing.templates" />
     <property name="ts.external.directory.path" value="E:\2021\DEV\student-app\app\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -162,9 +157,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.dev" />
         <item itemvalue="Jest.User actions" />
         <item itemvalue="Jest.View actions" />
-        <item itemvalue="npm.dev" />
         <item itemvalue="npm.build" />
         <item itemvalue="Jest.User selectors and actions" />
       </list>
@@ -196,7 +191,8 @@
       <workItem from="1610910644686" duration="11743000" />
       <workItem from="1610983921428" duration="12802000" />
       <workItem from="1611077790899" duration="10384000" />
-      <workItem from="1611156542486" duration="11325000" />
+      <workItem from="1611156542486" duration="18564000" />
+      <workItem from="1611220729589" duration="17171000" />
     </task>
     <task id="LOCAL-00001" summary="Poprawki eslintowe/prettierowe bo cos sie wygrzmociło XD">
       <created>1609922949286</created>
@@ -219,7 +215,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611157629772</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Poprawki na funkcjonowanie dodawania przedmiotu">
+      <created>1611168643712</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1611168643712</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -242,14 +245,15 @@
     <MESSAGE value="CSPE_DEV-10 Obsługa select dla typu przedmiotu czyli dopełnienie dodawania przedmiotu." />
     <MESSAGE value="CSPE_DEV-39 Lista przedmiotów - implementacja funkcji z zadania&#10;Poprawki na występowanie ModalWrappera w aplikacji aby był dostępny z poziomu każdej strony." />
     <MESSAGE value="Implementacja semestru w front" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implementacja semestru w front" />
+    <MESSAGE value="Poprawki na funkcjonowanie dodawania przedmiotu" />
+    <option name="LAST_COMMIT_MESSAGE" value="Poprawki na funkcjonowanie dodawania przedmiotu" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/actions/subject.ts</url>
-          <line>80</line>
+          <line>87</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -259,7 +263,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/actions/subject.ts</url>
           <line>26</line>
-          <properties lambdaOrdinal="0" />
           <option name="timeStamp" value="27" />
         </line-breakpoint>
       </breakpoints>

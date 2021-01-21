@@ -10,6 +10,7 @@ axios.defaults.headers.post.Accept = 'application/json' // default header for al
 export enum Path {
   Subject = `subject`,
   Semester = 'semester',
+  Project = 'project',
 }
 
 export const post = <T>(path: Path, data: T) =>
