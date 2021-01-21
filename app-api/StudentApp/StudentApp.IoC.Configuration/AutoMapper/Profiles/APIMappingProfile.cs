@@ -46,7 +46,9 @@ namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
             CreateMap<DCProject.POST.ProjectPostRequest, S.Project>()
                 .ConstructUsing((s, ctx) => ctx.Mapper.Map<S.Project>(s.Project))
                 .ForMember(dest => dest.CreateTime, opt => opt.MapFrom(src => src.Date))
-                .ForMember(dest => dest.ModifyTime, opt => opt.MapFrom(src => src.Date));
+                .ForMember(dest => dest.ModifyTime, opt => opt.MapFrom(src => src.Date))
+                .ForMember(e => e.ProjectStatusKey,
+                    opt => opt.MapFrom(src => Guid.Parse("00000000-0000-0000-0000-000000000001")));
 
             CreateMap<S.Project, DC.Project>();
 

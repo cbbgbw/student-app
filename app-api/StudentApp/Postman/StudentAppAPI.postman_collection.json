@@ -335,53 +335,6 @@
 									"response": []
 								},
 								{
-									"name": "Get Project Statuses",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
-													"    pm.response.to.have.status(200)\r",
-													"})\r",
-													"\r",
-													"pm.test(\"Odpowiedź jest w prawidłowej formie\", () => {\r",
-													"    const jsonData = pm.response.json();\r",
-													"    const keys = Object.keys(jsonData)\r",
-													"\r",
-													"    keys.forEach(key =>{\r",
-													"        pm.expect(jsonData[key]).to.be.a('string') //check value\r",
-													"        pm.expect(key).to.be.a('string') //check key\r",
-													"\r",
-													"        pm.expect(key).to.have.lengthOf(36)\r",
-													"    })\r",
-													"    \r",
-													"    pm.environment.set(\"selectedStatus\", keys[0])\r",
-													"})\r",
-													"\r",
-													"//https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#asserting-a-value-type"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{ApiURL}}/project/statuses",
-											"host": [
-												"{{ApiURL}}"
-											],
-											"path": [
-												"project",
-												"statuses"
-											]
-										}
-									},
-									"response": []
-								},
-								{
 									"name": "Get Project Categories",
 									"event": [
 										{
@@ -517,7 +470,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"date\": \"2021-01-04T14:46:52.915Z\",\r\n  \"project\": {\r\n    \"projectKey\": \"{{$guid}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"typeDefinitionKey\": \"{{selectedProjectType}}\",\r\n    \"description\": \"{{$randomLoremSentences}}\",\r\n    \"deadlineTime\":\"2021-01-04T14:46:52.915Z\",\r\n    \"necessaryToPass\": {{necessaryToPassRand}},\r\n    \"ProjectStatusKey\": \"{{selectedStatus}}\",\r\n    \"categoryKey\": \"{{randomSelectedCategory}}\",\r\n    \"subjectKey\": \"{{selectedSubjectKey}}\"\r\n    }\r\n}",
+											"raw": "{\r\n  \"date\": \"2021-01-04T14:46:52.915Z\",\r\n  \"project\": {\r\n    \"projectKey\": \"{{$guid}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"typeDefinitionKey\": \"{{selectedProjectType}}\",\r\n    \"description\": \"{{$randomLoremSentences}}\",\r\n    \"deadlineTime\":\"2021-01-04T14:46:52.915Z\",\r\n    \"necessaryToPass\": {{necessaryToPassRand}},\r\n    \"categoryKey\": \"{{randomSelectedCategory}}\",\r\n    \"subjectKey\": \"{{selectedSubjectKey}}\"\r\n    }\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1064,6 +1017,53 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Get Project Statuses",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Odpowiedź jest w prawidłowej formie\", () => {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    const keys = Object.keys(jsonData)\r",
+											"\r",
+											"    keys.forEach(key =>{\r",
+											"        pm.expect(jsonData[key]).to.be.a('string') //check value\r",
+											"        pm.expect(key).to.be.a('string') //check key\r",
+											"\r",
+											"        pm.expect(key).to.have.lengthOf(36)\r",
+											"    })\r",
+											"    \r",
+											"    pm.environment.set(\"selectedStatus\", keys[0])\r",
+											"})\r",
+											"\r",
+											"//https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#asserting-a-value-type"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ApiURL}}/project/statuses",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"project",
+										"statuses"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -1129,7 +1129,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMSIsIm5iZiI6MTYxMTA4NDQxNSwiZXhwIjoxNjExNjg5MjE1LCJpYXQiOjE2MTEwODQ0MTV9.pmc463Qk1rqJmzHwa0cco9ckXczN_ha9qndDt0Yi-mo",
+											"value": "{{authToken}}",
 											"type": "string"
 										}
 									]
