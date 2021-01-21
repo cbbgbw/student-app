@@ -5,7 +5,7 @@ import useSWR from 'swr'
 
 type Post = PostProps & {
   subjectKey: string
-  semester: number
+  semesterDefinitionKey: string | undefined
 }
 
 export interface PostProps {
@@ -15,11 +15,14 @@ export interface PostProps {
   type: string
 }
 
-export const subjectPost = async (newSubject: PostProps) => {
+export const subjectPost = async (
+  newSubject: PostProps,
+  semesterDefinitionKey: string | undefined,
+) => {
   const subject: Post = {
     ...newSubject,
     subjectKey: uuidv4(),
-    semester: 1,
+    semesterDefinitionKey: semesterDefinitionKey,
   }
   return post<Post>(Path.Subject, subject).then(() => subject.subjectKey)
 }
@@ -66,12 +69,19 @@ export const useSubjectTypes = () => {
   }
 }
 
-export const useSubjectsBySemester = (semester: number) => {
+export const useSubjectsBySemester = (semesterKey: string | undefined) => {
   const { data, error } = useSWR<Subject[] | undefined>(
-    `${baseURL}/subject/list/${semester}`,
+    semesterKey ? `${baseURL}/subject/list/${semesterKey}` : null,
   )
 
+  const getAsKeyValue = () =>
+    data?.reduce((prev, subject) => {
+      const { subjectKey, name } = subject
+      return { ...prev, [subjectKey]: name }
+    }, {})
+
   return {
+    getAsKeyValue: getAsKeyValue,
     subjectArray: data,
     isLoading: !error && !data,
     isError: error,

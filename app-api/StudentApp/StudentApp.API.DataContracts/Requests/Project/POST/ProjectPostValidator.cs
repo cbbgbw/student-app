@@ -38,7 +38,6 @@ namespace StudentApp.API.DataContracts.Requests.Project.POST
                 return subjectService.GetSingleAsync(subjectKey).Result != null;
             }
 
-
             RuleFor(proj => proj.TypeDefinitionKey)
                 .NotEmpty()
                 .Must(validateType).WithMessage("Nie znaleziono podanego typu definicji,");

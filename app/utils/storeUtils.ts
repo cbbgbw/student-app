@@ -1,61 +1,34 @@
-// import { ModalType } from "../forms/ModalWrapper";
-// import create, { SetState, State } from "zustand";
-//
-// export const initializeStore = (preloadedStore: typeof  ini)
-//
-// type StoreState = {
-//   modalType: ModalType;
-//   setModalType: (newModalType: ModalType) => void;
-// };
-// export const useStore = create<StoreState>((set) => ({
-//   modalType: ModalType.None
-// }));
-//
-
+import create from 'zustand'
+import { devtools } from 'zustand/middleware'
 import { useMemo } from 'react'
-import create, { SetState, State } from 'zustand'
-import { ModalType } from '../types/types'
+import { combined, StateCombined } from '../store/modules/modules'
 
-type Store = ReturnType<typeof initStore>
+export type StoreType = ReturnType<typeof createStore>
 
-let store: Store | undefined
+export const createStore = (
+  preloadedState = combined, // retype initialStates
+) =>
+  create<StateCombined>(
+    devtools((set, get, api) => ({
+      ...combined(set, get, api), // first - shape
+      ...preloadedState, // second - override shape with changeable state variables
+    })),
+  )
 
-const initialState = {
-  modalType: ModalType.None,
-}
+let store: StoreType
 
-type InitialState = typeof initialState
-
-const actions = (set: SetState<State>) => ({
-  setModalType: (newModalType: ModalType) =>
-    set({ modalType: newModalType }),
-})
-
-type Actions = ReturnType<typeof actions>
-
-function initStore(preloadedState = initialState) {
-  return create((set) => {
-    const as = actions(set)
-    return {
-      ...initialState,
-      ...preloadedState,
-      ...as,
-    }
-  })
-}
-
-export const initializeStore = (preloadedState?: InitialState) => {
-  let _store = store ?? initStore(preloadedState)
+export const initializeStore = (preloadedState: any) => {
+  let _store = store ?? createStore(preloadedState)
 
   // After navigating to a page with an initial Zustand state, merge that state
   // with the current state in the store, and create a new store
   if (preloadedState && store) {
-    _store = initStore({
+    _store = createStore({
       ...store.getState(),
       ...preloadedState,
     })
     // Reset the current store
-    store = undefined
+    store = ({} as unknown) as Hydrate
   }
 
   // For SSG and SSR always create a new store
@@ -66,28 +39,9 @@ export const initializeStore = (preloadedState?: InitialState) => {
   return _store
 }
 
-export function useHydrate(initialState: InitialState) {
-  const state =
-    typeof initialState === 'string'
-      ? JSON.parse(initialState)
-      : initialState
+export function useHydrate(initialState: any) {
+  const state = initialState
   return useMemo(() => initializeStore(state), [state])
 }
 
-type Statee = Actions & InitialState
-
-export const getModalType = (state: Statee) => ({
-  modalType: state.modalType,
-})
-
-export const getModalTypeSetter = (state: Statee) => ({
-  setModalType: state.setModalType,
-})
-
-export const getModalTypeFuncs = ({
-  modalType,
-  setModalType,
-}: Statee) => ({
-  modalType,
-  setModalType,
-})
+export type Hydrate = ReturnType<typeof useHydrate>
