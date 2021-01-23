@@ -1,26 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using StudentApp.API.Common.Settings;
-using StudentApp.API.DataContracts;
 using StudentApp.API.DataContracts.Requests.User;
+using StudentApp.API.DataContracts.Responses.User;
 using StudentApp.Services.Contracts;
+using HELPERS = StudentApp.Tools.Helpers;
 using S = StudentApp.Services.Model;
 using DC = StudentApp.API.DataContracts;
 using RQ = StudentApp.API.DataContracts.Requests.User.POST;
 
 namespace StudentApp.API.Controllers
 {
-    [Authorize]
     [Route("api/user")]
     [ApiController]
     public class UserController : Controller
@@ -36,7 +32,6 @@ namespace StudentApp.API.Controllers
             _appSettings = appSettings?.Value;
         }
 
-        [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] UserAuthenticate model)
         {
@@ -45,29 +40,13 @@ namespace StudentApp.API.Controllers
             if (user == null)
                 return BadRequest(new { message = "Nieprawidłowy login lub hasło" });
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.UserKey.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var tokenString = tokenHandler.WriteToken(token);
+            var token = HELPERS.JwtTokenGenerator.GenerateJwtToken(user, _appSettings.Secret);
 
             // return basic user info and authentication token
-            return Ok(new
-            {
-                UserKey = user.UserKey,
-                LoginName = user.LoginName,
-                Token = tokenString
-            });
+            return Ok(new AuthenticateResponse(user, token));
         }
 
+        [HELPERS.Authorize]
         [HttpGet("{userKey}")]
         public async Task<DC.User> GetSingle(Guid userKey)
         {
@@ -75,6 +54,7 @@ namespace StudentApp.API.Controllers
             return user != null ? _mapper.Map<DC.User>(user) : null;
         }
 
+        [HELPERS.Authorize]
         [HttpGet("all")]
         public async Task<ICollection<DC.User>> GetAllUsers()
         {
@@ -82,7 +62,6 @@ namespace StudentApp.API.Controllers
             return users != null ? _mapper.Map<ICollection<DC.User>>(users) : null;
         }
 
-        [AllowAnonymous]
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

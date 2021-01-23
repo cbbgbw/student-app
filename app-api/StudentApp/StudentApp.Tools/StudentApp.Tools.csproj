@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\StudentApp.API.Common\StudentApp.API.Common.csproj" />
     <ProjectReference Include="..\StudentApp.Services.Model\StudentApp.Services.Model.csproj" />
   </ItemGroup>
 

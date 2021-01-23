@@ -5,10 +5,8 @@ using StudentApp.Services.Contracts;
 using StudentApp.Services.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 using StudentApp.Tools.Configurations;
 using StudentApp.Tools.Helpers;
 
@@ -38,7 +36,7 @@ namespace StudentApp.Services
             if (user == null)
                 return null;
 
-            return PasswordHash.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt) == true ? user : null;
+            return PasswordHash.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt) == false ? null : user;
         }
 
         public async Task<User> GetSingleAsync(Guid userKey)

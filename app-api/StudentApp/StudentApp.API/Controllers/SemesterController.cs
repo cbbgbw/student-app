@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudentApp.Services.Contracts;
 
 namespace StudentApp.API.Controllers
 {
-    [Authorize]
     [Route("api/semester")]
     [ApiController]
     public class SemesterController : Controller
