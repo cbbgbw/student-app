@@ -1,27 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="0c4dde2a-edd9-4a1e-a788-fc0bcb9ad7cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app-config.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/Navigation/Navigation.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/page/Subject/ListSubject.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/types/color.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintrc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/actions/project.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/DayPicker/DayPicker.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/forms/AddProject/AddProject.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/actions/common/common.ts" beforeDir="false" afterPath="$PROJECT_DIR$/actions/common/common.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/actions/subject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/actions/subject.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Forms/Button/Button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Forms/Button/Button.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Auth/Provider/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Auth/Provider/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Forms/CSelect/CSelect.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Forms/CSelect/CSelect.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/ReusableModal/Modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ReusableModal/Modal.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/forms/AddSubject/AddSubject.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/AddSubject/AddSubject.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms/ModalWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/ModalWrapper.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/app/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/pages/styles.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/subject/[key].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/subjects/[key].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/subjects/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/subjects/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +25,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -39,8 +35,12 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedIndex" value="1" />
+  </component>
   <component name="ProjectId" id="1mfLlvTDQFeG1DnJKGJEPfRLTM3" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="Update" />
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -52,7 +52,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js.linters.configure.manually.selectedeslint" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/icons" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -62,26 +62,72 @@
     <property name="node.js.selected.package.eslint" value="E:\2021\DEV\student-app\app\node_modules\eslint" />
     <property name="node.js.selected.package.standard" value="" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/jest" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="E:\2021\DEV\student-app\app\node_modules\prettier" />
-    <property name="settings.editor.selected.configurable" value="settings.typescriptcompiler" />
+    <property name="settings.editor.selected.configurable" value="editing.templates" />
     <property name="ts.external.directory.path" value="E:\2021\DEV\student-app\app\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\2021\DEV\student-app\app\public\icons" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\2021\DEV\student-app\app\components\ui\Dashboard" />
+      <recent name="E:\2021\DEV\student-app\app\components\page" />
       <recent name="E:\2021\DEV\student-app\app\pages\subjects" />
     </key>
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="npm install typescript" />
+      <command value="npm run build" />
       <command value="npm install" />
       <command value="npm run dev" />
-      <command value="npm run build" />
     </option>
   </component>
-  <component name="RunManager" selected="npm.build">
+  <component name="RunManager" selected="Jest.User actions">
+    <configuration name="User actions" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <jest-options value="--watch" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/store/modules/user/user.test.ts" />
+      <test-names>
+        <test-name value="User actions" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="User selectors and actions" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/store/modules/user/user.test.ts" />
+      <test-names>
+        <test-name value="User selectors and actions" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="View actions" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/store/modules/view/view.test.ts" />
+      <test-names>
+        <test-name value="View actions" />
+      </test-names>
+      <method v="2" />
+    </configuration>
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -102,10 +148,20 @@
       <envs />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Jest.User actions" />
+      <item itemvalue="Jest.User selectors and actions" />
+      <item itemvalue="Jest.View actions" />
+      <item itemvalue="npm.build" />
+      <item itemvalue="npm.dev" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.build" />
         <item itemvalue="npm.dev" />
+        <item itemvalue="Jest.User actions" />
+        <item itemvalue="Jest.View actions" />
+        <item itemvalue="npm.build" />
+        <item itemvalue="Jest.User selectors and actions" />
       </list>
     </recent_temporary>
   </component>
@@ -124,6 +180,19 @@
       <workItem from="1610106797660" duration="315000" />
       <workItem from="1610126022845" duration="10900000" />
       <workItem from="1610214642797" duration="2906000" />
+      <workItem from="1610465760507" duration="5711000" />
+      <workItem from="1610556850070" duration="12752000" />
+      <workItem from="1610643503945" duration="12380000" />
+      <workItem from="1610728073887" duration="5549000" />
+      <workItem from="1610736855653" duration="7913000" />
+      <workItem from="1610789949642" duration="29398000" />
+      <workItem from="1610823788513" duration="5179000" />
+      <workItem from="1610869302353" duration="11337000" />
+      <workItem from="1610910644686" duration="11743000" />
+      <workItem from="1610983921428" duration="12802000" />
+      <workItem from="1611077790899" duration="10384000" />
+      <workItem from="1611156542486" duration="18564000" />
+      <workItem from="1611220729589" duration="17171000" />
     </task>
     <task id="LOCAL-00001" summary="Poprawki eslintowe/prettierowe bo cos sie wygrzmociło XD">
       <created>1609922949286</created>
@@ -139,7 +208,21 @@
       <option name="project" value="LOCAL" />
       <updated>1609933000810</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Implementacja semestru w front">
+      <created>1611157629772</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1611157629772</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Poprawki na funkcjonowanie dodawania przedmiotu">
+      <created>1611168643712</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1611168643712</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -161,23 +244,36 @@
     <MESSAGE value="Poprawki eslintowe/prettierowe bo cos sie wygrzmociło XD" />
     <MESSAGE value="CSPE_DEV-10 Obsługa select dla typu przedmiotu czyli dopełnienie dodawania przedmiotu." />
     <MESSAGE value="CSPE_DEV-39 Lista przedmiotów - implementacja funkcji z zadania&#10;Poprawki na występowanie ModalWrappera w aplikacji aby był dostępny z poziomu każdej strony." />
-    <option name="LAST_COMMIT_MESSAGE" value="CSPE_DEV-39 Lista przedmiotów - implementacja funkcji z zadania&#10;Poprawki na występowanie ModalWrappera w aplikacji aby był dostępny z poziomu każdej strony." />
+    <MESSAGE value="Implementacja semestru w front" />
+    <MESSAGE value="Poprawki na funkcjonowanie dodawania przedmiotu" />
+    <option name="LAST_COMMIT_MESSAGE" value="Poprawki na funkcjonowanie dodawania przedmiotu" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/forms/AddSubject/AddSubject.tsx</url>
-          <line>26</line>
-          <option name="timeStamp" value="6" />
+          <url>file://$PROJECT_DIR$/actions/subject.ts</url>
+          <line>87</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/components/Navigation/Navigation.tsx</url>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/actions/subject.ts</url>
-          <line>77</line>
-          <option name="timeStamp" value="10" />
+          <line>26</line>
+          <option name="timeStamp" value="27" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="http://localhost:3000/login">
+        <watch expression="push" />
+        <watch expression="push" />
+        <watch expression="push" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

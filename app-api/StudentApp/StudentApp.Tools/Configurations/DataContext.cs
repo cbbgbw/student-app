@@ -64,9 +64,9 @@ namespace StudentApp.Tools.Configurations
                 entity.HasMany(d => d.ProjectEvents)
                     .WithOne(e => e.Project)
                     .OnDelete(DeleteBehavior.ClientNoAction);
-
                 entity.Property(e => e.ProjectStatusKey)
                     .HasDefaultValue(Guid.Parse("00000000-0000-0000-0000-000000000001"));
+
             });
 
             modelBuilder.Entity<S.Event>(entity =>

@@ -9,6 +9,8 @@ axios.defaults.headers.post.Accept = 'application/json' // default header for al
 
 export enum Path {
   Subject = `subject`,
+  Semester = 'semester',
+  Project = 'project',
 }
 
 export const post = <T>(path: Path, data: T) =>
@@ -18,3 +20,11 @@ export const post = <T>(path: Path, data: T) =>
   })
 
 // export const get = <T>(path:Path)
+
+export const request = {
+  post: async <T>(path: Path, data: T) =>
+    await axios.post(path, data).then(({ data }) => data),
+  bodyLessPost: async <T>(path: string) =>
+    await axios.post(path).then(({ data }) => data),
+  bodyLessPut: async <T>(path: string) => await axios.put(path),
+}

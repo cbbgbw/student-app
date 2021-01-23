@@ -33,7 +33,7 @@ namespace StudentApp.API.Controllers
         [HttpGet]
         public async Task<Dictionary<Guid, string>> GetSemestersByUser()
         {
-            Guid tmpUserKey = Guid.Parse("00000000-0000-0000-0000-000000000001");
+            Guid tmpUserKey = Guid.Parse("00000000-0000-0000-0000-000000000002");
 
             var data = _service.GetAllSemestersByUser(tmpUserKey);
             var pairs = data.Result.Select(pair => new KeyValuePair<Guid, string>(pair.DefinitionKey, pair.Value));
@@ -52,7 +52,7 @@ namespace StudentApp.API.Controllers
         [HttpPost("{value}")]
         public async Task<Guid> CreateSemester(string value)
         {
-            Guid tmpUserKey = Guid.Parse("00000000-0000-0000-0000-000000000001");
+            Guid tmpUserKey = Guid.Parse("00000000-0000-0000-0000-000000000002");
 
             return await _service.CreateSemester(tmpUserKey, value);
         }

@@ -1,21 +1,25 @@
-import React, { FC } from 'react'
+import React, { FC, useContext } from 'react'
 
 import { EntitiesModal } from '../../types/types'
 import { Add } from '../../components/Add/Add'
-import { useStore } from '../../utils/storeProvider'
-import { initializeStore } from '../../utils/storeUtils'
 
-import styles from './index.module.scss'
+// import styles from './index.module.scss'
+import { Flex } from '@chakra-ui/react'
+import { SelectSemesterPopover } from '../../components/ui/Dashboard/SelectSemesterPopover'
+import { GlobalDataContext } from '../../components/Auth/Provider'
 
 const App: FC = () => {
-  const { setModalType } = useStore()
+  const { setModalType } = useContext(GlobalDataContext)
 
   const generateAddButtons = () =>
     Object.keys(EntitiesModal).map((value) => (
       <Add
         key={value}
         name={value.toLowerCase()}
-        onClick={() => setModalType(EntitiesModal[value])}
+        onClick={() => {
+          setModalType(EntitiesModal[value])
+          console.log('log')
+        }}
       />
     ))
 
@@ -35,23 +39,28 @@ const App: FC = () => {
       {/*    <a>Projects</a> */}
       {/*  </Link> */}
       {/* </aside> */}
-      <section className={styles.app}>
-        <section className={styles.addSection}>
-          {generateAddButtons()}
-        </section>
-      </section>
+      <Flex mt={6} mb={6} mr={20} justifyContent="flex-end">
+        <SelectSemesterPopover />
+      </Flex>
+      <Flex border="2px solid red" justify="space-around">
+        {generateAddButtons()}
+      </Flex>
+
+      {/* <section className={styles.app}> */}
+      {/*  <section className={styles.addSection}>{generateAddButtons()}</section> */}
+      {/* </section> */}
     </>
   )
 }
 
-export function getServerSideProps() {
-  const zustandStore = initializeStore()
-
-  return {
-    props: {
-      initialZustandState: JSON.stringify(zustandStore.getState()),
-    },
-  }
-}
+// export function getServerSideProps() {
+//   const zustandStore = initializeStore()
+//
+//   return {
+//     props: {
+//       initialZustandState: JSON.stringify(zustandStore.getState()),
+//     },
+//   }
+// }
 
 export default App

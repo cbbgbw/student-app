@@ -1,40 +1,38 @@
 import { useForm } from 'react-hook-form'
-import React, { FC } from 'react'
-
-import { Input } from '../../components/Forms/Input/Input'
+import React, { FC, useContext } from 'react'
 import { ReusableModal } from '../../components/ReusableModal/Modal'
-import { getModalTypeFuncs } from '../../utils/storeUtils'
-import { useStore } from '../../utils/storeProvider'
 import { PostProps, subjectPost, useSubjectTypes } from '../../actions/subject'
 import { useRouter } from 'next/router'
-import { MultiLineInput } from '../../components/Forms/Input/MultilineInput'
 import { ModalType } from '../../types/types'
-import { Select } from '../../components/Forms/Select/Select'
+import { GlobalDataContext } from '../../components/Auth/Provider'
+import { Checkbox, FormLabel, Input } from '@chakra-ui/react'
+import { CSelect } from '../../components/Forms/CSelect/CSelect'
+import { CTextArea } from '../../components/Forms/CTextarea/CTextArea'
+import { useUserSemesters } from '../../actions/user/useUserSemesters'
 
 export const AddSubject: FC = () => {
+  const { currentSemester } = useUserSemesters()
   const router = useRouter()
-  const { modalType, setModalType } = useStore(getModalTypeFuncs)
+  const { modalType, setModalType } = useContext(GlobalDataContext)
 
   const { handleSubmit, register } = useForm<PostProps>()
 
   const { subjectTypes } = useSubjectTypes()
 
   const onSubjectSubmit = async (data: PostProps) => {
-    const subjectKey = await subjectPost(data)
-    
-        router.push({
-          pathname: '/subjects/[key]',
-          query: {
-            key: subjectKey,
-          },
-        })
+    await subjectPost(data, currentSemester?.[0])
       .then(() => setModalType(ModalType.None))
+      .then(() =>
+        router.push({
+          pathname: '/subjects',
+        }),
+      )
   }
 
   return (
     <ReusableModal
       isOpen={modalType !== 'None'}
-      onModalLeave={() => setModalType(ModalType.None)}
+      onClose={() => setModalType(ModalType.None)}
       headerText={{
         title: 'Nowy przedmiot',
         description:
@@ -44,38 +42,20 @@ export const AddSubject: FC = () => {
       acceptButtonText="Utwórz przedmiot"
       onSubmit={handleSubmit(onSubjectSubmit)}
     >
-      <Input
-        name="name"
-        ref={register({ required: true })}
-        labelText="Nazwa przedmiotu"
-      />
+      <FormLabel htmlFor="name">Nazwa przedmiotu</FormLabel>
+      <Input name="name" ref={register({ required: true })} />
+      <FormLabel htmlFor="typeDefinitionKey">Typ przedmiotu</FormLabel>
 
-      <Select
+      <CSelect
         name="typeDefinitionKey"
         ref={register({ required: true })}
-        labelText="Typ przedmiotu"
         selectOptions={subjectTypes}
+        labelText=""
       />
-
-      <MultiLineInput
-        name="description"
-        ref={register()}
-        labelText="Opis"
-      />
-
-      <Input
-        name="hasProjectToPass"
-        type="checkbox"
-        ref={register()}
-        labelText="Chcę utworzyć projekt który jednocześnie jest zaliczeniem przedmiotu"
-      />
-
-      <style jsx>{`
-        .button {
-          width: fit-content;
-          padding: 8px;
-        }
-      `}</style>
+      <CTextArea name="description" ref={register()} labelText="Opis" />
+      <Checkbox name="hasProjectToPass" ref={register()}>
+        Chcę utworzyć projekt który jednocześnie jest zaliczeniem przedmiotu
+      </Checkbox>
     </ReusableModal>
   )
 }
@@ -83,7 +63,4 @@ export const AddSubject: FC = () => {
 /* TODO
   Dodać walidację na:
   puste pola
-  wymagane pola
-
-  Dodać obsługę typu kiedy będzie wspierany
- */
+  wymagane pola */
