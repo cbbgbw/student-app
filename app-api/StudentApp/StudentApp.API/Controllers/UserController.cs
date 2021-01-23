@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +25,7 @@ namespace StudentApp.API.Controllers
     [ApiController]
     public class UserController : Controller
     {
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
         private readonly IUserService _userService;
         private readonly AppSettings _appSettings;
 

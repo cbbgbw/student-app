@@ -5,7 +5,7 @@ namespace StudentApp.API.Common.Settings
     public class AppSettings
     {
         [Required]
-        public ApiSettings API { get; set; }
+        public ApiSettings Api { get; set; }
         [Required]
         public Swagger Swagger { get; set; }
         public string Secret { get; set; }

@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudentApp.Services.Contracts;
-using DC = StudentApp.API.DataContracts;
-using RQ = StudentApp.API.DataContracts.Requests.Subject.POST;
-using S = StudentApp.Services.Model;
-
 
 namespace StudentApp.API.Controllers
 {
+    [Authorize]
     [Route("api/semester")]
     [ApiController]
     public class SemesterController : Controller
@@ -47,7 +44,7 @@ namespace StudentApp.API.Controllers
         [HttpPut("{semesterKey}")]
         public async Task<ActionResult> ChangeSemesterContext(Guid semesterKey)
         {
-            var semester = await _service.ChangeSemester(semesterKey);
+            await _service.ChangeSemester(semesterKey);
 
             return Ok();
         }
@@ -57,7 +54,7 @@ namespace StudentApp.API.Controllers
         {
             Guid tmpUserKey = Guid.Parse("00000000-0000-0000-0000-000000000001");
 
-            return _service.CreateSemester(tmpUserKey, value).Result;
+            return await _service.CreateSemester(tmpUserKey, value);
         }
     }
 }

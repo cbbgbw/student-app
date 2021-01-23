@@ -12,7 +12,7 @@ namespace StudentApp.API.DataContracts.Requests.Project.POST
     {
         public ProjectPostValidator(IProjectService projectService, ISubjectService subjectService)
         {
-            bool validateType(Guid projectTypeKey)
+            bool ValidateType(Guid projectTypeKey)
             {
                 var types = projectService.GetTypesAsync().Result;
 
@@ -26,14 +26,14 @@ namespace StudentApp.API.DataContracts.Requests.Project.POST
             //    return statuses.FirstOrDefault(status => status.StatusKey == statusKey) != null;
             //}
 
-            bool validateCategory(Guid categoryKey, Guid projectStatusKey)
+            bool ValidateCategory(Guid categoryKey, Guid projectStatusKey)
             {
                 var categories = projectService.GetAllCategoriesOrderedByIndexAsync(projectStatusKey).Result;
 
                 return categories.SingleOrDefault(c => c.CategoryKey == categoryKey) != null;
             }
 
-            bool validateProjectSubject(Guid subjectKey)
+            bool ValidateProjectSubject(Guid subjectKey)
             {
                 return subjectService.GetSingleAsync(subjectKey).Result != null;
             }
@@ -41,7 +41,7 @@ namespace StudentApp.API.DataContracts.Requests.Project.POST
 
             RuleFor(proj => proj.TypeDefinitionKey)
                 .NotEmpty()
-                .Must(validateType).WithMessage("Nie znaleziono podanego typu definicji,");
+                .Must(ValidateType).WithMessage("Nie znaleziono podanego typu definicji,");
 
             //RuleFor(proj => proj.ProjectStatusKey)
             //    .NotEmpty()
@@ -49,11 +49,11 @@ namespace StudentApp.API.DataContracts.Requests.Project.POST
 
             RuleFor(proj => proj)
                 .NotEmpty()
-                .Must(proj => validateCategory(proj.CategoryKey, proj.TypeDefinitionKey)).WithMessage("Nie znaleziono podanej kategorii.");
+                .Must(proj => ValidateCategory(proj.CategoryKey, proj.TypeDefinitionKey)).WithMessage("Nie znaleziono podanej kategorii.");
 
             RuleFor(proj => proj.SubjectKey)
                 .NotEmpty()
-                .Must(validateProjectSubject).WithMessage("Nie znaleziono podanego przedmiotu");
+                .Must(ValidateProjectSubject).WithMessage("Nie znaleziono podanego przedmiotu");
 
             RuleFor(proj => proj.Name)
                 .NotEmpty();

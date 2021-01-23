@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentApp.Services.Contracts;
@@ -13,6 +14,7 @@ using S = StudentApp.Services.Model;
 namespace StudentApp.API.Controllers
 {
     //[ApiVersion("2.0")]
+    [Authorize]
     [Route("api/subject")]
     [ApiController]
 

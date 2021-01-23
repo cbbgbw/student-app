@@ -12,14 +12,14 @@ namespace StudentApp.API.DataContracts.Requests.Event.POST
     {
         public EventPostValidator(IProjectService projectService)
         {
-            bool validateProject(Guid projectKey)
+            bool ValidateProject(Guid projectKey)
             {
                 return projectService.GetSingleAsync(projectKey).Result != null;
             }
 
             RuleFor(ev => ev.ProjectKey)
                 .NotEmpty()
-                .Must(validateProject).WithMessage("Nie wybrano projektu");
+                .Must(ValidateProject).WithMessage("Nie wybrano projektu");
         }
     }
 }
