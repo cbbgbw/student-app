@@ -13,7 +13,7 @@ namespace StudentApp.API.DataContracts.Requests.Subject.POST
         {
             bool ValidateType(Guid typeKey)
             {
-                var types = service.GetTypes().Result;
+                var types = service.GetTypesAsync().Result;
 
                 return types.FirstOrDefault(type => type.DefinitionKey == typeKey) != null;
             }

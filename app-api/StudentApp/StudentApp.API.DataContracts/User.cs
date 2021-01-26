@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace StudentApp.API.DataContracts
 {
@@ -11,6 +12,6 @@ namespace StudentApp.API.DataContracts
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string EmailAddress { get; set; }
-
+        public Guid SemesterDefinitionGroupKey { get; set; }
     }
 }

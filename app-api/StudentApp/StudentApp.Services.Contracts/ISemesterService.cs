@@ -9,9 +9,10 @@ namespace StudentApp.Services.Contracts
 {
     public interface ISemesterService
     {
-        Task<Guid> GetSingleSemester(Guid semesterKey);
-        Task<ICollection<Definition>> GetAllSemestersByUser(Guid userKey);
-        Task<int> ChangeSemester(Guid semesterKey);
-        Task<Guid> CreateSemester(Guid userKey, string value);
+        Task<Guid> GetSingleSemesterAsync(Guid semesterKey);
+        Task<Definition> GetCurrentSemesterByDefinitionGroupAsync(Guid definitionGroupKey);
+        Task<ICollection<Definition>> GetAllSemestersByUserAsync(Guid userKey);
+        Task<int> ChangeSemesterAsync(Guid semesterKey);
+        Task<Guid> CreateSemesterAsync(Guid userKey, string value);
     }
 }

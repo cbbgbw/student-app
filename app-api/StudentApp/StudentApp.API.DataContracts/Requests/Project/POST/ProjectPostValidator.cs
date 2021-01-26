@@ -26,12 +26,12 @@ namespace StudentApp.API.DataContracts.Requests.Project.POST
             //    return statuses.FirstOrDefault(status => status.StatusKey == statusKey) != null;
             //}
 
-            bool ValidateCategory(Guid categoryKey, Guid projectStatusKey)
-            {
-                var categories = projectService.GetAllCategoriesOrderedByIndexAsync(projectStatusKey).Result;
+            //bool ValidateCategory(Guid categoryKey, Guid projectStatusKey)
+            //{
+            //    var categories = projectService.GetOrderedCategoriesByTypeAsync(projectStatusKey).Result;
 
-                return categories.SingleOrDefault(c => c.CategoryKey == categoryKey) != null;
-            }
+            //    return categories.SingleOrDefault(c => c.CategoryKey == categoryKey) != null;
+            //}
 
             bool ValidateProjectSubject(Guid subjectKey)
             {
@@ -46,9 +46,9 @@ namespace StudentApp.API.DataContracts.Requests.Project.POST
             //    .NotEmpty()
             //    .Must(validateStatus).WithMessage("Nie znaleziono podanego statusu,");
 
-            RuleFor(proj => proj)
-                .NotEmpty()
-                .Must(proj => ValidateCategory(proj.CategoryKey, proj.TypeDefinitionKey)).WithMessage("Nie znaleziono podanej kategorii.");
+            //RuleFor(proj => proj)
+            //    .NotEmpty()
+            //    .Must(proj => ValidateCategory(proj.CategoryKey, proj.TypeDefinitionKey)).WithMessage("Nie znaleziono podanej kategorii.");
 
             RuleFor(proj => proj.SubjectKey)
                 .NotEmpty()

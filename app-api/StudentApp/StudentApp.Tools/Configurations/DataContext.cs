@@ -24,6 +24,10 @@ namespace StudentApp.Tools.Configurations
                 entity.HasOne(d => d.SemesterDefinitionGroup)
                     .WithOne(e => e.UserSemesterDefinitionGroup)
                     .OnDelete(DeleteBehavior.ClientNoAction);
+
+                entity.HasMany(d => d.Categories)
+                    .WithOne(e => e.User)
+                    .OnDelete(DeleteBehavior.ClientNoAction);
             });
 
             modelBuilder.Entity<S.Subject>(entity =>
@@ -111,6 +115,10 @@ namespace StudentApp.Tools.Configurations
                 entity.HasMany(d => d.Projects)
                     .WithOne(e => e.Category)
                     .OnDelete(DeleteBehavior.ClientNoAction);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(e => e.Categories)
+                    .OnDelete(DeleteBehavior.ClientNoAction);
             });
 
             modelBuilder.Entity<S.Status>(entity =>
@@ -125,7 +133,7 @@ namespace StudentApp.Tools.Configurations
 
             
             /* Data inserting */
-            DateTime date = DateTime.Now;
+            DateTime date = new DateTime(2021, 1, 1);
             modelBuilder.Entity<S.Status>().HasData(new S.Status[]
             {
                 new S.Status {StatusKey = Guid.Parse("00000000-0000-0000-0000-000000000001"), Name = "Nowy", Description = "", Type = 0, Color = "ffffff", CreateTime = date, ModifyTime = date},
@@ -200,6 +208,7 @@ namespace StudentApp.Tools.Configurations
             {
                 CategoryKey = Guid.Parse("9A684681-FFAC-42E6-97A5-C07FB18E2A32"),
                 ProjectTypeKey = Guid.Parse("00000000-0000-0000-0000-000000000022"),
+                UserKey = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CategoryName = "Odpowiedź ustna",
                 OrderIndex = 1,
                 CreateTime = date,
@@ -208,6 +217,7 @@ namespace StudentApp.Tools.Configurations
             {
                 CategoryKey = Guid.Parse("C94DE30C-A03A-4432-91A1-310ACE86050A"),
                 ProjectTypeKey = Guid.Parse("00000000-0000-0000-0000-000000000022"),
+                UserKey = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CategoryName = "Kartkówka",
                 OrderIndex = 2,
                 CreateTime = date,
@@ -218,6 +228,7 @@ namespace StudentApp.Tools.Configurations
             {
                 CategoryKey = Guid.Parse("27FD71BF-F9E1-4293-A494-BE76B477C706"),
                 ProjectTypeKey = Guid.Parse("00000000-0000-0000-0000-000000000012"),
+                UserKey = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CategoryName = "Projekt zespołowy",
                 OrderIndex = 1,
                 CreateTime = date,
@@ -226,6 +237,7 @@ namespace StudentApp.Tools.Configurations
             {
                 CategoryKey = Guid.Parse("9969B359-B888-4D07-8E0A-F79234F58ADB"),
                 ProjectTypeKey = Guid.Parse("00000000-0000-0000-0000-000000000012"),
+                UserKey = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 CategoryName = "Projekt zaliczeniowy",
                 OrderIndex = 2,
                 CreateTime = date,

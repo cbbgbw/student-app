@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -10,7 +11,7 @@ using StudentApp.API.Common.Settings;
 using StudentApp.API.DataContracts.Requests.User;
 using StudentApp.API.DataContracts.Responses.User;
 using StudentApp.Services.Contracts;
-using HELPERS = StudentApp.Tools.Helpers;
+using CustomAuth = StudentApp.Tools.Helpers;
 using S = StudentApp.Services.Model;
 using DC = StudentApp.API.DataContracts;
 using RQ = StudentApp.API.DataContracts.Requests.User.POST;
@@ -32,21 +33,27 @@ namespace StudentApp.API.Controllers
             _appSettings = appSettings?.Value;
         }
 
+        #region AUTHENTICATE
+
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] UserAuthenticate model)
         {
-            var user = await _userService.Authenticate(model.LoginName, model.Password);
+            var user = await _userService.AuthenticateAsync(model.LoginName, model.Password);
 
             if (user == null)
                 return BadRequest(new { message = "Nieprawidłowy login lub hasło" });
 
-            var token = HELPERS.JwtTokenGenerator.GenerateJwtToken(user, _appSettings.Secret);
+            var token = CustomAuth.JwtTokenGenerator.GenerateJwtToken(user, _appSettings.Secret);
 
             // return basic user info and authentication token
             return Ok(new AuthenticateResponse(user, token));
         }
 
-        [HELPERS.Authorize]
+        #endregion
+
+        #region GET SINGLE
+
+        [CustomAuth.Authorize]
         [HttpGet("{userKey}")]
         public async Task<DC.User> GetSingle(Guid userKey)
         {
@@ -54,13 +61,39 @@ namespace StudentApp.API.Controllers
             return user != null ? _mapper.Map<DC.User>(user) : null;
         }
 
-        [HELPERS.Authorize]
+        #endregion
+
+        #region GET CURRENT
+
+        [CustomAuth.Authorize]
+        [HttpGet("current")]
+        public async Task<DC.User> GetLogged()
+        {
+            var userData = (S.User)HttpContext.Items["User"];
+
+            if (userData == null)
+                return null;
+
+            var user = await _userService.GetSingleAsync(userData.UserKey);
+
+            return user != null ? _mapper.Map<DC.User>(user) : null;
+        }
+
+        #endregion
+
+        #region GET ALL
+
+        [CustomAuth.Authorize]
         [HttpGet("all")]
         public async Task<ICollection<DC.User>> GetAllUsers()
         {
             var users = _userService.GetAllAsync().Result;
             return users != null ? _mapper.Map<ICollection<DC.User>>(users) : null;
         }
+
+        #endregion
+
+        #region POST
 
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -71,7 +104,7 @@ namespace StudentApp.API.Controllers
             RQ.UserPostValidator validator = new RQ.UserPostValidator(_userService);
             var results = await validator.ValidateAsync(user.User);
 
-            if(results.IsValid)
+            if (results.IsValid)
             {
                 var data = _userService.CreateAsync(_mapper.Map<S.User>(user), user.User.Password).Result;
 
@@ -80,5 +113,8 @@ namespace StudentApp.API.Controllers
 
             return BadRequest(results.Errors);
         }
+
+        #endregion
+
     }
 }

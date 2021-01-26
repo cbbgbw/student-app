@@ -6,6 +6,7 @@ using StudentApp.Services.Model;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using StudentApp.Tools.Configurations;
 using StudentApp.Tools.Helpers;
@@ -25,7 +26,7 @@ namespace StudentApp.Services
             _context = context;
         }
 
-        public async Task<User> Authenticate(string loginName, string password)
+        public async Task<User> AuthenticateAsync(string loginName, string password)
         {
             if (string.IsNullOrEmpty(loginName) || string.IsNullOrEmpty(password))
                 return null;

@@ -9,6 +9,7 @@ using StudentApp.Services.Contracts;
 using DC = StudentApp.API.DataContracts;
 using RQ = StudentApp.API.DataContracts.Requests.Subject.POST;
 using S = StudentApp.Services.Model;
+using CustomAuth = StudentApp.Tools.Helpers;
 
 namespace StudentApp.API.Controllers
 {
@@ -18,48 +19,59 @@ namespace StudentApp.API.Controllers
 
     public class SubjectController : Controller
     {
-        private readonly ISubjectService _service;
+        private readonly ISubjectService _subjectService;
+        private readonly ISemesterService _semesterService;
         private readonly IMapper _mapper;
 
-        public SubjectController(ISubjectService service, IMapper mapper)
+        public SubjectController(ISubjectService subjectService, IMapper mapper, ISemesterService semesterService)
         {
-            _service = service;
+            _subjectService = subjectService;
             _mapper = mapper;
+            _semesterService = semesterService;
         }
 
         #region GET SINGLE
+        [CustomAuth.Authorize]
         [HttpGet("{id}")]
         public async Task<DC.Subject> Get(Guid id)
         {
-            var data = await _service.GetSingleAsync(id);
+            var data = await _subjectService.GetSingleAsync(id);
 
             return data != null ? _mapper.Map<DC.Subject>(data) : null;
         }
         #endregion
 
-        #region GET BY SEMESTER
-
-        [HttpGet("list/{semesterKey}")]
-        public async Task<ICollection<DC.Subject>> GetBySemester(Guid semesterKey)
+        #region GET BY CURRENT SEMESTER
+        [CustomAuth.Authorize]
+        [HttpGet("semester")]
+        public async Task<ICollection<DC.Subject>> GetByCurrentSemester()
         {
-            var subjects = await _service.GetAllBySemesterAsync(semesterKey);
+            var userData = (S.User)HttpContext.Items["User"];
+
+            if (userData == null)
+                return null;
+
+            var currentSemester = await _semesterService.GetCurrentSemesterByDefinitionGroupAsync(userData.SemesterDefinitionGroupKey);
+
+            var subjects = await _subjectService.GetAllBySemesterAsync(currentSemester.DefinitionKey);
             return subjects != null ? _mapper.Map<ICollection<DC.Subject>>(subjects) : null;
         }
         #endregion
 
         #region POST
+        [CustomAuth.Authorize]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> CreateSubject([FromBody] RQ.SubjectPostRequest value)
         {
-            RQ.SubjectPostValidator validator = new RQ.SubjectPostValidator(_service);
+            RQ.SubjectPostValidator validator = new RQ.SubjectPostValidator(_subjectService);
             var results = await validator.ValidateAsync(value.Subject);
 
             if (results.IsValid)
             {
-                var data = await _service.CreateAsync(_mapper.Map<S.Subject>(value));
+                var data = await _subjectService.CreateAsync(_mapper.Map<S.Subject>(value));
 
                 return data == 1 ? Ok() : Problem("Brak dostępu do db", null, 500);
             }
@@ -75,7 +87,7 @@ namespace StudentApp.API.Controllers
             if (subject == null)
                 throw new ArgumentNullException("subject");
 
-            return await _service.UpdateAsync(_mapper.Map<S.Subject>(subject));
+            return await _subjectService.UpdateAsync(_mapper.Map<S.Subject>(subject));
         }
         #endregion
 
@@ -84,19 +96,19 @@ namespace StudentApp.API.Controllers
         [HttpDelete("{id}")]
         public async Task<bool> DeleteSubject(Guid id)
         {
-            return await _service.DeleteAsync(id);
+            return await _subjectService.DeleteAsync(id);
         }
 
         #endregion
 
-
         #region GET TYPES
+        [CustomAuth.Authorize]
         [HttpGet("types")]
         public async Task<Dictionary<Guid, string>> GetTypes()
         {
-            var data = _service.GetTypes();
+            var data = await _subjectService.GetTypesAsync();
 
-            var pairs = data.Result.Select(pair => new KeyValuePair<Guid, string>(pair.DefinitionKey, pair.Value));
+            var pairs = data.Select(pair => new KeyValuePair<Guid, string>(pair.DefinitionKey, pair.Value));
 
             return pairs.ToDictionary(p => p.Key, p => p.Value);
         }

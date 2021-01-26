@@ -9,6 +9,7 @@ using StudentApp.Services.Contracts;
 using RQ = StudentApp.API.DataContracts.Requests.Project.POST;
 using DC = StudentApp.API.DataContracts;
 using S = StudentApp.Services.Model;
+using CustomAuth = StudentApp.Tools.Helpers;
 
 namespace StudentApp.API.Controllers
 {
@@ -18,17 +19,20 @@ namespace StudentApp.API.Controllers
     {
         private readonly IProjectService _projectService;
         private readonly ISubjectService _subjectService;
+        private readonly ISemesterService _semesterService;
         private readonly IMapper _mapper;
 
-        public ProjectController(IProjectService projectService, ISubjectService subjectService, IMapper mapper)
+        public ProjectController(IProjectService projectService, ISubjectService subjectService, IMapper mapper, ISemesterService semesterService)
         {
             _projectService = projectService;
             _subjectService = subjectService;
+            _semesterService = semesterService;
             _mapper = mapper;
         }
 
         #region GET SINGLE
 
+        [CustomAuth.Authorize]
         [HttpGet("{projectKey}")]
         public async Task<DC.Project> GetSingle(Guid projectKey)
         {
@@ -40,11 +44,31 @@ namespace StudentApp.API.Controllers
         #endregion
 
         #region GET ALL BY SUBJECT
-
+        [CustomAuth.Authorize]
         [HttpGet("subject/{subjectKey}")]
         public async Task<ICollection<DC.Project>> GetAllBySubject(Guid subjectKey)
         {
-            var projects = _projectService.GetAllBySubjectAsync(subjectKey).Result;
+            var projects = await _projectService.GetAllBySubjectAsync(subjectKey);
+            return projects != null ? _mapper.Map<ICollection<DC.Project>>(projects) : null;
+        }
+
+        #endregion
+
+        #region GET ALL BY SEMESTER
+
+        [CustomAuth.Authorize]
+        [HttpGet("semester")]
+        public async Task<ICollection<DC.Project>> GetSubjects()
+        {
+            var userData = (S.User)HttpContext.Items["User"];
+
+            if (userData == null)
+                return null;
+
+            var currentSemester = await _semesterService.GetCurrentSemesterByDefinitionGroupAsync(userData.SemesterDefinitionGroupKey);
+
+            var projects = await _projectService.GetAllProjectsInSemesterAsync(currentSemester.DefinitionKey);
+
             return projects != null ? _mapper.Map<ICollection<DC.Project>>(projects) : null;
         }
 
@@ -52,6 +76,7 @@ namespace StudentApp.API.Controllers
 
         #region POST
 
+        [CustomAuth.Authorize]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -73,7 +98,7 @@ namespace StudentApp.API.Controllers
         #endregion
 
         #region GET TYPES
-
+        [CustomAuth.Authorize]
         [HttpGet("types")]
         public async Task<Dictionary<Guid, string>> GetTypes()
         {
@@ -88,6 +113,7 @@ namespace StudentApp.API.Controllers
 
         #region GET STATUSES
 
+        [CustomAuth.Authorize]
         [HttpGet("statuses")]
         public async Task<Dictionary<Guid, string>> GetStatuses()
         {
@@ -102,27 +128,21 @@ namespace StudentApp.API.Controllers
 
         #region GET CATEGORIES
 
+        [CustomAuth.Authorize]
         [HttpGet("categories/{typeDefinitionKey}")]
         public async Task<ICollection<DC.Category>> GetCategories(Guid typeDefinitionKey)
         {
-            var data = await _projectService.GetAllCategoriesOrderedByIndexAsync(typeDefinitionKey);
+            var userData = (S.User)HttpContext.Items["User"];
+
+            if (userData == null)
+                return null;
+
+            var data = await _projectService.GetOrderedCategoriesByTypeAsync(typeDefinitionKey, userData.UserKey);
 
             return data != null ? _mapper.Map<ICollection<DC.Category>>(data) : null;
         }
 
         #endregion
 
-        #region GET ALL SUBJECTS
-
-        [HttpGet("subjects/{semesterKey}")]
-        public async Task<Dictionary<Guid, string>> GetSubjects(Guid semesterKey)
-        {
-            var data = _subjectService.GetAllBySemesterAsync(semesterKey);
-            var pairs = data.Result.Select(pair => new KeyValuePair<Guid, string>(pair.SubjectKey, pair.Name));
-
-            return pairs.ToDictionary(p => p.Key, p => p.Value);
-        }
-
-        #endregion
     }
 }

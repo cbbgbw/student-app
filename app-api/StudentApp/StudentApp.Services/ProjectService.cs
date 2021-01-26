@@ -35,26 +35,23 @@ namespace StudentApp.Services
 
         }
 
-        public async Task<ICollection<Project>> GetAllBySubjectAsync(Guid subjectKey) => _context.Project.Where(proj => proj.SubjectKey == subjectKey).ToList();
+        public async Task<ICollection<Project>> GetAllBySubjectAsync(Guid subjectKey) => await _context.Project.Where(proj => proj.SubjectKey == subjectKey).ToListAsync();
 
         //TODO przenieść typy do JSON (PROJECT_TYPES)
-        public async Task<ICollection<Definition>> GetTypesAsync() =>_context.Definition.Where(d => d.GroupName == "PROJECT_TYPES").ToList();
+        public async Task<ICollection<Definition>> GetTypesAsync() => await _context.Definition.Where(d => d.GroupName == "PROJECT_TYPES").ToListAsync();
 
-        public async Task<ICollection<Status>> GetAllStatusesAsync() => _context.Status.ToList();
+        public async Task<ICollection<Status>> GetAllStatusesAsync() => await _context.Status.ToListAsync();
 
-        public async Task<ICollection<Category>> GetAllCategoriesOrderedByIndexAsync(Guid typeDefinitionKey)
+        public async Task<ICollection<Category>> GetOrderedCategoriesByTypeAsync(Guid typeDefinitionKey, Guid userKey) => await _context.Category.Where(d => d.ProjectTypeKey == typeDefinitionKey && d.UserKey == userKey).OrderBy(p => p.OrderIndex).ToListAsync();
+
+        public async Task<ICollection<Project>> GetAllProjectsInSemesterAsync(Guid semesterKey)
         {
-            return _context.Category.Where(d => d.ProjectTypeKey == typeDefinitionKey).OrderBy(p => p.OrderIndex).ToList();
-        }
+            var projects = await _context.Subject
+                .Include(s => s.Projects)
+                .AsSplitQuery()
+                .SingleAsync(sub => Equals(sub.SemesterDefinitionKey, semesterKey));
 
-        //public async Task<ICollection<Subject>> GetAllSubjectsAsync()
-        //{
-        //    return _context.Subject.ToList();
-        //}
-
-        public Task<ICollection<Project>> GetAllProjectsInSemester(Guid semesterKey)
-        {
-            throw new NotImplementedException();
+            return projects.Projects;
         }
     }
 }

@@ -36,7 +36,7 @@ namespace StudentApp.Services
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<ICollection<Event>> GetAllBySubject(Guid subjectKey)
+        public async Task<ICollection<Event>> GetAllBySubjectAsync(Guid subjectKey)
         {
             var query = from s in _context.Subject
                 join p in _context.Project on s.SubjectKey equals p.SubjectKey
@@ -44,7 +44,7 @@ namespace StudentApp.Services
                 where s.SubjectKey == subjectKey
                 select ev;
 
-            return query.ToList<Event>();
+            return await query.ToListAsync<Event>();
         }
     }
 }
