@@ -1,0 +1,27 @@
+name: .NET
+
+on:
+  push:
+    branches: [ 0.0.1 ]
+  pull_request:
+    branches: [ 0.0.1 ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.101
+    - name: Check directory
+      run: ls
+    - name: Restore dependencies
+      run: dotnet restore ./app-api
+    - name: Build
+      run: dotnet build --no-restore ./app-api
+    - name: Test
+      run: dotnet test --no-build --verbosity normal ./app-api

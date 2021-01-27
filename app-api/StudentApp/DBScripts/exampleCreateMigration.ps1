@@ -1,0 +1,1 @@
+dotnet ef migrations add 0.0.1-11.01.2021-Mig -s ..\StudentApp.API\StudentApp.API.csproj --output-dir ..\StudentApp.API\Migrations\SQLServerMigrations
