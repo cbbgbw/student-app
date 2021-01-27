@@ -58,7 +58,7 @@ namespace StudentApp.API.Controllers
 
         [CustomAuth.Authorize]
         [HttpGet]
-        public async Task<Dictionary<Guid, string>> GetSemestersByUser()
+        public async Task<Tuple<Guid, Dictionary<Guid, string>>> GetSemestersByUser()
         {
             var userData = (S.User)HttpContext.Items["User"];
 
@@ -66,9 +66,14 @@ namespace StudentApp.API.Controllers
                 return null;
 
             var data = await _semesterService.GetAllSemestersByUserAsync(userData.UserKey);
-            var pairs = data.Select(pair => new KeyValuePair<Guid, string>(pair.DefinitionKey, pair.Value));
 
-            return pairs.ToDictionary(p => p.Key, p => p.Value);
+            if(data == (null, null))
+                return null;
+
+            var firstPair = data.Item1.DefinitionKey;
+            var restPairs = data.Item2.Select(pair => new KeyValuePair<Guid, string>(pair.DefinitionKey, pair.Value)).OrderBy(d => int.Parse(d.Value));
+
+            return (firstPair, restPairs.ToDictionary(p => p.Key, p => p.Value)).ToTuple();
         }
 
         #endregion
@@ -90,14 +95,16 @@ namespace StudentApp.API.Controllers
 
         [CustomAuth.Authorize]
         [HttpPost("{value}")]
-        public async Task<Guid> CreateSemester(string value)
+        public async Task<Guid> CreateSemester(int value)
         {
             var userData = (S.User)HttpContext.Items["User"];
 
             if (userData == null)
                 return Guid.Empty;
 
-            return await _semesterService.CreateSemesterAsync(userData.UserKey, value);
+            var stringValue = value.ToString();
+
+            return await _semesterService.CreateSemesterAsync(userData.UserKey, stringValue);
         }
 
         #endregion
