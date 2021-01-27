@@ -10,9 +10,9 @@ using S = StudentApp.Services.Model;
 
 namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
 {
-    public class APIMappingProfile : Profile
+    public class ApiMappingProfile : Profile
     {
-        public APIMappingProfile()
+        public ApiMappingProfile()
         {
             #region USER
 

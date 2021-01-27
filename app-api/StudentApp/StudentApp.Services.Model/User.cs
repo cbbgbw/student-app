@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,6 +22,7 @@ namespace StudentApp.Services.Model
 
         [ForeignKey(nameof(SemesterDefinitionGroupKey))]
         public DefinitionGroup SemesterDefinitionGroup { get; set; }
-        
+        public ICollection<Category> Categories { get; set; }
+
     }
 }

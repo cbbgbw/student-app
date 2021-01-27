@@ -26,6 +26,6 @@ namespace StudentApp.API.DataContracts
 
         [Required]
         public Guid SemesterDefinitionKey { get; set; }
-        public bool isArchive { get; set; }
+        public bool IsArchive { get; set; }
     }
 }

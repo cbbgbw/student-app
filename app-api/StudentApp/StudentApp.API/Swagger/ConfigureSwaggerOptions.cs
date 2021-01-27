@@ -13,22 +13,22 @@ namespace StudentApp.API.Swagger
 {
     public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
     {
-        readonly IApiVersionDescriptionProvider provider;
-        readonly IConfiguration configuration;
-        readonly AppSettings appSettings;
+        readonly IApiVersionDescriptionProvider _provider;
+        readonly IConfiguration _configuration;
+        readonly AppSettings _appSettings;
 
         public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider, IConfiguration configuration)
         {
-            this.provider = provider;
-            this.configuration = configuration;
+            this._provider = provider;
+            this._configuration = configuration;
 
-            appSettings = configuration.GetSection(nameof(AppSettings)).Get<AppSettings>();
+            _appSettings = configuration.GetSection(nameof(AppSettings)).Get<AppSettings>();
         }
 
 
         public void Configure(SwaggerGenOptions options)
         {
-            Configure(options, appSettings.API);
+            Configure(options, _appSettings.Api);
         }
 
         public void Configure(SwaggerGenOptions options, ApiSettings apiSettings)
@@ -39,7 +39,7 @@ namespace StudentApp.API.Swagger
             if (apiSettings == null)
                 throw new ArgumentNullException(nameof(apiSettings));
 
-            foreach (var description in provider.ApiVersionDescriptions)
+            foreach (var description in _provider.ApiVersionDescriptions)
             {
                 options.SwaggerDoc(description.GroupName, CreateInfoForApiVersion(description, apiSettings));
             }

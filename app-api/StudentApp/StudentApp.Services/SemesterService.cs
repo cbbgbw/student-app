@@ -26,12 +26,13 @@ namespace StudentApp.Services
             _mapper = mapper;
         }
 
+        public async Task<Guid> GetSingleSemesterAsync(Guid semesterKey) => _context.Definition.SingleAsync(d => d.DefinitionKey == semesterKey).Result.DefinitionKey;
 
-        public async Task<Guid> GetSingleSemester(Guid semesterKey)
-        {
-            return _context.Definition.SingleAsync(d => d.DefinitionKey == semesterKey).Result.DefinitionKey;
-        }
-        public async Task<ICollection<Definition>> GetAllSemestersByUser(Guid userKey)
+        public async Task<Definition> GetCurrentSemesterByDefinitionGroupAsync(Guid definitionGroupKey) =>
+            await _context.Definition.SingleAsync(d =>
+                d.DefinitionGroupKey == definitionGroupKey && d.Default == true);
+
+        public async Task<ICollection<Definition>> GetAllSemestersByUserAsync(Guid userKey)
         {
             var query = from u in _context.User
                 join dg in _context.DefinitionGroup on u.SemesterDefinitionGroupKey equals dg.DefinitionGroupKey
@@ -40,18 +41,18 @@ namespace StudentApp.Services
                 where u.UserKey == userKey
                 select d;
 
-            return query.ToList<Definition>();
+            return await query.ToListAsync<Definition>();
         }
 
-        public async Task<int> ChangeSemester(Guid semesterKey)
+        public async Task<int> ChangeSemesterAsync(Guid semesterKey)
         {
-            var semester = _context.Definition.FindAsync(semesterKey).Result;
+            var semester = await _context.Definition.FindAsync(semesterKey);
 
             if (semester == null)
                 throw new AppException("Nie znaleziono podanego semestru");
 
             //Change default of last semester definition to false (should be one)
-            var lastSemesterWithDefault = _context.Definition.FirstOrDefault(d => d.DefinitionGroupKey == semester.DefinitionGroupKey && d.Default == true);
+            var lastSemesterWithDefault = await _context.Definition.FirstOrDefaultAsync(d => d.DefinitionGroupKey == semester.DefinitionGroupKey && d.Default == true);
 
             if (lastSemesterWithDefault != null) lastSemesterWithDefault.Default = false;
 
@@ -60,12 +61,12 @@ namespace StudentApp.Services
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<Guid> CreateSemester(Guid userKey, string value)
+        public async Task<Guid> CreateSemesterAsync(Guid userKey, string value)
         {
             var user = _context.User.FindAsync(userKey).Result;
 
             //If user has no semesters, give default as 1
-            bool defaultValue = GetAllSemestersByUser(userKey).Result == null ? true : false;
+            bool defaultValue = GetAllSemestersByUserAsync(userKey).Result == null ? true : false;
             DateTime currentDate = DateTime.Now;
 
             Definition definition = new Definition

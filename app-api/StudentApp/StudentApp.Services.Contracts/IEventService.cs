@@ -11,6 +11,6 @@ namespace StudentApp.Services.Contracts
     {
         Task<Event> GetSingleAsync(Guid eventKey);
         Task<int> CreateAsync(Event eventModel);
-        Task<ICollection<Event>> GetAllBySubject(Guid subjectKey);
+        Task<ICollection<Event>> GetAllBySubjectAsync(Guid subjectKey);
     }
 }

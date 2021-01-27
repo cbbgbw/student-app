@@ -39,22 +39,22 @@ namespace StudentApp.Services
             throw new NotImplementedException();
         }
 
-        public async Task<bool> DeleteAsync(Guid SubjectKEY)
+        public async Task<bool> DeleteAsync(Guid subjectKey)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Subject> GetSingleAsync(Guid SubjectKEY)
+        public async Task<Subject> GetSingleAsync(Guid subjectKey)
         {
-            return _context.Subject.SingleAsync(subject => subject.SubjectKey == SubjectKEY).Result;
+            return await _context.Subject.SingleAsync(subject => subject.SubjectKey == subjectKey);
         }
 
         public async Task<ICollection<Subject>> GetAllBySemesterAsync(Guid semesterKey)
         {
-            return _context.Subject.Where(sub => sub.SemesterDefinitionKey == semesterKey).ToList();
+            return await _context.Subject.Where(sub => sub.SemesterDefinitionKey == semesterKey).ToListAsync();
         }
 
-        public async Task<ICollection<Definition>> GetTypes()
+        public async Task<ICollection<Definition>> GetTypesAsync()
         {
             var retVal = await _context.DefinitionGroup
                 .Include(dg => dg.Definitions)

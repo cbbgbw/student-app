@@ -5,10 +5,9 @@ using StudentApp.Services.Contracts;
 using StudentApp.Services.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 using StudentApp.Tools.Configurations;
 using StudentApp.Tools.Helpers;
 
@@ -27,7 +26,7 @@ namespace StudentApp.Services
             _context = context;
         }
 
-        public async Task<User> Authenticate(string loginName, string password)
+        public async Task<User> AuthenticateAsync(string loginName, string password)
         {
             if (string.IsNullOrEmpty(loginName) || string.IsNullOrEmpty(password))
                 return null;
@@ -38,7 +37,7 @@ namespace StudentApp.Services
             if (user == null)
                 return null;
 
-            return PasswordHash.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt) == true ? user : null;
+            return PasswordHash.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt) == false ? null : user;
         }
 
         public async Task<User> GetSingleAsync(Guid userKey)
@@ -51,10 +50,10 @@ namespace StudentApp.Services
         public async Task<int> CreateAsync(User user, string password)
         {
             if (string.IsNullOrWhiteSpace(password))
-                throw new AppException("Wymagane podanie has³a");
+                throw new AppException("Wymagane podanie hasÂ³a");
 
             if (await _context.User.AnyAsync(u => u.LoginName == user.LoginName))
-                throw new AppException("U¿ytkownik \"" + user.LoginName + "\" ju¿ istnieje");
+                throw new AppException("UÂ¿ytkownik \"" + user.LoginName + "\" juÂ¿ istnieje");
 
             byte[] passwordHash, passwordSalt;
             PasswordHash.CreatePasswordHash(password, out passwordHash, out passwordSalt);
@@ -69,7 +68,7 @@ namespace StudentApp.Services
             DefinitionGroup semesterGroup = new DefinitionGroup
             {
                 DefinitionGroupKey = newDefinitionGroup,
-                Description = "Semestr u¿ytkownika " + user.LoginName,
+                Description = "Semestr uÂ¿ytkownika " + user.LoginName,
                 GroupName = user.LoginName + "_SEMESTERS",
                 CreateTime = date,
                 ModifyTime = date

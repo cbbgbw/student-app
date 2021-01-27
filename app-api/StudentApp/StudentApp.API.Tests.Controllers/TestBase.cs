@@ -11,31 +11,31 @@ namespace StudentApp.API.Tests.Controllers
     [TestClass]
     public class TestBase
     {
-        internal IConfigurationRoot _configurationRoot;
-        internal ServiceCollection _services;
-        internal ServiceProvider _serviceProvider;
+        internal IConfigurationRoot ConfigurationRoot;
+        internal ServiceCollection Services;
+        internal ServiceProvider ServiceProvider;
 
         public TestBase()
         {
-            _configurationRoot = ConfigurationHelper.GetIConfigurationRoot(Directory.GetCurrentDirectory());
-            var appSettings = _configurationRoot.GetSection(nameof(AppSettings));
+            ConfigurationRoot = ConfigurationHelper.GetIConfigurationRoot(Directory.GetCurrentDirectory());
+            var appSettings = ConfigurationRoot.GetSection(nameof(AppSettings));
 
-            _services = new ServiceCollection();
+            Services = new ServiceCollection();
 
             //We load EXACTLY the same settings (DI and others) than API real solution, what is much better for tests.
-            _services.ConfigureBusinessServices((IConfiguration)_configurationRoot);
+            Services.ConfigureBusinessServices((IConfiguration)ConfigurationRoot);
 
-            _services.ConfigureMappings();
-            _services.AddLogging();
-            _services.Configure<AppSettings>(appSettings);
+            Services.ConfigureMappings();
+            Services.AddLogging();
+            Services.Configure<AppSettings>(appSettings);
 
-            _serviceProvider = _services.BuildServiceProvider();
+            ServiceProvider = Services.BuildServiceProvider();
         }
 
         ~TestBase()
         {
-            if (_serviceProvider != null)
-                _serviceProvider.Dispose();
+            if (ServiceProvider != null)
+                ServiceProvider.Dispose();
         }
     }
 }

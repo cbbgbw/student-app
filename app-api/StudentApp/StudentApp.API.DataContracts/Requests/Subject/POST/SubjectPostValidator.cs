@@ -11,9 +11,9 @@ namespace StudentApp.API.DataContracts.Requests.Subject.POST
 
         public SubjectPostValidator (ISubjectService service)
         {
-            bool validateType(Guid typeKey)
+            bool ValidateType(Guid typeKey)
             {
-                var types = service.GetTypes().Result;
+                var types = service.GetTypesAsync().Result;
 
                 return types.FirstOrDefault(type => type.DefinitionKey == typeKey) != null;
             }
@@ -21,7 +21,7 @@ namespace StudentApp.API.DataContracts.Requests.Subject.POST
 
             RuleFor(subject => subject.TypeDefinitionKey)
                 .NotEmpty()
-                .Must(validateType).WithMessage("Nie znaleziono podanego typu definicji.");
+                .Must(ValidateType).WithMessage("Nie znaleziono podanego typu definicji.");
         }
     }
 }

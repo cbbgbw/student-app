@@ -9,6 +9,7 @@ using StudentApp.Services.Contracts;
 using RQ = StudentApp.API.DataContracts.Requests.Event.POST;
 using DC = StudentApp.API.DataContracts;
 using S = StudentApp.Services.Model;
+using CustomAuth = StudentApp.Tools.Helpers;
 
 namespace StudentApp.API.Controllers
 {
@@ -29,6 +30,7 @@ namespace StudentApp.API.Controllers
 
         #region GET SINGLE
 
+        [CustomAuth.Authorize]
         [HttpGet("{eventKey}")]
         public async Task<DC.Event> GetSingle(Guid eventKey)
         {
@@ -40,10 +42,12 @@ namespace StudentApp.API.Controllers
         #endregion
 
         #region POST
+
+        [CustomAuth.Authorize]
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpPost]
         public async Task<ActionResult> CreateEvent([FromBody] RQ.EventPostRequest eventModel)
         {
             RQ.EventPostValidator validator = new RQ.EventPostValidator(_projectService);
@@ -63,10 +67,11 @@ namespace StudentApp.API.Controllers
 
         #region GET ALL BY SUBJECT
 
+        [CustomAuth.Authorize]
         [HttpGet("project/{subjectKey}")]
         public async Task<ICollection<DC.Event>> GetAllBySubject(Guid subjectKey)
         {
-            var events = _eventService.GetAllBySubject(subjectKey).Result;
+            var events = await _eventService.GetAllBySubjectAsync(subjectKey);
             return events != null ? _mapper.Map<ICollection<DC.Event>>(events) : null;
         }
 

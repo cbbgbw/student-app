@@ -46,7 +46,7 @@ namespace StudentApp.API
         private readonly ILogger _logger;
         private IServiceProvider _serviceProvider;
 
-        private readonly string MyAllowSpecificOrigins = "local-app";
+        private readonly string _myAllowSpecificOrigins = "local-app";
 
         public Startup(IConfiguration configuration, IWebHostEnvironment env, IServiceProvider serviceProvider, ILogger<Startup> logger)
         {
@@ -80,7 +80,7 @@ namespace StudentApp.API
 
                     services.AddCors(opts =>
                     {
-                        opts.AddPolicy(name: MyAllowSpecificOrigins,
+                        opts.AddPolicy(name: _myAllowSpecificOrigins,
                             builder => builder.WithOrigins("http://localhost:3000")
                             .AllowAnyHeader()
                             .AllowAnyMethod());
@@ -97,40 +97,40 @@ namespace StudentApp.API
 
 
                     // Jwt authentication
-                    var appSettings = _appsettingsConfigurationSection.Get<AppSettings>();
-                    var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-                    services.AddAuthentication(x =>
-                        {
-                            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                        })
-                        .AddJwtBearer(x =>
-                        {
-                            x.Events = new JwtBearerEvents
-                            {
-                                OnTokenValidated = context =>
-                                {
-                                    var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
-                                    var userKey = Guid.Parse(context.Principal.Identity.Name);
-                                    var user = userService.GetSingleAsync(userKey);
-                                    if (user == null)
-                                    {
-                                        // return unauthorized if user no longer exists
-                                        context.Fail("Unauthorized");
-                                    }
-                                    return Task.CompletedTask;
-                                }
-                            };
-                            x.RequireHttpsMetadata = false;
-                            x.SaveToken = true;
-                            x.TokenValidationParameters = new TokenValidationParameters
-                            {
-                                ValidateIssuerSigningKey = true,
-                                IssuerSigningKey = new SymmetricSecurityKey(key),
-                                ValidateIssuer = false,
-                                ValidateAudience = false
-                            };
-                        });
+                    //var appSettings = _appsettingsConfigurationSection.Get<AppSettings>();
+                    //var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+                    //services.AddAuthentication(x =>
+                    //    {
+                    //        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    //        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    //    })
+                    //    .AddJwtBearer(x =>
+                    //    {
+                    //        x.Events = new JwtBearerEvents
+                    //        {
+                    //            OnTokenValidated = context =>
+                    //            {
+                    //                var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
+                    //                var userKey = Guid.Parse(context.Principal.Identity.Name);
+                    //                var user = userService.GetSingleAsync(userKey);
+                    //                if (user == null)
+                    //                {
+                    //                    // return unauthorized if user no longer exists
+                    //                    context.Fail("Unauthorized");
+                    //                }
+                    //                return Task.CompletedTask;
+                    //            }
+                    //        };
+                    //        x.RequireHttpsMetadata = false;
+                    //        x.SaveToken = true;
+                    //        x.TokenValidationParameters = new TokenValidationParameters
+                    //        {
+                    //            ValidateIssuerSigningKey = true,
+                    //            IssuerSigningKey = new SymmetricSecurityKey(key),
+                    //            ValidateIssuer = false,
+                    //            ValidateAudience = false
+                    //        };
+                    //    });
 
 
                     //API versioning
@@ -265,10 +265,13 @@ namespace StudentApp.API
 
                 app.UseHttpsRedirection();
                 app.UseRouting();
-                app.UseCors(MyAllowSpecificOrigins);
+                app.UseCors(_myAllowSpecificOrigins);
 
-                app.UseAuthentication();
-                app.UseAuthorization();
+                //app.UseAuthentication();
+                //app.UseAuthorization();
+
+                app.UseMiddleware<JwtMiddleware>();
+
 
                 app.UseEndpoints(endpoints =>
                 {
