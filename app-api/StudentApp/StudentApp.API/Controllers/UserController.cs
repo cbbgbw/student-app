@@ -40,6 +40,7 @@ namespace StudentApp.API.Controllers
         {
             var user = await _userService.AuthenticateAsync(model.LoginName, model.Password);
 
+
             if (user == null)
                 return BadRequest(new { message = "Nieprawidłowy login lub hasło" });
 
@@ -84,6 +85,7 @@ namespace StudentApp.API.Controllers
         #region GET ALL
 
         [CustomAuth.Authorize]
+
         [HttpGet("all")]
         public async Task<ICollection<DC.User>> GetAllUsers()
         {
@@ -115,6 +117,5 @@ namespace StudentApp.API.Controllers
         }
 
         #endregion
-
     }
 }
