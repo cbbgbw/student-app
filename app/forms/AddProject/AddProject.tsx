@@ -87,8 +87,8 @@ export const AddProject: FC = () => {
         labelText="Jaki jest status twojego projektu?"
       />
       <CTextArea name="description" ref={register()} labelText="Opis" />
-      <Checkbox name="hasProjectToPass" ref={register()}>
-        Projekt istotny dla zaliczenia
+      <Checkbox colorScheme="red" name="hasProjectToPass" ref={register()}>
+        Projekt niezbędny dla zaliczenia
       </Checkbox>
       <CDayPicker date={datePicked} onDateChange={setDatePicked} />
     </ReusableModal>

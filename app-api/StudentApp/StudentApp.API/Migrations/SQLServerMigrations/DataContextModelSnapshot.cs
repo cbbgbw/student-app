@@ -132,6 +132,7 @@ namespace StudentApp.API.Migrations.SQLServerMigrations
                             GroupName = "SUBJECT_TYPES",
                             ModifyTime = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Value = "Laboratoria"
+
                         },
                         new
                         {

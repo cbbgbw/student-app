@@ -52,7 +52,7 @@ export const AuthProvider: FC = (props) => {
     <LoadingPage />
   ) : (
     <GlobalDataProvider>
-      {/*<Navigation />*/}
+      {/* <Navigation /> */}
       {props.children}
       <ModalWrapper />
     </GlobalDataProvider>

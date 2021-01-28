@@ -1,17 +1,19 @@
 import { useSubjectsBySemester, useSubjectTypes } from '../../actions/subject'
 import { Button } from '../../components/Forms/Button/Button'
-
-import { useRouter } from 'next/router'
 import { ModalType } from '../../types/types'
-import { useStore } from '../../utils/storeProvider'
 import { ListSubject } from '../../components/page/Subject/ListSubject'
 import { LeadingColor } from '../../types/color'
+import { useUserSemesters } from '../../actions/user/useUserSemesters'
+import { useContext } from 'react'
+import { GlobalDataContext } from '../../components/Auth/Provider'
 
 export const SubjectListView = () => {
-  useRouter()
-  const setModalType = useStore((state) => state.view.setModalType)
-  const { subjectArray, isLoading } = useSubjectsBySemester()
+  const { currentSemester } = useUserSemesters()
+  const { subjectArray, isLoading } = useSubjectsBySemester(
+    currentSemester?.[0],
+  )
   const subjectTypesRequest = useSubjectTypes()
+  const { setModalType } = useContext(GlobalDataContext)
 
   const renderSubjects = () =>
     !subjectTypesRequest.isLoading &&
