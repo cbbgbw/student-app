@@ -50,10 +50,10 @@ namespace StudentApp.Services
         public async Task<int> CreateAsync(User user, string password)
         {
             if (string.IsNullOrWhiteSpace(password))
-                throw new AppException("Wymagane podanie has³a");
+                throw new AppException("Wymagane podanie hasï¿½a");
 
             if (await _context.User.AnyAsync(u => u.LoginName == user.LoginName))
-                throw new AppException("U¿ytkownik \"" + user.LoginName + "\" ju¿ istnieje");
+                throw new AppException("Uï¿½ytkownik \"" + user.LoginName + "\" juï¿½ istnieje");
 
             byte[] passwordHash, passwordSalt;
             PasswordHash.CreatePasswordHash(password, out passwordHash, out passwordSalt);
@@ -68,7 +68,8 @@ namespace StudentApp.Services
             DefinitionGroup semesterGroup = new DefinitionGroup
             {
                 DefinitionGroupKey = newDefinitionGroup,
-                Description = "Semestr u¿ytkownika " + user.LoginName,
+                Description = "Semestr uï¿½ytkownika " + user.LoginName,
+
                 GroupName = user.LoginName + "_SEMESTERS",
                 CreateTime = date,
                 ModifyTime = date

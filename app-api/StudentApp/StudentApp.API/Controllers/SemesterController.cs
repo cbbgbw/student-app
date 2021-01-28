@@ -61,7 +61,6 @@ namespace StudentApp.API.Controllers
         public async Task<Tuple<Guid, Dictionary<Guid, string>>> GetSemestersByUser()
         {
             var userData = (S.User)HttpContext.Items["User"];
-
             if (userData == null)
                 return null;
 

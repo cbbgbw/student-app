@@ -115,6 +115,5 @@ namespace StudentApp.API.Controllers
         }
 
         #endregion
-
     }
 }

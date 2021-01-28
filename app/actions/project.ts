@@ -61,3 +61,5 @@ export const useProjectCategory = (projectTypeKey: string | undefined) => {
     isError: error,
   }
 }
+
+export const useProjects = () => {}
