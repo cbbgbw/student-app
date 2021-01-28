@@ -32,16 +32,41 @@ namespace StudentApp.Services
             await _context.Definition.SingleAsync(d =>
                 d.DefinitionGroupKey == definitionGroupKey && d.Default == true);
 
-        public async Task<ICollection<Definition>> GetAllSemestersByUserAsync(Guid userKey)
+        public async Task<Definition> GetCurrentSemesterByUserAsync(Guid userKey)
         {
             var query = from u in _context.User
                 join dg in _context.DefinitionGroup on u.SemesterDefinitionGroupKey equals dg.DefinitionGroupKey
                 join d in _context.Definition on dg.DefinitionGroupKey equals d.DefinitionGroupKey
-                orderby d.Default descending 
+                where u.UserKey == userKey && d.Default == true
+                select d;
+
+            return await query.SingleAsync();
+        }
+
+        //public async Task<ICollection<Definition>> GetAllSemestersByUserAsync(Guid userKey)
+        //{
+        //    var query = from u in _context.User
+        //        join dg in _context.DefinitionGroup on u.SemesterDefinitionGroupKey equals dg.DefinitionGroupKey
+        //        join d in _context.Definition on dg.DefinitionGroupKey equals d.DefinitionGroupKey
+        //        orderby d.Default descending 
+        //        where u.UserKey == userKey
+        //        select d;
+
+        //    return await query.ToListAsync<Definition>();
+        //}
+
+        public async Task<(Definition, ICollection<Definition>)> GetAllSemestersByUserAsync(Guid userKey)
+        {
+            var currentSemester = await GetCurrentSemesterByUserAsync(userKey);
+
+            var query = from u in _context.User
+                join dg in _context.DefinitionGroup on u.SemesterDefinitionGroupKey equals dg.DefinitionGroupKey
+                join d in _context.Definition on dg.DefinitionGroupKey equals d.DefinitionGroupKey
+                orderby d.Value
                 where u.UserKey == userKey
                 select d;
 
-            return await query.ToListAsync<Definition>();
+            return (currentSemester, await query.ToListAsync<Definition>());
         }
 
         public async Task<int> ChangeSemesterAsync(Guid semesterKey)
@@ -65,23 +90,24 @@ namespace StudentApp.Services
         {
             var user = _context.User.FindAsync(userKey).Result;
 
-            //If user has no semesters, give default as 1
-            bool defaultValue = GetAllSemestersByUserAsync(userKey).Result == null ? true : false;
+            Guid newSemesterKey = Guid.NewGuid();
             DateTime currentDate = DateTime.Now;
 
             Definition definition = new Definition
             {
-                DefinitionKey = Guid.NewGuid(),
+                DefinitionKey = newSemesterKey,
                 DefinitionGroupKey = user.SemesterDefinitionGroupKey,
                 GroupName = user.LoginName + "_SEMESTERS",
                 Value = value,
-                Default = defaultValue,
+                Default = false,
                 CreateTime = currentDate,
                 ModifyTime = currentDate
             };
 
             await _context.Definition.AddAsync(definition);
             await _context.SaveChangesAsync();
+
+            await ChangeSemesterAsync(newSemesterKey);
 
             return definition.DefinitionKey;
         }

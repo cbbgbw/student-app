@@ -11,7 +11,8 @@ namespace StudentApp.Services.Contracts
     {
         Task<Guid> GetSingleSemesterAsync(Guid semesterKey);
         Task<Definition> GetCurrentSemesterByDefinitionGroupAsync(Guid definitionGroupKey);
-        Task<ICollection<Definition>> GetAllSemestersByUserAsync(Guid userKey);
+        Task<Definition> GetCurrentSemesterByUserAsync(Guid userKey);
+        Task<(Definition,ICollection<Definition>)> GetAllSemestersByUserAsync(Guid userKey);
         Task<int> ChangeSemesterAsync(Guid semesterKey);
         Task<Guid> CreateSemesterAsync(Guid userKey, string value);
     }

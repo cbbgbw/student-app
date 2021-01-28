@@ -272,7 +272,6 @@ namespace StudentApp.API
 
                 app.UseMiddleware<JwtMiddleware>();
 
-
                 app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();
