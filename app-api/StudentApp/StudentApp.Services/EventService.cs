@@ -7,7 +7,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using StudentApp.API.Common.Settings;
 using StudentApp.Services.Contracts;
 using StudentApp.Services.Model;
 using StudentApp.Tools.Configurations;
@@ -16,13 +15,11 @@ namespace StudentApp.Services
 {
     public class EventService : IEventService
     {
-        private AppSettings _settings;
         private readonly IMapper _mapper;
         private readonly DataContext _context;
 
-        public EventService(IOptions<AppSettings> settings, IMapper mapper, DataContext context)
+        public EventService(IMapper mapper, DataContext context)
         {
-            _settings = settings?.Value;
             _mapper = mapper;
             _context = context;
         }

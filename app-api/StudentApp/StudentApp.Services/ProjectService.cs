@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using StudentApp.API.Common.Settings;
 using StudentApp.Services.Contracts;
 using StudentApp.Services.Model;
 using StudentApp.Tools.Configurations;
@@ -15,13 +14,11 @@ namespace StudentApp.Services
 {
     public class ProjectService : IProjectService
     {
-        private AppSettings _settings;
         private readonly IMapper _mapper;
         private readonly DataContext _context;
 
-        public ProjectService(IOptions<AppSettings> settings, IMapper mapper, DataContext context)
+        public ProjectService(IMapper mapper, DataContext context)
         {
-            _settings = settings?.Value;
             _mapper = mapper;
             _context = context;
         }
