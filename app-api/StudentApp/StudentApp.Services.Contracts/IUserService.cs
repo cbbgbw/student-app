@@ -8,7 +8,7 @@ namespace StudentApp.Services.Contracts
     public interface IUserService
     {
         Task<User> AuthenticateAsync(string loginName, string password);
-        Task<int> CreateAsync(User user, string password);
+        Task<int> CreateAsync(User user, string password, int semesterValue);
         Task<User> GetSingleAsync(Guid userKey);
         Task<ICollection<User>> GetAllAsync();
     }

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using StudentApp.API.Common.Settings;
 using StudentApp.Services.Contracts;
 using StudentApp.Services.Model;
 using StudentApp.Tools.Configurations;
@@ -16,13 +15,11 @@ namespace StudentApp.Services
     public class SemesterService : ISemesterService 
     {
         private readonly DataContext _context;
-        private AppSettings _appSettings;
         private readonly IMapper _mapper;
 
-        public SemesterService(DataContext context, IOptions<AppSettings> appSettings, IMapper mapper)
+        public SemesterService(DataContext context, IMapper mapper)
         {
             _context = context;
-            _appSettings = appSettings?.Value;
             _mapper = mapper;
         }
 
@@ -42,18 +39,6 @@ namespace StudentApp.Services
 
             return await query.SingleAsync();
         }
-
-        //public async Task<ICollection<Definition>> GetAllSemestersByUserAsync(Guid userKey)
-        //{
-        //    var query = from u in _context.User
-        //        join dg in _context.DefinitionGroup on u.SemesterDefinitionGroupKey equals dg.DefinitionGroupKey
-        //        join d in _context.Definition on dg.DefinitionGroupKey equals d.DefinitionGroupKey
-        //        orderby d.Default descending 
-        //        where u.UserKey == userKey
-        //        select d;
-
-        //    return await query.ToListAsync<Definition>();
-        //}
 
         public async Task<(Definition, ICollection<Definition>)> GetAllSemestersByUserAsync(Guid userKey)
         {

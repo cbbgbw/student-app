@@ -14,5 +14,6 @@ namespace StudentApp.API.DataContracts.Requests.User.POST
         public string LoginName { get; set; }
         public string Password { get; set; }
         public string EmailAddress { get; set; }
+        public int SemesterValue { get; set; }
     }
 }

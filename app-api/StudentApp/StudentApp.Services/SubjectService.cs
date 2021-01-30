@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Options;
-using StudentApp.API.Common.Settings;
 using StudentApp.Services.Contracts;
 using StudentApp.Services.Model;
 using System;
@@ -17,13 +16,11 @@ namespace StudentApp.Services
 {
     public class SubjectService : ISubjectService
     {
-        private AppSettings _settings;
         private readonly IMapper _mapper;
         private readonly DataContext _context;
 
-        public SubjectService(IOptions<AppSettings> settings, IMapper mapper, DataContext context)
+        public SubjectService(IMapper mapper, DataContext context)
         {
-            _settings = settings?.Value;
             _mapper = mapper;
             _context = context;
         }

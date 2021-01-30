@@ -99,16 +99,21 @@ namespace StudentApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> RegisterUser([FromBody] RQ.UserPostRequest user)
+        public async Task<ActionResult> RegisterUser([FromBody] RQ.UserPostRequest userModel)
         {
             RQ.UserPostValidator validator = new RQ.UserPostValidator(_userService);
-            var results = await validator.ValidateAsync(user.User);
+            var results = await validator.ValidateAsync(userModel.User);
 
             if (results.IsValid)
             {
-                var data = _userService.CreateAsync(_mapper.Map<S.User>(user), user.User.Password).Result;
+                var data = await _userService.CreateAsync(_mapper.Map<S.User>(userModel), userModel.User.Password, userModel.User.SemesterValue);
 
-                return data == 1 ? Ok() : Problem("Brak dostępu do bazy danych", null, 500);
+                /* We want to authenticate user after registration */
+                var user = await _userService.AuthenticateAsync(userModel.User.LoginName, userModel.User.Password);
+
+                var token = CustomAuth.JwtTokenGenerator.GenerateJwtToken(user, _appSettings.Secret);
+
+                return data == 1 ? Ok(new AuthenticateResponse(user, token)) : Problem("Brak dostępu do bazy danych", null, 500);
             }
 
             return BadRequest(results.Errors);

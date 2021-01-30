@@ -25,8 +25,4 @@
     <ProjectReference Include="..\StudentApp.Services.Contracts\StudentApp.Services.Contracts.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\StudentApp.Services.Contracts\StudentApp.Services.Contracts.csproj" />
-  </ItemGroup>
-
 </Project>
