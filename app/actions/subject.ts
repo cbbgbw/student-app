@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid'
 
-import { baseURL, Path, post } from './common/common'
+import { post } from './common/common'
 import useSWR from 'swr'
+import { fetcher, Path } from '../api/axios'
 
 type Post = PostProps & {
   subjectKey: string
@@ -41,7 +42,7 @@ interface Subject {
 
 export const useSubject = (key: string | string[] | undefined) => {
   if (key) {
-    const { data, error } = useSWR(`${baseURL}/subject/${key}`)
+    const { data, error } = useSWR(`subject/${key}`, fetcher)
 
     return {
       subject: data,
@@ -59,7 +60,8 @@ export const useSubject = (key: string | string[] | undefined) => {
 
 export const useSubjectTypes = () => {
   const { data, error } = useSWR<Record<string, string>>(
-    `${baseURL}/subject/types`,
+    `subject/types`,
+    fetcher,
   )
 
   return {
@@ -71,7 +73,8 @@ export const useSubjectTypes = () => {
 
 export const useSubjectsBySemester = (semesterKey: string | undefined) => {
   const { data, error } = useSWR<Subject[] | undefined>(
-    semesterKey ? `${baseURL}/subject/list/${semesterKey}` : null,
+    semesterKey ? `subject/list/${semesterKey}` : null,
+    fetcher,
   )
 
   const getAsKeyValue = () =>

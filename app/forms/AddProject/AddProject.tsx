@@ -12,7 +12,6 @@ import {
   ProjectFormData,
 } from '../../actions/project'
 import { CSelect } from '../../components/Forms/CSelect/CSelect'
-import { useUserSemesters } from '../../actions/user/useUserSemesters'
 import { Checkbox, FormLabel, Input } from '@chakra-ui/react'
 import { CTextArea } from '../../components/Forms/CTextarea/CTextArea'
 import 'react-day-picker/lib/style.css'
@@ -21,7 +20,7 @@ import { useRouter } from 'next/router'
 
 export const AddProject: FC = () => {
   const { push } = useRouter()
-  const { currentSemester } = useUserSemesters()
+  const { currentSemester } = useUser()
   const { projectTypes } = useProjectTypes()
   const { projectStatuses } = useProjectStatuses()
   const [projectType, setProjectType] = useState<string>()

@@ -5,7 +5,6 @@ export const useStateWithLocalStorage = (localStorageKey: string) => {
 
   React.useEffect(() => {
     localStorage.setItem(localStorageKey, value)
-    console.log(value)
   }, [value])
 
   React.useEffect(() => {

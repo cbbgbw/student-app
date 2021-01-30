@@ -8,10 +8,9 @@ import { GlobalDataContext } from '../../components/Auth/Provider'
 import { Checkbox, FormLabel, Input } from '@chakra-ui/react'
 import { CSelect } from '../../components/Forms/CSelect/CSelect'
 import { CTextArea } from '../../components/Forms/CTextarea/CTextArea'
-import { useUserSemesters } from '../../actions/user/useUserSemesters'
 
 export const AddSubject: FC = () => {
-  const { currentSemester } = useUserSemesters()
+  const { currentSemester } = useUser()
   const router = useRouter()
   const { modalType, setModalType } = useContext(GlobalDataContext)
 

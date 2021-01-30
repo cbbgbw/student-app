@@ -3,12 +3,11 @@ import { Button } from '../../components/Forms/Button/Button'
 import { ModalType } from '../../types/types'
 import { ListSubject } from '../../components/page/Subject/ListSubject'
 import { LeadingColor } from '../../types/color'
-import { useUserSemesters } from '../../actions/user/useUserSemesters'
 import { useContext } from 'react'
 import { GlobalDataContext } from '../../components/Auth/Provider'
 
 export const SubjectListView = () => {
-  const { currentSemester } = useUserSemesters()
+  const { currentSemester } = useUser()
   const { subjectArray, isLoading } = useSubjectsBySemester(
     currentSemester?.[0],
   )

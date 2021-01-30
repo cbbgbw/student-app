@@ -13,7 +13,7 @@ export const Add: FC<AddProps> = ({ name, onClick }) => (
     h={160}
     w={160}
     d="flex"
-    alignItems={'flex-start'}
+    alignItems="flex-start"
     flexDir="column"
     justifyContent="space-around"
     onClick={() => onClick()}

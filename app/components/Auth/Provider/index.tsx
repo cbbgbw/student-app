@@ -4,8 +4,8 @@ import { ModalWrapper } from '../../../forms/ModalWrapper'
 import LoadingPage from '../../page/LoadingPage'
 import { useStore } from '../../../utils/storeProvider'
 import { setSemesters } from '../../../store/modules/user/userSelectors'
-import { useUserSemesters } from '../../../actions/user/useUserSemesters'
 import { ModalType } from '../../../types/types'
+import { useStateWithLocalStorage } from '../../../hooks/useStateWithLocalStorage'
 
 interface GlobalDataContext {
   modalType: ModalType
@@ -27,36 +27,44 @@ export const GlobalDataProvider: FC = (props) => {
 }
 
 export const AuthProvider: FC = (props) => {
-  const { isError, isLoading, mutate, semesters } = useUserSemesters()
-
   const { pathname, push } = useRouter()
-  const [pathRequested, setPathRequested] = useState(pathname)
-
-  const setSemestersLocal = useStore(setSemesters)
-  const semesterKeys = semesters && Object.keys(semesters)
+  const [token] = useStateWithLocalStorage('token')
+  const isAbleToAuthorize = token && token !== ''
+  const withoutAuth = ['/login', '/register']
+  const isPageWithoutAuth = withoutAuth.includes(pathname)
 
   useEffect(() => {
-    if (semesters && semesterKeys) {
-      setSemestersLocal(semesters)
-      if (semesterKeys.length === 0) {
-        push('/login')
-      } else if (semesterKeys.length > 0 && pathRequested) {
-        push(pathRequested)
-      }
+    if (!isAbleToAuthorize && !isPageWithoutAuth) {
+      push('/login')
     }
-  }, [semesters])
+  }, [token])
 
-  return !semesters ||
-    (semesterKeys?.length === 0 && pathname === 'login') ||
-    pathname === 'register' ? (
-    <LoadingPage />
-  ) : (
+  if (!isAbleToAuthorize && !isPageWithoutAuth) {
+    return <LoadingPage />
+  }
+  return (
     <GlobalDataProvider>
-      {/* <Navigation /> */}
       {props.children}
       <ModalWrapper />
     </GlobalDataProvider>
   )
+
+  // const semesterKeys = semesters && Object.keys(semesters)
+
+  // useEffect(() => {
+  //   if (semesters && semesterKeys) {
+  //     setSemestersLocal(semesters)
+  //     if (semesterKeys.length === 0) {
+  //       push('/login')
+  //     } else if (semesterKeys.length > 0 && pathRequested) {
+  //       push(pathRequested)
+  //     }
+  //   }
+  // }, [semesters])
+
+  // return pathname === 'register' ? (
+  //   <LoadingPage />
+  // ) : (
 }
 
 // source https://blog.logrocket.com/using-authentication-in-next-js/
