@@ -5,6 +5,7 @@ using DC = StudentApp.API.DataContracts;
 using DCSubject = StudentApp.API.DataContracts.Requests.Subject;
 using DCEvent = StudentApp.API.DataContracts.Requests.Event;
 using DCUser = StudentApp.API.DataContracts.Requests.User;
+using ResponseProject = StudentApp.API.DataContracts.Responses.Project;
 
 using S = StudentApp.Services.Model;
 
@@ -53,6 +54,8 @@ namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
                     opt => opt.MapFrom(src => Guid.Parse("00000000-0000-0000-0000-000000000001")));
 
             CreateMap<S.Project, DC.Project>();
+
+            CreateMap<S.Project, ResponseProject.ProjectResponse>();
 
             #endregion
 

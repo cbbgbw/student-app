@@ -19,12 +19,14 @@ namespace StudentApp.API.Controllers
     {
         private readonly IEventService _eventService;
         private readonly IProjectService _projectService;
+        private readonly ISemesterService _semesterService;
         private readonly IMapper _mapper;
 
-        public EventController(IEventService eventService, IProjectService projectService, IMapper mapper)
+        public EventController(IEventService eventService, IProjectService projectService, ISemesterService semesterService, IMapper mapper)
         {
             _eventService = eventService;
             _projectService = projectService;
+            _semesterService = semesterService;
             _mapper = mapper;
         }
 
@@ -72,6 +74,26 @@ namespace StudentApp.API.Controllers
         public async Task<ICollection<DC.Event>> GetAllBySubject(Guid subjectKey)
         {
             var events = await _eventService.GetAllBySubjectAsync(subjectKey);
+            return events != null ? _mapper.Map<ICollection<DC.Event>>(events) : null;
+        }
+
+        #endregion
+
+        #region GET ALL BY DAY
+
+        [CustomAuth.Authorize]
+        [HttpGet("day/{days:int=90}")]
+        public async Task<ICollection<DC.Event>> GetAllByDay(int days = 90)
+        {
+            var userData = (S.User)HttpContext.Items["User"];
+
+            if (userData == null)
+                return null;
+
+            var currentSemester = await _semesterService.GetCurrentSemesterByDefinitionGroupAsync(userData.SemesterDefinitionGroupKey);
+
+            var events = await _eventService.GetAllEventsInSemesterByDateAsync(currentSemester.DefinitionKey, days);
+
             return events != null ? _mapper.Map<ICollection<DC.Event>>(events) : null;
         }
 
