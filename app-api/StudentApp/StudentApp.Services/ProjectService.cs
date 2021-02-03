@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using StudentApp.Services.Contracts;
 using StudentApp.Services.Model;
 using StudentApp.Tools.Configurations;
+using R = StudentApp.Services.Responses.Project;
 
 namespace StudentApp.Services
 {
@@ -23,47 +24,124 @@ namespace StudentApp.Services
             _context = context;
         }
 
-        public async Task<Project> GetSingleAsync(Guid projectKey) => await _context.Project.SingleAsync(project => project.ProjectKey == projectKey);
-
         public async Task<int> CreateAsync(Project project)
         {
             await _context.Project.AddAsync(project);
+
             return await _context.SaveChangesAsync();
-
         }
 
-        public async Task<ICollection<Project>> GetAllBySubjectAsync(Guid subjectKey) => await _context.Project.Where(proj => proj.SubjectKey == subjectKey).ToListAsync();
-
-        //TODO przenieść typy do JSON (PROJECT_TYPES)
-        public async Task<ICollection<Definition>> GetTypesAsync() => await _context.Definition.Where(d => d.GroupName == "PROJECT_TYPES").ToListAsync();
-
-        public async Task<ICollection<Status>> GetAllStatusesAsync() => await _context.Status.ToListAsync();
-
-        public async Task<ICollection<Category>> GetOrderedCategoriesByTypeAsync(Guid typeDefinitionKey, Guid userKey) => await _context.Category.Where(d => d.ProjectTypeKey == typeDefinitionKey && d.UserKey == userKey).OrderBy(p => p.OrderIndex).ToListAsync();
-
-        public async Task<ICollection<Project>> GetAllProjectsInSemesterAsync(Guid semesterKey)
+        public async Task<R.ProjectResponse> GetSingleAsync(Guid projectKey)
         {
-            var query = from s in _context.Subject
-                join p in _context.Project on s.SubjectKey equals p.SubjectKey
-                where s.SemesterDefinitionKey == semesterKey
-                select p;
+            var query = from p in _context.Project
+                join subject in _context.Subject on p.SubjectKey equals subject.SubjectKey
+                join dt in _context.Definition on p.TypeDefinitionKey equals dt.DefinitionKey
+                join c in _context.Category on p.CategoryKey equals c.CategoryKey
+                join status in _context.Status on p.ProjectStatusKey equals status.StatusKey
+                where p.ProjectKey == projectKey
+                select new
+                {
+                    p,
+                    subjectName = subject.Name,
+                    typeDefinitionName = dt.Value,
+                    categoryName = c.CategoryName,
+                    statusName = status.Name
+                };
 
-            return await query.ToListAsync();
+            var project = await query.FirstOrDefaultAsync();
+
+            return new R.ProjectResponse(project.p, project.typeDefinitionName, project.statusName,
+                project.categoryName, project.subjectName);
         }
 
-        public async Task<ICollection<Project>> GetAllOpenedProjectsInSemesterByDateAsync(Guid semesterKey, int days)
+        public async Task<ICollection<R.ProjectResponse>> GetAllBySubjectAsync(Guid subjectKey)
+        {
+            var query = from p in _context.Project
+                join subject in _context.Subject on p.SubjectKey equals subject.SubjectKey
+                join dt in _context.Definition on p.TypeDefinitionKey equals dt.DefinitionKey
+                join c in _context.Category on p.CategoryKey equals c.CategoryKey
+                join status in _context.Status on p.ProjectStatusKey equals status.StatusKey
+                where subject.SubjectKey == subjectKey
+                select new
+                {
+                    p,
+                    subjectName = subject.Name,
+                    typeDefinitionName = dt.Value,
+                    categoryName = c.CategoryName,
+                    statusName = status.Name
+                };
+
+            var projects = new List<R.ProjectResponse>();
+
+            var data = await query.ToListAsync();
+
+            foreach (var item in data)
+            {
+                projects.Add(new R.ProjectResponse(item.p, item.typeDefinitionName, item.statusName, item.categoryName, item.subjectName));
+            }
+
+            return projects;
+        }
+
+        public async Task<ICollection<R.ProjectResponse>> GetAllProjectsInSemesterAsync(Guid semesterKey)
+        {
+            var query = from p in _context.Project
+                join subject in _context.Subject on p.SubjectKey equals subject.SubjectKey
+                join dt in _context.Definition on p.TypeDefinitionKey equals dt.DefinitionKey
+                join c in _context.Category on p.CategoryKey equals c.CategoryKey
+                join status in _context.Status on p.ProjectStatusKey equals status.StatusKey
+                where subject.SemesterDefinitionKey == semesterKey
+                select new
+                {
+                    p,
+                    subjectName = subject.Name,
+                    typeDefinitionName = dt.Value,
+                    categoryName = c.CategoryName,
+                    statusName = status.Name
+                };
+
+            var projects = new List<R.ProjectResponse>();
+
+            var data = await query.ToListAsync();
+
+            foreach (var item in data)
+            {
+                projects.Add(new R.ProjectResponse(item.p, item.typeDefinitionName, item.statusName, item.categoryName, item.subjectName));
+            }
+
+            return projects;
+        }
+
+        public async Task<ICollection<R.ProjectResponse>> GetAllOpenedProjectsInSemesterByDateAsync(Guid semesterKey, int days)
         {
             var toDate = DateTime.Now.AddDays(days);
 
-            var query = from s in _context.Subject
-                join p in _context.Project on s.SubjectKey equals p.SubjectKey
-                orderby p.DeadlineTime ascending 
-                where s.SemesterDefinitionKey == semesterKey
+            var query = from p in _context.Project
+                join subject in _context.Subject on p.SubjectKey equals subject.SubjectKey
+                join dt in _context.Definition on p.TypeDefinitionKey equals dt.DefinitionKey
+                join c in _context.Category on p.CategoryKey equals c.CategoryKey
+                join status in _context.Status on p.ProjectStatusKey equals status.StatusKey
+                where subject.SemesterDefinitionKey == semesterKey
                     && p.DeadlineTime < toDate
-                    && p.ProjectStatusKey != Guid.Parse("00000000-0000-0000-0000-000000000005") //Projekt zakończony
-                select p;
+                select new
+                {
+                    p,
+                    subjectName = subject.Name,
+                    typeDefinitionName = dt.Value,
+                    categoryName = c.CategoryName,
+                    statusName = status.Name
+                };
 
-            return await query.ToListAsync();
+            var projects = new List<R.ProjectResponse>();
+
+            var data = await query.ToListAsync();
+
+            foreach (var item in data)
+            {
+                projects.Add(new R.ProjectResponse(item.p, item.typeDefinitionName, item.statusName, item.categoryName, item.subjectName));
+            }
+
+            return projects;
         }
 
         public async Task<(Dictionary<Guid, int>, Dictionary<Guid, int>)> GetProjectAndExamCountBySemester(Guid semesterKey)
@@ -84,5 +162,12 @@ namespace StudentApp.Services
 
             return (projectDictionary, examDictionary);
         }
+
+        /* Metody pomocnicze */
+        public async Task<ICollection<Definition>> GetTypesAsync() => await _context.Definition.Where(d => d.GroupName == "PROJECT_TYPES").ToListAsync();
+
+        public async Task<ICollection<Status>> GetAllStatusesAsync() => await _context.Status.ToListAsync();
+
+        public async Task<ICollection<Category>> GetOrderedCategoriesByTypeAsync(Guid typeDefinitionKey, Guid userKey) => await _context.Category.Where(d => d.ProjectTypeKey == typeDefinitionKey && d.UserKey == userKey).OrderBy(p => p.OrderIndex).ToListAsync();
     }
 }

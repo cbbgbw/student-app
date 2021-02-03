@@ -54,7 +54,6 @@ namespace StudentApp.Services
                 orderby e.SetTime ascending
                 where s.SemesterDefinitionKey == semesterKey
                       && e.SetTime < toDate
-                      && p.ProjectStatusKey != Guid.Parse("00000000-0000-0000-0000-000000000005") //Projekt zakończony
                 select e;
 
             return await query.ToListAsync();

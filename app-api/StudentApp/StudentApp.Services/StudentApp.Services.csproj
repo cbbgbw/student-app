@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\StudentApp.Services.Responses\StudentApp.Services.Responses.csproj" />
     <ProjectReference Include="..\StudentApp.API.Common\StudentApp.API.Common.csproj" />
     <ProjectReference Include="..\StudentApp.Services.Contracts\StudentApp.Services.Contracts.csproj" />
     <ProjectReference Include="..\StudentApp.Services.Model\StudentApp.Services.Model.csproj" />

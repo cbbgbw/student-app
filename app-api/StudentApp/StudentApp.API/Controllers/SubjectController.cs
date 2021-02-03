@@ -11,6 +11,8 @@ using RQ = StudentApp.API.DataContracts.Requests.Subject.POST;
 using S = StudentApp.Services.Model;
 using CustomAuth = StudentApp.Tools.Helpers;
 
+using Responses = StudentApp.API.DataContracts.Responses.Subject;
+
 namespace StudentApp.API.Controllers
 {
     //[ApiVersion("2.0")]
@@ -26,25 +28,25 @@ namespace StudentApp.API.Controllers
         public SubjectController(ISubjectService subjectService, IMapper mapper, ISemesterService semesterService)
         {
             _subjectService = subjectService;
-            _mapper = mapper;
             _semesterService = semesterService;
+            _mapper = mapper;
         }
 
         #region GET SINGLE
         [CustomAuth.Authorize]
         [HttpGet("{id}")]
-        public async Task<DC.Subject> Get(Guid id)
+        public async Task<Responses.SubjectResponse> Get(Guid id)
         {
             var data = await _subjectService.GetSingleAsync(id);
 
-            return data != null ? _mapper.Map<DC.Subject>(data) : null;
+            return data != null ? _mapper.Map<Responses.SubjectResponse>(data) : null;
         }
         #endregion
 
         #region GET BY CURRENT SEMESTER
         [CustomAuth.Authorize]
         [HttpGet("semester")]
-        public async Task<ICollection<DC.Subject>> GetByCurrentSemester()
+        public async Task<ICollection<Responses.SubjectResponse>> GetByCurrentSemester()
         {
             var userData = (S.User)HttpContext.Items["User"];
 
@@ -54,13 +56,11 @@ namespace StudentApp.API.Controllers
             var currentSemester = await _semesterService.GetCurrentSemesterByDefinitionGroupAsync(userData.SemesterDefinitionGroupKey);
 
             var subjects = await _subjectService.GetAllBySemesterAsync(currentSemester.DefinitionKey);
-            return subjects != null ? _mapper.Map<ICollection<DC.Subject>>(subjects) : null;
+            return subjects != null ? _mapper.Map<ICollection<Responses.SubjectResponse>>(subjects) : null;
         }
         #endregion
 
         #region GET SUBJECTS COUNT
-
-        #region ALL PROJECTS COUNT
 
         [CustomAuth.Authorize]
         [HttpGet("count")]
@@ -80,8 +80,6 @@ namespace StudentApp.API.Controllers
 
             return result;
         }
-
-        #endregion
 
         #endregion
 
