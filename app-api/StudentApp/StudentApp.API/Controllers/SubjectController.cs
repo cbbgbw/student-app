@@ -58,6 +58,33 @@ namespace StudentApp.API.Controllers
         }
         #endregion
 
+        #region GET SUBJECTS COUNT
+
+        #region ALL PROJECTS COUNT
+
+        [CustomAuth.Authorize]
+        [HttpGet("count")]
+        public async Task<int> GetProjectsAndExamsCount()
+        {
+            var userData = (S.User)HttpContext.Items["User"];
+
+            if (userData == null)
+                return 0;
+
+            var currentSemester = await _semesterService.GetCurrentSemesterByDefinitionGroupAsync(userData.SemesterDefinitionGroupKey);
+
+            if (currentSemester == null)
+                return 0;
+
+            var result = await _subjectService.GetSubjectCountBySemester(currentSemester.DefinitionKey);
+
+            return result;
+        }
+
+        #endregion
+
+        #endregion
+
         #region POST
         [CustomAuth.Authorize]
         [HttpPost]

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using StudentApp.Services.Contracts;
 using RQ = StudentApp.API.DataContracts.Requests.Project.POST;
 using DC = StudentApp.API.DataContracts;
+using ResponseProject = StudentApp.API.DataContracts.Responses.Project;
 using S = StudentApp.Services.Model;
 using CustomAuth = StudentApp.Tools.Helpers;
 
@@ -58,7 +59,7 @@ namespace StudentApp.API.Controllers
 
         [CustomAuth.Authorize]
         [HttpGet("semester")]
-        public async Task<ICollection<DC.Project>> GetSubjects()
+        public async Task<ICollection<DC.Project>> GetAllBySemester()
         {
             var userData = (S.User)HttpContext.Items["User"];
 
@@ -70,6 +71,50 @@ namespace StudentApp.API.Controllers
             var projects = await _projectService.GetAllProjectsInSemesterAsync(currentSemester.DefinitionKey);
 
             return projects != null ? _mapper.Map<ICollection<DC.Project>>(projects) : null;
+        }
+
+        #endregion
+
+        #region GET ALL OPENED BY DAY
+
+        [CustomAuth.Authorize]
+        [HttpGet("day/{days:int=90}")]
+        public async Task<ICollection<DC.Project>> GetAllOpenedByDay(int days = 90)
+        {
+            var userData = (S.User)HttpContext.Items["User"];
+
+            if (userData == null)
+                return null;
+
+            var currentSemester = await _semesterService.GetCurrentSemesterByDefinitionGroupAsync(userData.SemesterDefinitionGroupKey);
+
+            var projects = await _projectService.GetAllOpenedProjectsInSemesterByDateAsync(currentSemester.DefinitionKey, days);
+
+            return projects != null ? _mapper.Map<ICollection<DC.Project>>(projects) : null;
+            //return projects != null ? _mapper.Map<ICollection<ResponseProject.ProjectResponse>>(projects) : null; 
+        }
+
+        #endregion
+
+        #region ALL PROJECTS COUNT
+
+        [CustomAuth.Authorize]
+        [HttpGet("count")]
+        public async Task<Tuple<Dictionary<Guid, int>, Dictionary<Guid, int>>> GetProjectsAndExamsCount()
+        {
+            var userData = (S.User)HttpContext.Items["User"];
+
+            if (userData == null)
+                return null;
+
+            var currentSemester = await _semesterService.GetCurrentSemesterByDefinitionGroupAsync(userData.SemesterDefinitionGroupKey);
+
+            if (currentSemester == null)
+                return null;
+
+            var dictionares = await _projectService.GetProjectAndExamCountBySemester(currentSemester.DefinitionKey);
+
+            return dictionares.ToTuple();
         }
 
         #endregion
@@ -95,6 +140,7 @@ namespace StudentApp.API.Controllers
 
             return BadRequest(results.Errors);
         }
+
         #endregion
 
         #region GET TYPES

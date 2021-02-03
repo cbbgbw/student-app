@@ -51,6 +51,13 @@ namespace StudentApp.Services
             return await _context.Subject.Where(sub => sub.SemesterDefinitionKey == semesterKey).ToListAsync();
         }
 
+        public async Task<int> GetSubjectCountBySemester(Guid semesterKey)
+        {
+            var subjects = await GetAllBySemesterAsync(semesterKey);
+
+            return subjects?.Count ?? 0;
+        }
+
         public async Task<ICollection<Definition>> GetTypesAsync()
         {
             var retVal = await _context.DefinitionGroup

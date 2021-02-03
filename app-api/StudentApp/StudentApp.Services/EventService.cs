@@ -43,5 +43,21 @@ namespace StudentApp.Services
 
             return await query.ToListAsync<Event>();
         }
+
+        public async Task<ICollection<Event>> GetAllEventsInSemesterByDateAsync(Guid semesterKey, int days)
+        {
+            var toDate = DateTime.Now.AddDays(days);
+
+            var query = from s in _context.Subject
+                join p in _context.Project on s.SubjectKey equals p.SubjectKey
+                join e in _context.Event on p.ProjectKey equals e.ProjectKey 
+                orderby e.SetTime ascending
+                where s.SemesterDefinitionKey == semesterKey
+                      && e.SetTime < toDate
+                      && p.ProjectStatusKey != Guid.Parse("00000000-0000-0000-0000-000000000005") //Projekt zakończony
+                select e;
+
+            return await query.ToListAsync();
+        }
     }
 }
