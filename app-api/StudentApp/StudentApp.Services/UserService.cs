@@ -4,9 +4,11 @@ using StudentApp.Services.Contracts;
 using StudentApp.Services.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using StudentApp.Services.Responses.User;
 using StudentApp.Tools.Configurations;
 using StudentApp.Tools.Helpers;
 
@@ -40,6 +42,25 @@ namespace StudentApp.Services
         public async Task<User> GetSingleAsync(Guid userKey)
         {
             return await _context.User.SingleAsync(user => user.UserKey == userKey);
+        }
+
+        public async Task<UserResponse> GetSingleWithCurrentSemesterAsync(Guid userKey)
+        {
+            if (userKey == Guid.Empty)
+                return null;
+
+            var query = from u in _context.User
+                join d in _context.Definition on u.SemesterDefinitionGroupKey equals d.DefinitionGroupKey
+                where u.UserKey == userKey && d.Default == true
+                select new
+                {
+                    u,
+                    d.DefinitionKey
+                };
+
+            var data = await query.SingleOrDefaultAsync();
+
+            return data == null ? null : new UserResponse(data.u, data.DefinitionKey);
         }
 
         public async Task<ICollection<User>> GetAllAsync() => await  _context.User.ToListAsync();

@@ -8,9 +8,10 @@ namespace StudentApp.API.DataContracts
     /// </summary>
     public class User
     {
-        public string UserKey { get; set; }
-        public string Firstname { get; set; }
-        public string Lastname { get; set; }
+        public Guid UserKey { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string LoginName { get; set; }
         public string EmailAddress { get; set; }
         public Guid SemesterDefinitionGroupKey { get; set; }
     }

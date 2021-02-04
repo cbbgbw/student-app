@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using System;
-using DCProject = StudentApp.API.DataContracts.Requests.Project;
 using DC = StudentApp.API.DataContracts;
 using DCSubject = StudentApp.API.DataContracts.Requests.Subject;
 using DCEvent = StudentApp.API.DataContracts.Requests.Event;
 using DCUser = StudentApp.API.DataContracts.Requests.User;
+using DCProject = StudentApp.API.DataContracts.Requests.Project;
 
 using DCResponses = StudentApp.API.DataContracts.Responses;
 using SResponses = StudentApp.Services.Responses;
@@ -29,7 +29,6 @@ namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
             CreateMap<S.User, DC.User>();
 
             #endregion
-
 
             #region SUBJECT
 

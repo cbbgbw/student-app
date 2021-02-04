@@ -9,6 +9,7 @@ using StudentApp.Services.Contracts;
 using DC = StudentApp.API.DataContracts;
 using RQ = StudentApp.API.DataContracts.Requests.Subject.POST;
 using S = StudentApp.Services.Model;
+using SR = StudentApp.Services.Responses.User;
 using CustomAuth = StudentApp.Tools.Helpers;
 
 using Responses = StudentApp.API.DataContracts.Responses.Subject;
@@ -48,14 +49,12 @@ namespace StudentApp.API.Controllers
         [HttpGet("semester")]
         public async Task<ICollection<Responses.SubjectResponse>> GetByCurrentSemester()
         {
-            var userData = (S.User)HttpContext.Items["User"];
+            var userData = (SR.UserResponse)HttpContext.Items["User"];
 
             if (userData == null)
                 return null;
 
-            var currentSemester = await _semesterService.GetCurrentSemesterByDefinitionGroupAsync(userData.SemesterDefinitionGroupKey);
-
-            var subjects = await _subjectService.GetAllBySemesterAsync(currentSemester.DefinitionKey);
+            var subjects = await _subjectService.GetAllBySemesterAsync(userData.CurrentSemesterDefinitionKey);
             return subjects != null ? _mapper.Map<ICollection<Responses.SubjectResponse>>(subjects) : null;
         }
         #endregion
@@ -66,17 +65,12 @@ namespace StudentApp.API.Controllers
         [HttpGet("count")]
         public async Task<int> GetProjectsAndExamsCount()
         {
-            var userData = (S.User)HttpContext.Items["User"];
+            var userData = (SR.UserResponse)HttpContext.Items["User"];
 
             if (userData == null)
                 return 0;
 
-            var currentSemester = await _semesterService.GetCurrentSemesterByDefinitionGroupAsync(userData.SemesterDefinitionGroupKey);
-
-            if (currentSemester == null)
-                return 0;
-
-            var result = await _subjectService.GetSubjectCountBySemester(currentSemester.DefinitionKey);
+            var result = await _subjectService.GetSubjectCountBySemester(userData.CurrentSemesterDefinitionKey);
 
             return result;
         }
