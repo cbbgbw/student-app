@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using StudentApp.Services.Model;
+using StudentApp.Services.Responses.User;
 
 namespace StudentApp.Tools.Helpers
 {
@@ -15,7 +11,7 @@ namespace StudentApp.Tools.Helpers
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            var user = (User)context.HttpContext.Items["User"];
+            var user = (UserResponse)context.HttpContext.Items["User"];
             if (user == null)
             {
                 // not logged in

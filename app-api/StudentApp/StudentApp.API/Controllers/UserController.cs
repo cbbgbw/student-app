@@ -12,6 +12,7 @@ using StudentApp.API.DataContracts.Requests.User;
 using StudentApp.API.DataContracts.Responses.User;
 using StudentApp.Services.Contracts;
 using CustomAuth = StudentApp.Tools.Helpers;
+using SR = StudentApp.Services.Responses.User;
 using S = StudentApp.Services.Model;
 using DC = StudentApp.API.DataContracts;
 using RQ = StudentApp.API.DataContracts.Requests.User.POST;
@@ -69,7 +70,7 @@ namespace StudentApp.API.Controllers
         [HttpGet("current")]
         public async Task<DC.User> GetLogged()
         {
-            var userData = (S.User)HttpContext.Items["User"];
+            var userData = (SR.UserResponse)HttpContext.Items["User"];
 
             if (userData == null)
                 return null;

@@ -23,17 +23,17 @@ namespace StudentApp.API.Common.Middlewares
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context, IUserService userService)
+        public async Task InvokeAsync(HttpContext context, IUserService _userService)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
             if (token != null)
-                AttachUserToContext(context, userService, token);
-
+                await AttachUserToContext(context, token, _userService);
+                
             await _next(context);
         }
 
-        private void AttachUserToContext(HttpContext context, IUserService userService, string token)
+        private async Task AttachUserToContext(HttpContext context, string token, IUserService _userService)
         {
             try
             {
@@ -52,13 +52,14 @@ namespace StudentApp.API.Common.Middlewares
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userKey = Guid.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
-                // attach user to context on successful jwt validation
-                context.Items["User"] = userService.GetSingleAsync(userKey).Result;
+                // Dodaj do kontekstu, jeśli walidacja poprawna
+                var user = await _userService.GetSingleWithCurrentSemesterAsync(userKey);
+
+                context.Items["User"] = user;
             }
             catch
             {
-                // do nothing if jwt validation fails
-                // user is not attached to context so request won't have access to secure routes
+                // nic nie robimy w przypadku błędu - użytkownik nie dodany do kontekstu
             }
         }
     }

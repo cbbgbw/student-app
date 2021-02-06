@@ -9,6 +9,7 @@ using StudentApp.Services.Contracts;
 using RQ = StudentApp.API.DataContracts.Requests.Event.POST;
 using DC = StudentApp.API.DataContracts;
 using S = StudentApp.Services.Model;
+using SR = StudentApp.Services.Responses.User;
 using CustomAuth = StudentApp.Tools.Helpers;
 
 namespace StudentApp.API.Controllers
@@ -85,14 +86,12 @@ namespace StudentApp.API.Controllers
         [HttpGet("day/{days:int=90}")]
         public async Task<ICollection<DC.Event>> GetAllByDay(int days = 90)
         {
-            var userData = (S.User)HttpContext.Items["User"];
+            var userData = (SR.UserResponse)HttpContext.Items["User"];
 
             if (userData == null)
                 return null;
 
-            var currentSemester = await _semesterService.GetCurrentSemesterByDefinitionGroupAsync(userData.SemesterDefinitionGroupKey);
-
-            var events = await _eventService.GetAllEventsInSemesterByDateAsync(currentSemester.DefinitionKey, days);
+            var events = await _eventService.GetAllEventsInSemesterByDateAsync(userData.CurrentSemesterDefinitionKey, days);
 
             return events != null ? _mapper.Map<ICollection<DC.Event>>(events) : null;
         }

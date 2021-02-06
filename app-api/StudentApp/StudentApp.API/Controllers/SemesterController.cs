@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using StudentApp.Services.Contracts;
 using S = StudentApp.Services.Model;
+using SR = StudentApp.Services.Responses.User;
 using CustomAuth = StudentApp.Tools.Helpers;
 
 namespace StudentApp.API.Controllers
@@ -42,12 +43,12 @@ namespace StudentApp.API.Controllers
         [HttpGet("current")]
         public async Task<Dictionary<Guid, string>> GetCurrentSemester()
         {
-            var userData = (S.User)HttpContext.Items["User"];
+            var userData = (SR.UserResponse)HttpContext.Items["User"];
 
             if (userData == null)
                 return null;
 
-            var semester = await _semesterService.GetCurrentSemesterByDefinitionGroupAsync(userData.SemesterDefinitionGroupKey);
+            var semester = await _semesterService.GetCurrentSemesterByUserAsync(userData.UserKey);
 
             return new Dictionary<Guid, string> { { semester.DefinitionKey, semester.Value } };
         }
@@ -60,7 +61,7 @@ namespace StudentApp.API.Controllers
         [HttpGet]
         public async Task<Tuple<Guid, Dictionary<Guid, string>>> GetSemestersByUser()
         {
-            var userData = (S.User)HttpContext.Items["User"];
+            var userData = (SR.UserResponse)HttpContext.Items["User"];
             if (userData == null)
                 return null;
 
@@ -96,7 +97,7 @@ namespace StudentApp.API.Controllers
         [HttpPost("{value}")]
         public async Task<Guid> CreateSemester(int value)
         {
-            var userData = (S.User)HttpContext.Items["User"];
+            var userData = (SR.UserResponse)HttpContext.Items["User"];
 
             if (userData == null)
                 return Guid.Empty;

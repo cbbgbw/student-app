@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using StudentApp.Services.Model;
+using S = StudentApp.Services.Model;
+using R = StudentApp.Services.Responses.Project;
 
 namespace StudentApp.Services.Contracts
 {
     public interface IProjectService
     {
-        Task<Project> GetSingleAsync(Guid projectKey);
-        Task<int> CreateAsync(Project project);
-        Task<ICollection<Project>> GetAllBySubjectAsync(Guid subjectKey);
-        Task<ICollection<Definition>> GetTypesAsync();
-        Task<ICollection<Status>> GetAllStatusesAsync();
-        Task<ICollection<Category>> GetOrderedCategoriesByTypeAsync(Guid typeDefinitionKey, Guid userKey);
-        Task<ICollection<Project>> GetAllProjectsInSemesterAsync(Guid semesterKey);
-        Task<ICollection<Project>> GetAllOpenedProjectsInSemesterByDateAsync(Guid semesterKey, int days);
+        Task<R.ProjectResponse> GetSingleAsync(Guid projectKey);
+        Task<int> CreateAsync(S.Project project);
+        Task<ICollection<R.ProjectResponse>> GetAllBySubjectAsync(Guid subjectKey);
+        Task<ICollection<R.ProjectResponse>> GetAllProjectsInSemesterAsync(Guid semesterKey);
+        Task<ICollection<R.ProjectResponse>> GetAllOpenedProjectsInSemesterByDateAsync(Guid semesterKey, int days);
         Task<(Dictionary<Guid, int>, Dictionary<Guid, int>)> GetProjectAndExamCountBySemester(Guid semesterKey);
+        Task<ICollection<S.Definition>> GetTypesAsync();
+        Task<ICollection<S.Status>> GetAllStatusesAsync();
+        Task<ICollection<S.Category>> GetOrderedCategoriesByTypeAsync(Guid typeDefinitionKey, Guid userKey);
 
     }
 }

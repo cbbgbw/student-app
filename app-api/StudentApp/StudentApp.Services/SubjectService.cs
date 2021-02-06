@@ -10,7 +10,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using StudentApp.Services.Responses.Subject;
 using StudentApp.Tools.Configurations;
+using R = StudentApp.Services.Responses.Subject;
 
 namespace StudentApp.Services
 {
@@ -41,14 +43,40 @@ namespace StudentApp.Services
             throw new NotImplementedException();
         }
 
-        public async Task<Subject> GetSingleAsync(Guid subjectKey)
+        public async Task<R.SubjectResponse> GetSingleAsync(Guid subjectKey)
         {
-            return await _context.Subject.SingleAsync(subject => subject.SubjectKey == subjectKey);
+            var subject = await _context.Subject.SingleAsync(subject => subject.SubjectKey == subjectKey);
+            var query = from s in _context.Subject
+                join d in _context.Definition on s.TypeDefinitionKey equals d.DefinitionKey
+                where s.SubjectKey == subject.SubjectKey
+                select d.Value;
+
+            var typeDefinitionName = await query.SingleOrDefaultAsync();
+
+            return new SubjectResponse(subject, typeDefinitionName);
         }
 
-        public async Task<ICollection<Subject>> GetAllBySemesterAsync(Guid semesterKey)
+        public async Task<ICollection<R.SubjectResponse>> GetAllBySemesterAsync(Guid semesterKey)
         {
-            return await _context.Subject.Where(sub => sub.SemesterDefinitionKey == semesterKey).ToListAsync();
+            var query = from s in _context.Subject
+                        join d in _context.Definition on s.TypeDefinitionKey equals d.DefinitionKey
+                        where s.SemesterDefinitionKey == semesterKey
+                        select new
+                        {
+                            d.Value,
+                            s
+                        };
+
+            var subjects = new List<SubjectResponse>();
+
+            var data = await query.ToListAsync();
+
+            foreach (var item in data)
+            {
+                subjects.Add(new SubjectResponse(item.s, item.Value));
+            }
+
+            return subjects;
         }
 
         public async Task<int> GetSubjectCountBySemester(Guid semesterKey)
@@ -68,4 +96,5 @@ namespace StudentApp.Services
             return retVal.Definitions;
         }
     }
+
 }
