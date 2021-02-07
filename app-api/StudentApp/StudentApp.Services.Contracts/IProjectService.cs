@@ -19,6 +19,7 @@ namespace StudentApp.Services.Contracts
         Task<ICollection<S.Definition>> GetTypesAsync();
         Task<ICollection<S.Status>> GetAllStatusesAsync();
         Task<ICollection<S.Category>> GetOrderedCategoriesByTypeAsync(Guid typeDefinitionKey, Guid userKey);
-
+        Task<int> CreateCategoryAsync(S.Category category);
+        Task<int> DeleteCategoryAsync(Guid categoryKey);
     }
 }

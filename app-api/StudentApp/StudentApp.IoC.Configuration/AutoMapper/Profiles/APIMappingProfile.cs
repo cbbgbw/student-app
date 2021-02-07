@@ -5,6 +5,7 @@ using DCSubject = StudentApp.API.DataContracts.Requests.Subject;
 using DCEvent = StudentApp.API.DataContracts.Requests.Event;
 using DCUser = StudentApp.API.DataContracts.Requests.User;
 using DCProject = StudentApp.API.DataContracts.Requests.Project;
+using DCCategory = StudentApp.API.DataContracts.Requests.Category;
 
 using DCResponses = StudentApp.API.DataContracts.Responses;
 using SResponses = StudentApp.Services.Responses;
@@ -76,6 +77,13 @@ namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
             #endregion
 
             #region CATEGORY
+
+            CreateMap<DCCategory.POST.CategoryPost, S.Category>();
+
+            CreateMap<DCCategory.POST.CategoryPostRequest, S.Category>()
+                .ConstructUsing((s, ctx) => ctx.Mapper.Map<S.Category>(s.Category))
+                .ForMember(dest => dest.CreateTime, opt => opt.MapFrom(src => src.Date))
+                .ForMember(dest => dest.ModifyTime, opt => opt.MapFrom(src => src.Date));
 
             CreateMap<S.Category, DC.Category>();
 

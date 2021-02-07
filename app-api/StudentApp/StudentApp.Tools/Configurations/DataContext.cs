@@ -128,10 +128,10 @@ namespace StudentApp.Tools.Configurations
                     .OnDelete(DeleteBehavior.ClientNoAction);
             });
 
-            
-            
 
-            
+
+            /* TODO: Tymczasowo guidem zerowym jest "00000000-0000-0000-FFFF-FFFFFFFFFFFF" i "00000000-0000-0000-0000-FFFFFFFFFFFF", powinien być zerowy */
+
             /* Data inserting */
             DateTime date = new DateTime(2021, 1, 1);
             modelBuilder.Entity<S.Status>().HasData(new S.Status[]
@@ -146,6 +146,16 @@ namespace StudentApp.Tools.Configurations
             modelBuilder.Entity<S.DefinitionGroup>().HasData(
                 new S.DefinitionGroup
                 {
+                    DefinitionGroupKey = Guid.Parse("00000000-0000-0000-FFFF-FFFFFFFFFFFF"),
+                    Description = "",
+                    GroupName = "",
+                    CreateTime = date,
+                    ModifyTime = date
+                });
+
+            modelBuilder.Entity<S.DefinitionGroup>().HasData(
+                new S.DefinitionGroup
+                {
                     DefinitionGroupKey = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     Description = "Typ zajęć",
                     GroupName = "SUBJECT_TYPES",
@@ -154,6 +164,15 @@ namespace StudentApp.Tools.Configurations
             });
 
             modelBuilder.Entity<S.Definition>().HasData(new
+            {
+                DefinitionKey = Guid.Parse("00000000-0000-0000-0000-FFFFFFFFFFFF"),
+                DefinitionGroupKey = Guid.Parse("00000000-0000-0000-FFFF-FFFFFFFFFFFF"),
+                GroupName = "",
+                Value = "",
+                Default = false,
+                CreateTime = date,
+                ModifyTime = date
+            }, new
             {
                 DefinitionKey = Guid.Parse("00000000-0000-0000-0000-000000000011"),
                 DefinitionGroupKey = Guid.Parse("00000000-0000-0000-0000-000000000001"),
@@ -206,18 +225,18 @@ namespace StudentApp.Tools.Configurations
 
             modelBuilder.Entity<S.Category>().HasData(new S.Category()
             {
-                CategoryKey = Guid.Parse("9A684681-FFAC-42E6-97A5-C07FB18E2A32"),
+                CategoryKey = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                 ProjectTypeKey = Guid.Parse("00000000-0000-0000-0000-000000000022"),
-                UserKey = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                UserKey = Guid.Parse("00000000-0000-0000-0000-FFFFFFFFFFFF"),
                 CategoryName = "Odpowiedź ustna",
                 OrderIndex = 1,
                 CreateTime = date,
                 ModifyTime = date
             }, new S.Category()
             {
-                CategoryKey = Guid.Parse("C94DE30C-A03A-4432-91A1-310ACE86050A"),
+                CategoryKey = Guid.Parse("00000000-0000-0000-0000-000000000002"),
                 ProjectTypeKey = Guid.Parse("00000000-0000-0000-0000-000000000022"),
-                UserKey = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                UserKey = Guid.Parse("00000000-0000-0000-0000-FFFFFFFFFFFF"),
                 CategoryName = "Kartkówka",
                 OrderIndex = 2,
                 CreateTime = date,
@@ -226,18 +245,18 @@ namespace StudentApp.Tools.Configurations
 
             modelBuilder.Entity<S.Category>().HasData(new S.Category()
             {
-                CategoryKey = Guid.Parse("27FD71BF-F9E1-4293-A494-BE76B477C706"),
+                CategoryKey = Guid.Parse("00000000-0000-0000-0000-000000000003"),
                 ProjectTypeKey = Guid.Parse("00000000-0000-0000-0000-000000000012"),
-                UserKey = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                UserKey = Guid.Parse("00000000-0000-0000-0000-FFFFFFFFFFFF"),
                 CategoryName = "Projekt zespołowy",
                 OrderIndex = 1,
                 CreateTime = date,
                 ModifyTime = date
             }, new
             {
-                CategoryKey = Guid.Parse("9969B359-B888-4D07-8E0A-F79234F58ADB"),
+                CategoryKey = Guid.Parse("00000000-0000-0000-0000-000000000004"),
                 ProjectTypeKey = Guid.Parse("00000000-0000-0000-0000-000000000012"),
-                UserKey = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                UserKey = Guid.Parse("00000000-0000-0000-0000-FFFFFFFFFFFF"),
                 CategoryName = "Projekt zaliczeniowy",
                 OrderIndex = 2,
                 CreateTime = date,
@@ -304,7 +323,25 @@ namespace StudentApp.Tools.Configurations
             string password = "cyberbug2021";
             PasswordHash.CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
+            byte[] emptyPasswordHash, emptyPasswordSalt;
+            string emptyPassword = "test";
+            PasswordHash.CreatePasswordHash(emptyPassword, out emptyPasswordHash, out emptyPasswordSalt);
+
             modelBuilder.Entity<S.User>().HasData(
+                new S.User
+                {
+                    UserKey = Guid.Parse("00000000-0000-0000-0000-FFFFFFFFFFFF"),
+                    FirstName = "",
+                    LastName = "",
+                    LoginName = "",
+                    PasswordHash = emptyPasswordHash,
+                    PasswordSalt = emptyPasswordSalt,
+                    EmailAddress = "",
+                    SemesterDefinitionGroupKey = Guid.Parse("00000000-0000-0000-FFFF-FFFFFFFFFFFF"),
+                    CreateTime = date,
+                    ModifyTime = date,
+
+                },
                 new S.User
                 {
                     UserKey = Guid.Parse("00000000-0000-0000-0000-000000000001"),
