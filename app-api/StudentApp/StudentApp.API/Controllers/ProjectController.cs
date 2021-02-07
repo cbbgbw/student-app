@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentApp.Services.Contracts;
 using RQ = StudentApp.API.DataContracts.Requests.Project.POST;
+using RQ_CAT = StudentApp.API.DataContracts.Requests.Category.POST;
 using DC = StudentApp.API.DataContracts;
 using ResponseProject = StudentApp.API.DataContracts.Responses.Project;
 using S = StudentApp.Services.Model;
@@ -21,14 +22,12 @@ namespace StudentApp.API.Controllers
     {
         private readonly IProjectService _projectService;
         private readonly ISubjectService _subjectService;
-        private readonly ISemesterService _semesterService;
         private readonly IMapper _mapper;
 
-        public ProjectController(IProjectService projectService, ISubjectService subjectService, IMapper mapper, ISemesterService semesterService)
+        public ProjectController(IProjectService projectService, ISubjectService subjectService, IMapper mapper)
         {
             _projectService = projectService;
             _subjectService = subjectService;
-            _semesterService = semesterService;
             _mapper = mapper;
         }
 
@@ -110,7 +109,7 @@ namespace StudentApp.API.Controllers
 
         #endregion
 
-        #region POST
+        #region PROJECT POST
 
         [CustomAuth.Authorize]
         [HttpPost]
@@ -181,5 +180,46 @@ namespace StudentApp.API.Controllers
 
         #endregion
 
+        #region CATEGORY POST
+
+        [CustomAuth.Authorize]
+        [HttpPost("category")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> CreateCategory([FromBody] RQ_CAT.CategoryPostRequest category)
+        {
+            var userData = (SR.UserResponse)HttpContext.Items["User"];
+
+            var mappedCategory = _mapper.Map<S.Category>(category);
+            mappedCategory.UserKey = userData.UserKey;
+
+            RQ_CAT.CategoryPostValidator validator = new RQ_CAT.CategoryPostValidator(_projectService);
+            var results = await validator.ValidateAsync(mappedCategory);
+
+            if (results.IsValid)
+            {
+                var data = await _projectService.CreateCategoryAsync(mappedCategory);
+
+                return data == 1 ? Ok() : Problem("Brak dostępu do bazy danych", null, 500);
+            }
+
+            return BadRequest(results.Errors);
+        }
+
+        #endregion
+
+        #region DELETE
+
+        [CustomAuth.Authorize]
+        [HttpDelete("category/{categoryKey}")]
+        public async Task<IActionResult> DeleteCategory(Guid categoryKey)
+        {
+            var result = await _projectService.DeleteCategoryAsync(categoryKey);
+
+            return result == 1 ? Ok() : Problem("Błąd usunięcia danych", null, 400);
+        }
+
+        #endregion
     }
 }

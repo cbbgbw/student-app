@@ -168,6 +168,36 @@ namespace StudentApp.Services
 
         public async Task<ICollection<Status>> GetAllStatusesAsync() => await _context.Status.ToListAsync();
 
-        public async Task<ICollection<Category>> GetOrderedCategoriesByTypeAsync(Guid typeDefinitionKey, Guid userKey) => await _context.Category.Where(d => d.ProjectTypeKey == typeDefinitionKey && d.UserKey == userKey).OrderBy(p => p.OrderIndex).ToListAsync();
+        public async Task<ICollection<Category>> GetOrderedCategoriesByTypeAsync(Guid typeDefinitionKey, Guid userKey)
+        {
+            return await _context.Category.
+                Where(d => d.ProjectTypeKey == typeDefinitionKey 
+                           && (d.UserKey == userKey || d.UserKey == Guid.Parse("00000000-0000-0000-0000-FFFFFFFFFFFF"))).OrderBy(p => p.OrderIndex).ToListAsync();
+        } 
+
+        public async Task<int> CreateCategoryAsync(Category category)
+        {
+            var maxOrderIndex = await _context.Category.OrderByDescending(c => c.OrderIndex).FirstAsync();
+
+            category.OrderIndex = maxOrderIndex.OrderIndex + 1;
+
+            await _context.Category.AddAsync(category);
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> DeleteCategoryAsync(Guid categoryKey)
+        {
+            var category = await _context.Category.FindAsync(categoryKey);
+
+            if (category != null)
+            {
+                _context.Category.Remove(category);
+                return await _context.SaveChangesAsync();
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 }
