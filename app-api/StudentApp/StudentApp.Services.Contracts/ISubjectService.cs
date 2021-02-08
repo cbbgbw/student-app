@@ -10,7 +10,7 @@ namespace StudentApp.Services.Contracts
     {
         Task<R.SubjectResponse> GetSingleAsync(Guid subjectKey);
         Task<int> CreateAsync(Subject subject);
-        Task<bool> UpdateAsync(Subject subject);
+        Task<int> UpdateAsync(Subject subject);
         Task<bool> DeleteAsync(Guid subjectKey);
         Task<ICollection<R.SubjectResponse>> GetAllBySemesterAsync(Guid semesterKey);
         Task<int> GetSubjectCountBySemester(Guid semesterKey);

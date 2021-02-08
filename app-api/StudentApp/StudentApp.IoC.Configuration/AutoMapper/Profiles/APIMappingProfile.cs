@@ -33,6 +33,7 @@ namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
 
             #region SUBJECT
 
+            /* POST */
             CreateMap<DCSubject.POST.SubjectPost, S.Subject>();
 
             CreateMap<DCSubject.POST.SubjectPostRequest, S.Subject>().
@@ -42,7 +43,15 @@ namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
 
             CreateMap<S.Subject, DC.Subject>();
 
+            /* RESPONSE */
             CreateMap<SResponses.Subject.SubjectResponse, DCResponses.Subject.SubjectResponse>();
+
+            /* PUT */
+            CreateMap<DCSubject.PUT.SubjectPut, S.Subject>();
+
+            CreateMap<DCSubject.PUT.SubjectPutRequest, S.Subject>().
+                ConstructUsing((s, ctx) => ctx.Mapper.Map<S.Subject>(s.Subject))
+                .ForMember(dest => dest.ModifyTime, opt => opt.MapFrom(src => src.Date));
 
             #endregion
 
