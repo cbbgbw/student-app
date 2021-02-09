@@ -31,6 +31,7 @@ export enum Path {
   Semester = 'semester',
   Project = 'project',
   User = 'user',
+  Event = 'event',
 }
 
 export const postByScheme = async <T, Y = {}>(path: Path, data: T) =>

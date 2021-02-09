@@ -1,30 +1,5 @@
 import useSWR from 'swr'
-import { post, request } from './common/common'
-import { v4 as uuidv4 } from 'uuid'
-import { fetcher, Path } from '../api/axios'
-
-interface ProjectProps {
-  projectKey: string
-}
-
-export interface ProjectFormData {
-  name: string
-  typeDefinitionKey: string
-  subjectKey: string
-  categoryKey: string
-  description: string
-  projectStatusKey: string
-  deadlineTime: Date
-  necessaryToPass: boolean
-}
-
-type ProjectPost = ProjectFormData & ProjectProps
-
-export const postProject = async (data: ProjectFormData) =>
-  await post<ProjectPost>(Path.Project, {
-    ...data,
-    projectKey: uuidv4(),
-  }).then((response) => response.status === 200)
+import { fetcher } from '../api/axios'
 
 export const useProjectTypes = () => {
   const { data, error } = useSWR<Record<string, string> | undefined>(
@@ -65,5 +40,3 @@ export const useProjectCategory = (projectTypeKey: string | undefined) => {
     isError: error,
   }
 }
-
-export const useProjects = () => {}

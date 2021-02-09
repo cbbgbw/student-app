@@ -1,17 +1,19 @@
 import { useForm } from 'react-hook-form'
 import React, { FC, useContext } from 'react'
 import { ReusableModal } from '../../components/ReusableModal/Modal'
-import { PostProps, subjectPost, useSubjectTypes } from '../../actions/subject'
 import { useRouter } from 'next/router'
 import { ModalType } from '../../types/types'
 import { GlobalDataContext } from '../../components/Auth/Provider'
 import { Checkbox, FormLabel, Input } from '@chakra-ui/react'
 import { CSelect } from '../../components/Forms/CSelect/CSelect'
 import { CTextArea } from '../../components/Forms/CTextarea/CTextArea'
+import { useSemesters } from '../../api/hooks/semester'
+import { PostProps, subjectPost } from '../../api/actions/subject'
+import { useSubjectTypes } from '../../api/hooks/subject'
 
 export const AddSubject: FC = () => {
-  const { currentSemester } = useUser()
   const router = useRouter()
+  const { currentSemester } = useSemesters()
   const { modalType, setModalType } = useContext(GlobalDataContext)
 
   const { handleSubmit, register } = useForm<PostProps>()

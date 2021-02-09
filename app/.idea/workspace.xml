@@ -5,32 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c4dde2a-edd9-4a1e-a788-fc0bcb9ad7cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/actions/user/useUser.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/actions/user.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/axios.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/hooks/semester.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/hooks/user.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/Forms/Input/CInput.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hooks/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app-api/StudentApp/StudentApp.API/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../app-api/StudentApp/StudentApp.API/Controllers/UserController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/actions/event.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/actions/project.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/actions/subject.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/hooks/event.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/hooks/project.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/hooks/subject.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/Search/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/icons/dashboard/search.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/icons/sidebar/calendar.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/icons/sidebar/dashboard.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/icons/sidebar/projects.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/icons/sidebar/subjects.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/dateUtils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/prettier.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/prettier.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/actions/common/common.ts" beforeDir="false" afterPath="$PROJECT_DIR$/actions/common/common.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/actions/project.ts" beforeDir="false" afterPath="$PROJECT_DIR$/actions/project.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/actions/subject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/actions/subject.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/actions/user/useUserSemesters.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/actions/subject.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/actions/user/useUser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/actions/user/useUser.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/axios.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/hooks/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/hooks/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/index.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/components/Add/Add.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Add/Add.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/Auth/Provider/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Auth/Provider/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Forms/Input/Input.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/SemesterSelect/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/SemesterSelect/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/ui/Dashboard/SelectSemesterPopover/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/Dashboard/SelectSemesterPopover/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Navigation/Navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Navigation/Navigation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms/AddEvent/AddEvent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/AddEvent/AddEvent.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/forms/AddProject/AddProject.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/AddProject/AddProject.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/forms/AddSubject/AddSubject.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/AddSubject/AddSubject.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/useAuth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/auth/useAuth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms/ModalWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/ModalWrapper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hooks/index.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/hooks/useStateWithLocalStorage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/useStateWithLocalStorage.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/login/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/login/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/register/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/register/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/app/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/projects/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/projects/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/subjects/[key].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/subjects/[key].tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/subjects/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/subjects/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,9 +65,6 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
-  <component name="ProblemsViewState">
-    <option name="selectedIndex" value="1" />
-  </component>
   <component name="ProjectId" id="1mfLlvTDQFeG1DnJKGJEPfRLTM3" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="false" id="Update" />
@@ -72,7 +79,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js.linters.configure.manually.selectedeslint" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/api/actions/user.ts" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/api/hooks/subject.ts" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -85,7 +92,7 @@
     <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/jest" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="E:\2021\DEV\student-app\app\node_modules\prettier" />
-    <property name="settings.editor.selected.configurable" value="editing.templates" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.HTML" />
     <property name="ts.external.directory.path" value="E:\2021\DEV\student-app\app\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -101,6 +108,8 @@
       <recent name="E:\2021\DEV\student-app\app\pages\subjects" />
     </key>
     <key name="es6.move.members.recent.items">
+      <recent name="E:\2021\DEV\student-app\app\api\actions\subject.ts" />
+      <recent name="E:\2021\DEV\student-app\app\api\hooks\subject.ts" />
       <recent name="E:\2021\DEV\student-app\app\api\actions\user.ts" />
       <recent name="E:\2021\DEV\student-app\app\api\axios.ts" />
     </key>
@@ -226,7 +235,15 @@
       <workItem from="1611689589587" duration="2458000" />
       <workItem from="1611692090476" duration="186000" />
       <workItem from="1611818138939" duration="24927000" />
-      <workItem from="1612002530385" duration="12618000" />
+      <workItem from="1612002530385" duration="20751000" />
+      <workItem from="1612172462569" duration="7695000" />
+      <workItem from="1612186737434" duration="1460000" />
+      <workItem from="1612188222838" duration="10105000" />
+      <workItem from="1612365248234" duration="2355000" />
+      <workItem from="1612373025500" duration="6202000" />
+      <workItem from="1612446621631" duration="9010000" />
+      <workItem from="1612604213054" duration="28733000" />
+      <workItem from="1612784752395" duration="7118000" />
     </task>
     <task id="LOCAL-00001" summary="Poprawki eslintowe/prettierowe bo cos sie wygrzmociło XD">
       <created>1609922949286</created>
@@ -263,16 +280,18 @@
       <option name="project" value="LOCAL" />
       <updated>1611246705120</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="CSPE_DEV-36 Obsługa logowania, rejestracji&#10;Dodanie obsługi semestru po autoryzacji">
+      <created>1612021287540</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1612021287540</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-    <option name="exactExcludedFiles">
-      <list>
-        <option value="$PROJECT_DIR$/api/actions/user.d.ts" />
-      </list>
-    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -295,24 +314,21 @@
     <MESSAGE value="Dodawanie projektu." />
     <MESSAGE value="Poprawki na wydanie wersji 0.0.1" />
     <MESSAGE value="Obsługa użytkownika" />
-    <option name="LAST_COMMIT_MESSAGE" value="Obsługa użytkownika" />
+    <MESSAGE value="CSPE_DEV-36 Obsługa logowania, rejestracji&#10;Dodanie obsługi semestru po autoryzacji" />
+    <option name="LAST_COMMIT_MESSAGE" value="CSPE_DEV-36 Obsługa logowania, rejestracji&#10;Dodanie obsługi semestru po autoryzacji" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/actions/subject.ts</url>
-          <line>90</line>
-          <option name="timeStamp" value="10" />
+          <url>file://$PROJECT_DIR$/forms/AddSubject/AddSubject.tsx</url>
+          <line>16</line>
+          <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/components/Navigation/Navigation.tsx</url>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/actions/subject.ts</url>
-          <line>27</line>
-          <option name="timeStamp" value="27" />
+          <url>file://$PROJECT_DIR$/components/Auth/Provider/index.tsx</url>
+          <line>52</line>
+          <option name="timeStamp" value="38" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

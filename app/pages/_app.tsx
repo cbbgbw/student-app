@@ -1,7 +1,7 @@
 import '../style.css'
 import type { AppProps } from 'next/app'
 import React from 'react'
-import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import { ChakraProvider, extendTheme, GlobalStyle } from '@chakra-ui/react'
 import { AuthProvider } from '../components/Auth/Provider'
 import { ButtonStylesOverride } from '../consts/styles'
 
@@ -12,6 +12,8 @@ const theme = extendTheme({
     Button: ButtonStylesOverride,
   },
 })
+
+const global = {}
 
 export const MyApp = ({ Component, pageProps }: AppProps) => {
   return (

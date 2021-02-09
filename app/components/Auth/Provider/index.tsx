@@ -1,11 +1,18 @@
-import React, { createContext, FC, useEffect, useState } from 'react'
+import React, {
+  createContext,
+  FC,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react'
 import { useRouter } from 'next/router'
 import { ModalWrapper } from '../../../forms/ModalWrapper'
 import LoadingPage from '../../page/LoadingPage'
-import { useStore } from '../../../utils/storeProvider'
-import { setSemesters } from '../../../store/modules/user/userSelectors'
 import { ModalType } from '../../../types/types'
-import { useStateWithLocalStorage } from '../../../hooks/useStateWithLocalStorage'
+import { Navigation } from '../../Navigation/Navigation'
+import { Flex } from '@chakra-ui/layout'
+import { Search } from '../../Search'
+import { Box } from '@chakra-ui/react'
 
 interface GlobalDataContext {
   modalType: ModalType
@@ -28,24 +35,38 @@ export const GlobalDataProvider: FC = (props) => {
 
 export const AuthProvider: FC = (props) => {
   const { pathname, push } = useRouter()
-  const [token] = useStateWithLocalStorage('token')
-  const isAbleToAuthorize = token && token !== ''
+  const [isLogin, setIsLogin] = useState(false)
+
   const withoutAuth = ['/login', '/register']
   const isPageWithoutAuth = withoutAuth.includes(pathname)
 
   useEffect(() => {
+    let token = localStorage.getItem('token')
+    const isAbleToAuthorize = token && token !== ''
+
     if (!isAbleToAuthorize && !isPageWithoutAuth) {
       push('/login')
     }
-  }, [token])
+    setIsLogin(!!isAbleToAuthorize)
+  }, [])
 
-  if (!isAbleToAuthorize && !isPageWithoutAuth) {
+  if (!isLogin && !isPageWithoutAuth) {
     return <LoadingPage />
   }
   return (
     <GlobalDataProvider>
-      {props.children}
-      <ModalWrapper />
+      {isPageWithoutAuth ? (
+        props.children
+      ) : (
+        <Flex flexDir="row">
+          {!isPageWithoutAuth && <Navigation />}
+          <Box pl="60px" pr="60px" w="100%" h="100h" backgroundColor="#DCDAF2">
+            <Search />
+            {props.children}
+          </Box>
+          <ModalWrapper />
+        </Flex>
+      )}
     </GlobalDataProvider>
   )
 

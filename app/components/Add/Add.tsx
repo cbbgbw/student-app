@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { Button } from '@chakra-ui/react'
+import { Button, Text } from '@chakra-ui/react'
 
 export interface AddProps {
   name: string
@@ -10,18 +10,18 @@ export interface AddProps {
 
 export const Add: FC<AddProps> = ({ name, onClick }) => (
   <Button
-    h={160}
-    w={160}
+    h={'140px'}
+    w={'140px'}
     d="flex"
     alignItems="flex-start"
     flexDir="column"
     justifyContent="space-around"
     onClick={() => onClick()}
   >
-    <h1>
+    <Text>
       Dodaj <br />
       {name}
-    </h1>
+    </Text>
     <FontAwesomeIcon icon={faPlus} size="3x" />
   </Button>
 )

@@ -3,13 +3,10 @@ import { ReusableModal } from '../../components/ReusableModal/Modal'
 import { GlobalDataContext } from '../../components/Auth/Provider'
 import { ModalType } from '../../types/types'
 import { useForm } from 'react-hook-form'
-import { PostProps, useSubjectsBySemester } from '../../actions/subject'
 import {
   useProjectTypes,
   useProjectCategory,
   useProjectStatuses,
-  postProject,
-  ProjectFormData,
 } from '../../actions/project'
 import { CSelect } from '../../components/Forms/CSelect/CSelect'
 import { Checkbox, FormLabel, Input } from '@chakra-ui/react'
@@ -17,15 +14,17 @@ import { CTextArea } from '../../components/Forms/CTextarea/CTextArea'
 import 'react-day-picker/lib/style.css'
 import { CDayPicker } from '../../components/DayPicker/DayPicker'
 import { useRouter } from 'next/router'
+import { PostProps } from '../../api/actions/subject'
+import { useSubjects } from '../../api/hooks/subject'
+import { postProject, ProjectFormData } from '../../api/actions/project'
 
 export const AddProject: FC = () => {
   const { push } = useRouter()
-  const { currentSemester } = useUser()
   const { projectTypes } = useProjectTypes()
   const { projectStatuses } = useProjectStatuses()
   const [projectType, setProjectType] = useState<string>()
   const { projectCategories } = useProjectCategory(projectType)
-  const { getAsKeyValue } = useSubjectsBySemester(currentSemester?.[0])
+  const { getAsKeyValue } = useSubjects()
   const { handleSubmit, register } = useForm<PostProps>()
   const { modalType, setModalType } = useContext(GlobalDataContext)
   const [datePicked, setDatePicked] = useState(new Date())
@@ -78,12 +77,6 @@ export const AddProject: FC = () => {
         ref={register({ required: true })}
         selectOptions={projectCategories}
         labelText="Wybierz z kategorii"
-      />
-      <CSelect
-        name="projectStatusKey"
-        ref={register({ required: true })}
-        selectOptions={projectStatuses}
-        labelText="Jaki jest status twojego projektu?"
       />
       <CTextArea name="description" ref={register()} labelText="Opis" />
       <Checkbox colorScheme="red" name="hasProjectToPass" ref={register()}>
