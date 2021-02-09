@@ -31,6 +31,12 @@ namespace StudentApp.Services
             return await _context.SaveChangesAsync();
         }
 
+        public async Task<int> UpdateAsync(Project project)
+        {
+            _context.Project.Update(project);
+            return await _context.SaveChangesAsync();
+        }
+
         public async Task<R.ProjectResponse> GetSingleAsync(Guid projectKey)
         {
             var query = from p in _context.Project

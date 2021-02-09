@@ -47,16 +47,19 @@ namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
             CreateMap<SResponses.Subject.SubjectResponse, DCResponses.Subject.SubjectResponse>();
 
             /* PUT */
-            CreateMap<DCSubject.PUT.SubjectPut, S.Subject>();
+            CreateMap<DCSubject.PUT.SubjectPut, S.Subject>()
+                .ForMember(dest => dest.CreateTime, opt => opt.Ignore());
 
-            CreateMap<DCSubject.PUT.SubjectPutRequest, S.Subject>().
-                ConstructUsing((s, ctx) => ctx.Mapper.Map<S.Subject>(s.Subject))
-                .ForMember(dest => dest.ModifyTime, opt => opt.MapFrom(src => src.Date));
+            CreateMap<DCSubject.PUT.SubjectPutRequest, S.Subject>()
+                .ConstructUsing((s, ctx) => ctx.Mapper.Map<S.Subject>(s.Subject))
+                .ForMember(dest => dest.ModifyTime, opt => opt.MapFrom(src => src.Date))
+                .ForMember(dest => dest.CreateTime, opt => opt.Ignore());
 
             #endregion
 
             #region PROJECT
 
+            /* POST */
             CreateMap<DCProject.POST.ProjectPost, S.Project>();
 
             CreateMap<DCProject.POST.ProjectPostRequest, S.Project>()
@@ -68,7 +71,15 @@ namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
 
             CreateMap<S.Project, DC.Project>();
 
+            /* RESPONSE */
             CreateMap<SResponses.Project.ProjectResponse, DCResponses.Project.ProjectResponse>();
+
+            /* PUT */
+            CreateMap<DCProject.PUT.ProjectPut, S.Project>();
+
+            CreateMap<DCProject.PUT.ProjectPutRequest, S.Project>().
+                ConstructUsing((s, ctx) => ctx.Mapper.Map<S.Project>(s.Project))
+                .ForMember(dest => dest.ModifyTime, opt => opt.MapFrom(src => src.Date));
 
             #endregion
 
