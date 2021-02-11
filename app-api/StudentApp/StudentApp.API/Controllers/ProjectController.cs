@@ -95,16 +95,16 @@ namespace StudentApp.API.Controllers
 
         [CustomAuth.Authorize]
         [HttpGet("count")]
-        public async Task<Tuple<Dictionary<Guid, int>, Dictionary<Guid, int>>> GetProjectsAndExamsCount()
+        public async Task<ICollection<ResponseProject.ProjectCountResponse>> GetProjectsAndExamsCount()
         {
             var userData = (SR.UserResponse)HttpContext.Items["User"];
 
             if (userData == null)
                 return null;
 
-            var dictionares = await _projectService.GetProjectAndExamCountBySemester(userData.CurrentSemesterDefinitionKey);
+            var result = await _projectService.GetProjectAndExamCountBySemester(userData.CurrentSemesterDefinitionKey);
 
-            return dictionares.ToTuple();
+            return _mapper.Map<ICollection<ResponseProject.ProjectCountResponse>>(result);
         }
 
         #endregion

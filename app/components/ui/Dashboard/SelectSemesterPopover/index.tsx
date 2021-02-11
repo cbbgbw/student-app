@@ -11,11 +11,15 @@ import {
   Select,
 } from '@chakra-ui/react'
 import { SemesterNumberInput } from '../../../SemesterSelect'
-import { Path, request } from '../../../../actions/common/common'
-import { useUserSemesters } from '../../../../actions/user/useUserSemesters'
+import { useSemesters } from '../../../../api/hooks/semester'
 
 export const SelectSemesterPopover = () => {
-  const { semesters, currentSemester, mutate } = useUserSemesters()
+  const {
+    semesters,
+    currentSemester,
+    changeSemesterToExisting,
+    changeSemesterToNew,
+  } = useSemesters()
 
   const [selectedSemester, setSelectedSemester] = useState<string>()
   const [newSemesterNumber, setNewSemesterNumber] = useState<number>()
@@ -34,36 +38,10 @@ export const SelectSemesterPopover = () => {
     ))
 
   const onSemesterSubmit = async () => {
-    if (semesters) {
-      const path = Path.Semester
-
-      let key: string
-      let value: string
-      const isNewSemester = selectedSemester === 'new'
-
-      if (isNewSemester) {
-        value = String(newSemesterNumber)
-        key = await request.bodyLessPost(`${path}/${value}`)
-      } else {
-        key = String(selectedSemester)
-        value = semesters[key]
-        await request.bodyLessPut(`${path}/${selectedSemester}`)
-      }
-
-      // let newSemesters = produce(semesters, (ns) => {
-      //   if (!isNewSemester) {
-      //     delete ns?.[key]
-      //   }
-      // })
-
-      const newSemesters = {
-        [key]: value,
-        // ...newSemesters, How to avoid caching in our case? Whatever..
-      }
-
-      await mutate(newSemesters, true).then(() => {
-        // close popover and refetch everything for semester
-      })
+    if (selectedSemester === 'new' && newSemesterNumber) {
+      await changeSemesterToNew(newSemesterNumber)
+    } else if (selectedSemester) {
+      await changeSemesterToExisting(selectedSemester)
     }
   }
 

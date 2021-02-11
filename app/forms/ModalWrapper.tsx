@@ -14,7 +14,7 @@ export const ModalWrapper: FC = () => {
     case ModalType.AddProject:
       return <AddProject />
     case ModalType.AddEvent:
-    // return <AddEvent />
+      return <AddEvent />
     default:
       return null
   }

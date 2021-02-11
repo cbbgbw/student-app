@@ -1,17 +1,13 @@
-import { useSubjectsBySemester, useSubjectTypes } from '../../actions/subject'
 import { Button } from '../../components/Forms/Button/Button'
 import { ModalType } from '../../types/types'
 import { ListSubject } from '../../components/page/Subject/ListSubject'
 import { LeadingColor } from '../../types/color'
-import { useUserSemesters } from '../../actions/user/useUserSemesters'
 import { useContext } from 'react'
 import { GlobalDataContext } from '../../components/Auth/Provider'
+import { useSubjects, useSubjectTypes } from '../../api/hooks/subject'
 
 export const SubjectListView = () => {
-  const { currentSemester } = useUserSemesters()
-  const { subjectArray, isLoading } = useSubjectsBySemester(
-    currentSemester?.[0],
-  )
+  const { subjectArray, isLoading } = useSubjects()
   const subjectTypesRequest = useSubjectTypes()
   const { setModalType } = useContext(GlobalDataContext)
 

@@ -2,52 +2,91 @@ import {
   Box,
   Button,
   Flex,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
+  FormControl,
+  FormErrorMessage,
   Text,
 } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { CInput } from '../../components/Forms/Input/CInput'
 import { useRouter } from 'next/router'
-import { useAuth } from '../../hooks/useAuth'
-import { Path, request } from '../../actions/common/common'
-import { SemesterNumberInput } from '../../components/SemesterSelect'
+import { postRegisterUser, RegisterUserFormData } from '../../api/actions/user'
 
 const RegisterPage = () => {
-  const [semester, setSemester] = useState(1)
-  const { mutateSemester } = useAuth()
-
   const { push } = useRouter()
+  const { handleSubmit, errors, register, formState } = useForm()
 
-  const onSemesterSubmit = async () => {
-    const path = Path.Semester
-    const response = await request.bodyLessPost(`${path}/${semester}`)
-    mutateSemester({ [response]: String(semester) })
+  const onSubmit = async (data: RegisterUserFormData) => {
+    const signInResult = await postRegisterUser(data)
+    localStorage.setItem('token', JSON.stringify(signInResult.data.token))
+    await push('/app')
   }
 
   return (
-    <Flex h="100vh" w="full" align="center" justifyContent="center">
-      <Box
-        p={8}
-        bg="purple.400"
-        maxWidth="500px"
-        borderWidth={1}
-        borderRadius={8}
-        boxShadow="lg"
-        align="center"
-      >
-        <Text color="purple.50" align="left" mb={1} fontSize="xl">
-          Wybierz semestr
-        </Text>
-        <SemesterNumberInput
-          semester={semester}
-          onChange={(n) => setSemester(n)}
-        />
-        <Button onClick={() => onSemesterSubmit()} colorScheme="purple">
-          Przejdź dalej
-        </Button>
+    <Flex
+      align="center"
+      direction="column"
+      justify={{
+        base: 'center',
+      }}
+      h="100vh"
+      w="100vw"
+    >
+      <Text fontSize="5xl" mb={30}>
+        Rejestracja
+      </Text>
+      <Box my={4} w={300}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl isInvalid={errors.name}>
+            <CInput
+              labelText="Twoje imie"
+              name="firstName"
+              placeholder="Wpisz imię"
+              ref={register()}
+            />
+            <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={errors.name}>
+            <CInput
+              labelText="Twoje nazwisko "
+              name="lastName"
+              ref={register()}
+            />
+            <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={errors.name}>
+            <CInput labelText="Twój login" name="loginName" ref={register()} />
+            <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={errors.name}>
+            <CInput
+              labelText="Twój email"
+              name="emailAddress"
+              ref={register()}
+            />
+            <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={errors.name}>
+            <CInput
+              labelText="Twoje hasło"
+              type="password"
+              name="password"
+              ref={register()}
+            />
+            <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={errors.name}>
+            <CInput
+              labelText="Twój semestr"
+              name="semesterValue"
+              ref={register()}
+            />
+            <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+          </FormControl>
+          <Button mt={3} type="submit" w="100%" colorScheme="purple">
+            Utwórz konto
+          </Button>
+        </form>
       </Box>
     </Flex>
   )
