@@ -33,9 +33,10 @@ namespace StudentApp.Services
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> UpdateAsync(Subject subject)
+        public async Task<int> UpdateAsync(Subject subject)
         {
-            throw new NotImplementedException();
+            _context.Subject.Update(subject);
+            return await _context.SaveChangesAsync();
         }
 
         public async Task<bool> DeleteAsync(Guid subjectKey)

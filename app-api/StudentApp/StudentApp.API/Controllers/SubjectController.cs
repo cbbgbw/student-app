@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentApp.Services.Contracts;
 using DC = StudentApp.API.DataContracts;
-using RQ = StudentApp.API.DataContracts.Requests.Subject.POST;
+using RQ_POST = StudentApp.API.DataContracts.Requests.Subject.POST;
+using RQ_PUT = StudentApp.API.DataContracts.Requests.Subject.PUT;
 using S = StudentApp.Services.Model;
 using SR = StudentApp.Services.Responses.User;
 using CustomAuth = StudentApp.Tools.Helpers;
@@ -83,9 +84,9 @@ namespace StudentApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> CreateSubject([FromBody] RQ.SubjectPostRequest value)
+        public async Task<ActionResult> CreateSubject([FromBody] RQ_POST.SubjectPostRequest value)
         {
-            RQ.SubjectPostValidator validator = new RQ.SubjectPostValidator(_subjectService);
+            RQ_POST.SubjectPostValidator validator = new RQ_POST.SubjectPostValidator(_subjectService);
             var results = await validator.ValidateAsync(value.Subject);
 
             if (results.IsValid)
@@ -101,12 +102,18 @@ namespace StudentApp.API.Controllers
         #region PUT
 
         [HttpPut]
-        public async Task<bool> UpdateSubject(DC.Subject subject)
+        public async Task<ActionResult> UpdateSubject([FromBody] RQ_PUT.SubjectPutRequest subject)
         {
-            if (subject == null)
-                throw new ArgumentNullException("subject");
+            RQ_PUT.SubjectPutValidator validator = new RQ_PUT.SubjectPutValidator(_subjectService);
+            var results = await validator.ValidateAsync(subject.Subject);
 
-            return await _subjectService.UpdateAsync(_mapper.Map<S.Subject>(subject));
+            if (results.IsValid)
+            {
+                var data = await _subjectService.UpdateAsync(_mapper.Map<S.Subject>(subject));
+
+                return data == 1 ? Ok() : Problem("Brak dostępu do db", null, 500);
+            }
+            return BadRequest(results.Errors);
         }
         #endregion
 

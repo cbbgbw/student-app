@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using FluentValidation;
-using FluentValidation.Validators;
 using StudentApp.Services.Contracts;
 
-namespace StudentApp.API.DataContracts.Requests.Subject.POST
+namespace StudentApp.API.DataContracts.Requests.Subject.PUT
 {
-    public class SubjectPostValidator : AbstractValidator<SubjectPost>
+    public class SubjectPutValidator : AbstractValidator<SubjectPut>
     {
 
-        public SubjectPostValidator (ISubjectService service)
+        public SubjectPutValidator(ISubjectService service)
         {
             bool ValidateType(Guid typeKey)
             {
@@ -18,14 +20,13 @@ namespace StudentApp.API.DataContracts.Requests.Subject.POST
                 return types.FirstOrDefault(type => type.DefinitionKey == typeKey) != null;
             }
 
-
             RuleFor(subject => subject.TypeDefinitionKey)
                 .NotEmpty()
                 .Must(ValidateType).WithMessage("Nie znaleziono podanego typu definicji.");
 
             RuleFor(subject => subject.Name)
                 .NotEmpty()
-                .WithMessage("Podaj nazwę przedmiotu");
+                .WithMessage("Nie uzupełniona nazwa przedmiotu");
         }
     }
 }
