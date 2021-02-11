@@ -61,6 +61,8 @@ namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
 
             CreateMap<SResponses.Project.ProjectResponse, DCResponses.Project.ProjectResponse>();
 
+            CreateMap<SResponses.Project.ProjectCountResponse, DCResponses.Project.ProjectCountResponse>();
+
             #endregion
 
             #region EVENT
