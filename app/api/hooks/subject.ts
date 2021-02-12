@@ -44,3 +44,15 @@ export const useSubjects = () => {
     isError: error,
   }
 }
+
+export const useSubject = (key: string | undefined) => {
+  const { data, error } = useSWR<Subject | undefined>(
+    key ? `subject/${key}` : null,
+    fetcher,
+  )
+
+  return {
+    isLoading: !data && !error,
+    subject: data,
+  }
+}

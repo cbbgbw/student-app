@@ -60,8 +60,8 @@ export const AuthProvider: FC = (props) => {
       ) : (
         <Flex flexDir="row">
           {!isPageWithoutAuth && <Navigation />}
-          <Box pl="60px" pr="60px" w="100%" h="100h" backgroundColor="#DCDAF2">
-            <Search />
+          <Box w="100vw" h="100vh" backgroundColor="#DCDAF2">
+            {/*<Search />*/}
             {props.children}
           </Box>
           <ModalWrapper />
@@ -73,7 +73,7 @@ export const AuthProvider: FC = (props) => {
   // const semesterKeys = semesters && Object.keys(semesters)
 
   // useEffect(() => {
-  //   if (semesters && semesterKeys) {
+  //   if (semesters && semesterKey s) {
   //     setSemestersLocal(semesters)
   //     if (semesterKeys.length === 0) {
   //       push('/login')

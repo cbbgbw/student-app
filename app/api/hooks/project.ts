@@ -2,20 +2,22 @@ import useSWR from 'swr'
 import { fetcher } from '../axios'
 
 export interface Project {
-  projectKey: string
-  name: string
-  typeDefinitionName: string
-  typeDefinitionKey: string
-  description: string
-  deadlineTime: string
-  necessaryToPass: boolean
-  projectStatusKey: string
   categoryKey: string
+  categoryName: string
+  deadlineTime: string
+  description: string
+  isArchive: boolean
+  mark: number
+  name: string
+  necessaryToPass: boolean
+  projectKey: string
+  projectStatusKey: string
+  projectStatusName: string
   subjectKey: string
   subjectTitle: string
-  mark: number
+  typeDefinitionKey: string
+  typeDefinitionName: string
   workingAreaKey: string
-  isArchive: boolean
 }
 
 export const useProjects = () => {

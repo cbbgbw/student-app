@@ -5,43 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c4dde2a-edd9-4a1e-a788-fc0bcb9ad7cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/api/actions/event.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/actions/project.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/actions/subject.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/hooks/event.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/hooks/project.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/hooks/subject.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/Search/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/icons/dashboard/search.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/icons/sidebar/calendar.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/icons/sidebar/dashboard.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/icons/sidebar/projects.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/icons/sidebar/subjects.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/dateUtils.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/prettier.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/prettier.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/chakra/Fonts/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ui/Subjects/Container/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ui/Subjects/EventList/EventListItem/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ui/Subjects/EventList/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ui/Subjects/Note/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ui/Subjects/ProjectList/ProjectListItem/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ui/Subjects/ProjectList/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/actions/project.ts" beforeDir="false" afterPath="$PROJECT_DIR$/actions/project.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/actions/subject.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/actions/user/useUser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/actions/user/useUser.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/axios.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/hooks/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/hooks/user.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Add/Add.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Add/Add.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/hooks/event.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/hooks/event.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/hooks/project.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/hooks/project.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/hooks/subject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/hooks/subject.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/Auth/Provider/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Auth/Provider/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Navigation/Navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Navigation/Navigation.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/forms/AddEvent/AddEvent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/AddEvent/AddEvent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/forms/AddProject/AddProject.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/AddProject/AddProject.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/forms/AddSubject/AddSubject.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/AddSubject/AddSubject.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/forms/ModalWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/ModalWrapper.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/useStateWithLocalStorage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/useStateWithLocalStorage.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Search/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Search/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/app/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/projects/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/projects/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/subjects/[key].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/subjects/[key].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/subjects/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/subjects/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +70,7 @@
     <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/jest" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="E:\2021\DEV\student-app\app\node_modules\prettier" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.HTML" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="ts.external.directory.path" value="E:\2021\DEV\student-app\app\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -243,7 +221,12 @@
       <workItem from="1612373025500" duration="6202000" />
       <workItem from="1612446621631" duration="9010000" />
       <workItem from="1612604213054" duration="28733000" />
-      <workItem from="1612784752395" duration="7118000" />
+      <workItem from="1612784752395" duration="11498000" />
+      <workItem from="1612955820283" duration="10494000" />
+      <workItem from="1613042964492" duration="2347000" />
+      <workItem from="1613045618895" duration="3070000" />
+      <workItem from="1613051462316" duration="6151000" />
+      <workItem from="1613128063299" duration="10395000" />
     </task>
     <task id="LOCAL-00001" summary="Poprawki eslintowe/prettierowe bo cos sie wygrzmociło XD">
       <created>1609922949286</created>
@@ -287,7 +270,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612021287540</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Dashboard">
+      <created>1612883963666</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1612883963667</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -315,7 +305,8 @@
     <MESSAGE value="Poprawki na wydanie wersji 0.0.1" />
     <MESSAGE value="Obsługa użytkownika" />
     <MESSAGE value="CSPE_DEV-36 Obsługa logowania, rejestracji&#10;Dodanie obsługi semestru po autoryzacji" />
-    <option name="LAST_COMMIT_MESSAGE" value="CSPE_DEV-36 Obsługa logowania, rejestracji&#10;Dodanie obsługi semestru po autoryzacji" />
+    <MESSAGE value="Dashboard" />
+    <option name="LAST_COMMIT_MESSAGE" value="Dashboard" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

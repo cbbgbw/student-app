@@ -11,7 +11,12 @@ export const Search = () => {
         children={<SearchIcon />}
         fill="black"
       />
-      <Input w={400} placeholder="Wyszukaj przedmiot, projekt, wydarzenie" />
+      <Input
+        borderRadius="12px"
+        backgroundColor="white"
+        w={400}
+        placeholder="Wyszukaj przedmiot, projekt, wydarzenie"
+      />
     </InputGroup>
   )
 }
