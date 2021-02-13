@@ -35,7 +35,17 @@ namespace StudentApp.Services
 
         public async Task<int> UpdateAsync(Subject subject)
         {
-            _context.Subject.Update(subject);
+            //_context.Subject.Update(subject)
+            var modifyingSubject = await _context.Subject.FirstOrDefaultAsync(s => s.SubjectKey == subject.SubjectKey);
+
+            modifyingSubject.Name = subject.Name;
+            modifyingSubject.Description = subject.Description;
+            modifyingSubject.IsPassed = subject.IsPassed;
+            modifyingSubject.TypeDefinitionKey = subject.TypeDefinitionKey;
+            modifyingSubject.HasProjectToPass = subject.HasProjectToPass;
+            modifyingSubject.SemesterDefinitionKey = subject.SemesterDefinitionKey;
+            modifyingSubject.ModifyTime = subject.ModifyTime;
+
             return await _context.SaveChangesAsync();
         }
 

@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentApp.Services.Model",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Repositories", "3.Repositories", "{376BCEBE-4CA8-4AFE-9762-4E2B13E7F349}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentApp.Services.Responses", "StudentApp.Services.Responses\StudentApp.Services.Responses.csproj", "{A4B5745C-3640-4654-A08E-8F98210485FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentApp.Services.HelperModels", "StudentApp.Services.Responses\StudentApp.Services.HelperModels.csproj", "{A4B5745C-3640-4654-A08E-8F98210485FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
