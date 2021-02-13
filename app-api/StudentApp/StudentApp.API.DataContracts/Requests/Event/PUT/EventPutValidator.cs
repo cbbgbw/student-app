@@ -6,21 +6,12 @@ using System.Threading.Tasks;
 using FluentValidation;
 using StudentApp.Services.Contracts;
 
-namespace StudentApp.API.DataContracts.Requests.Event.POST
+namespace StudentApp.API.DataContracts.Requests.Event.PUT
 {
-    public class EventPostValidator : AbstractValidator<EventPost>
+    public class EventPutValidator : AbstractValidator<EventPut>
     {
-        public EventPostValidator(IProjectService projectService)
+        public EventPutValidator()
         {
-            bool ValidateProject(Guid projectKey)
-            {
-                return projectService.GetSingleAsync(projectKey).Result != null;
-            }
-
-            RuleFor(ev => ev.ProjectKey)
-                .NotEmpty()
-                .Must(ValidateProject).WithMessage("Nie wybrano projektu");
-
             RuleFor(ev => ev.Title)
                 .NotEmpty()
                 .WithMessage("Nie podano nazwy wydarzenia")
@@ -30,6 +21,7 @@ namespace StudentApp.API.DataContracts.Requests.Event.POST
             RuleFor(ev => ev.Content)
                 .MaximumLength(500)
                 .WithMessage("Opis zbyt długi (max 500 znaków)");
+
         }
     }
 }

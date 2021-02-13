@@ -2216,6 +2216,204 @@
 									"response": []
 								}
 							]
+						},
+						{
+							"name": "Event",
+							"item": [
+								{
+									"name": "Get Project by Subject",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const keys = Object.keys(jsonData)\r",
+													"\r",
+													"    const randIndex = Math.floor(Math.random() * keys.length)\r",
+													"    pm.environment.set(\"selectedProjectKey\", jsonData[randIndex].projectKey)\r",
+													"})\r",
+													"\r",
+													"//https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#asserting-a-value-type"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/project/subject/{{createdSubjectKey}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project",
+												"subject",
+												"{{createdSubjectKey}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add Event",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
+													"    pm.response.to.have.status(200)\r",
+													"\r",
+													"    const request = JSON.parse(pm.request.body.raw)\r",
+													"    pm.environment.set('createdEventKey', request.event.eventKey)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.environment.set('currentdate', new Date().toISOString());\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"date\": \"{{currentdate}}\",\r\n  \"event\": {\r\n    \"eventKey\": \"{{$guid}}\",\r\n    \"title\": \"{{$randomDepartment}}\",\r\n    \"content\": \"{{$randomLoremSentences}}\",\r\n    \"projectKey\": \"{{selectedProjectKey}}\",\r\n    \"setTime\":\"2021-03-02T14:46:52.915Z\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{ApiURL}}/event",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"event"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get created Event",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/event/{{createdEventKey}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"event",
+												"{{createdEventKey}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Event",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"date\": \"{{currentdate}}\",\r\n  \"event\": {\r\n    \"eventKey\": \"{{createdEventKey}}\",\r\n    \"title\": \"{{$randomDepartment}}\",\r\n    \"content\": \"{{$randomLoremSentences}}\",\r\n    \"setTime\":\"2021-04-02T14:46:52.915Z\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{ApiURL}}/event",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"event"
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						}
 					]
 				}
