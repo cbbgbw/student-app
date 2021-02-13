@@ -16,7 +16,7 @@ namespace StudentApp.Services.Contracts
         Task<ICollection<R.ProjectResponse>> GetAllBySubjectAsync(Guid subjectKey);
         Task<ICollection<R.ProjectResponse>> GetAllProjectsInSemesterAsync(Guid semesterKey);
         Task<ICollection<R.ProjectResponse>> GetAllOpenedProjectsInSemesterByDateAsync(Guid semesterKey, int days);
-        Task<(Dictionary<Guid, int>, Dictionary<Guid, int>)> GetProjectAndExamCountBySemester(Guid semesterKey);
+        Task<ICollection<R.ProjectCountResponse>> GetProjectAndExamCountBySemester(Guid semesterKey);
         Task<ICollection<S.Definition>> GetTypesAsync();
         Task<ICollection<S.Status>> GetAllStatusesAsync();
         Task<ICollection<S.Category>> GetOrderedCategoriesByTypeAsync(Guid typeDefinitionKey, Guid userKey);

@@ -2,21 +2,25 @@ import React, { FC, useContext, useState } from 'react'
 import { ReusableModal } from '../../components/ReusableModal/Modal'
 import { ModalType } from '../../types/types'
 import { GlobalDataContext } from '../../components/Auth/Provider'
-import { postProject, ProjectFormData } from '../../actions/project'
 import { CDayPicker } from '../../components/DayPicker/DayPicker'
 import { useForm } from 'react-hook-form'
-import { PostProps } from '../../actions/subject'
 import { FormLabel, Input } from '@chakra-ui/react'
 import { CTextArea } from '../../components/Forms/CTextarea/CTextArea'
+import { PostProps } from '../../api/actions/subject'
+import { EventFormData, postEvent } from '../../api/actions/event'
+import { useProjects } from '../../api/hooks/project'
+import { CSelect } from '../../components/Forms/CSelect/CSelect'
 
 export const AddEvent: FC = () => {
   const { handleSubmit, register } = useForm<PostProps>()
+  const { projects, getAsKeyValue } = useProjects()
   const { modalType, setModalType } = useContext(GlobalDataContext)
   const [datePicked, setDatePicked] = useState(new Date())
 
-  const onEventSubmit = async (data: ProjectFormData) => {
-    console.log(data)
-  }
+  const onEventSubmit = async (data: EventFormData) =>
+    await postEvent({ ...data, setTime: datePicked.toISOString() }).then(() =>
+      setModalType(ModalType.None),
+    )
 
   return (
     <ReusableModal
@@ -31,9 +35,15 @@ export const AddEvent: FC = () => {
       acceptButtonText="Dodaj wydarzenie"
       cancelButtonText="Anuluj"
     >
+      <CSelect
+        name="projectKey"
+        ref={register({ required: true })}
+        selectOptions={getAsKeyValue()}
+        labelText="Wybierz projekt"
+      />
       <CDayPicker date={datePicked} onDateChange={setDatePicked} />
-      <FormLabel htmlFor="name">Nazwa wydarzenia</FormLabel>
-      <Input name="name" ref={register({ required: true })} />
+      <FormLabel htmlFor="title">Nazwa wydarzenia</FormLabel>
+      <Input name="title" ref={register({ required: true })} />
       <CTextArea name="description" ref={register()} labelText="Notatka" />
     </ReusableModal>
   )

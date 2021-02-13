@@ -1,33 +1,10 @@
 import useSWR from 'swr'
-import { baseURL, Path, post, request } from './common/common'
-import { v4 as uuidv4 } from 'uuid'
-
-interface ProjectProps {
-  projectKey: string
-}
-
-export interface ProjectFormData {
-  name: string
-  typeDefinitionKey: string
-  subjectKey: string
-  categoryKey: string
-  description: string
-  projectStatusKey: string
-  deadlineTime: Date
-  necessaryToPass: boolean
-}
-
-type ProjectPost = ProjectFormData & ProjectProps
-
-export const postProject = async (data: ProjectFormData) =>
-  await post<ProjectPost>(Path.Project, {
-    ...data,
-    projectKey: uuidv4(),
-  }).then((response) => response.status === 200)
+import { fetcher } from '../api/axios'
 
 export const useProjectTypes = () => {
   const { data, error } = useSWR<Record<string, string> | undefined>(
-    `${baseURL}/project/types`,
+    'project/types',
+    fetcher,
   )
 
   return { projectTypes: data, isLoading: !error && !data, isError: error }
@@ -35,7 +12,8 @@ export const useProjectTypes = () => {
 
 export const useProjectStatuses = () => {
   const { data, error } = useSWR<Record<string, string> | undefined>(
-    `${baseURL}/project/statuses`,
+    `project/statuses`,
+    fetcher,
   )
 
   return { projectStatuses: data, isLoading: !error && !data, isError: error }
@@ -49,7 +27,8 @@ interface ProjectCategory {
 
 export const useProjectCategory = (projectTypeKey: string | undefined) => {
   const { data, error } = useSWR<ProjectCategory[] | undefined>(
-    projectTypeKey ? `${baseURL}/project/categories/${projectTypeKey}` : null,
+    projectTypeKey ? `project/categories/${projectTypeKey}` : null,
+    fetcher,
   )
 
   return {
@@ -61,5 +40,3 @@ export const useProjectCategory = (projectTypeKey: string | undefined) => {
     isError: error,
   }
 }
-
-export const useProjects = () => {}
