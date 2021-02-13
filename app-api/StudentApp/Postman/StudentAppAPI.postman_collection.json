@@ -1750,7 +1750,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"date\": \"{{currentdate}}\",\r\n  \"subject\": {\r\n    \"subjectKey\": \"{{createdSubjectKey}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"description\": \"Nowy opis przedmiotu po update\",\r\n    \"isPassed\": true,\r\n    \"typeDefinitionKey\": \"{{selectedSubjectType}}\",\r\n    \"hasProjectToPass\": {{$randomBoolean}},\r\n    \"semesterDefinitionKey\": \"{{currentSemesterKey}}\"\r\n  }\r\n}",
+											"raw": "{\r\n  \"date\": \"{{currentdate}}\",\r\n  \"subject\": {\r\n    \"subjectKey\": \"{{createdSubjectKey}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"description\": \"Nowy opis przedmiotu po update #2\",\r\n    \"isPassed\": true,\r\n    \"typeDefinitionKey\": \"{{selectedSubjectType}}\",\r\n    \"hasProjectToPass\": {{$randomBoolean}},\r\n    \"semesterDefinitionKey\": \"{{currentSemesterKey}}\"\r\n  }\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1764,6 +1764,452 @@
 											],
 											"path": [
 												"subject"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Project",
+							"item": [
+								{
+									"name": "Get Project Types",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Odpowiedź jest w prawidłowej formie\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const keys = Object.keys(jsonData)\r",
+													"\r",
+													"    keys.forEach(key =>{\r",
+													"        pm.expect(jsonData[key]).to.be.a('string') //check value\r",
+													"        pm.expect(key).to.be.a('string') //check key\r",
+													"        pm.expect(key).to.have.lengthOf(36)\r",
+													"    })\r",
+													"    \r",
+													"    pm.environment.set(\"selectedProjectType\", keys[0])\r",
+													"})\r",
+													"\r",
+													"//https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#asserting-a-value-type"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/project/types",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project",
+												"types"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Project Categories",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													"\r",
+													"const jsonData = pm.response.json();\r",
+													"const randIndex = Math.floor(Math.random() * jsonData.length)\r",
+													"const key = jsonData[randIndex].categoryKey\r",
+													"\r",
+													"pm.environment.set(\"randomSelectedCategory\", key)\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{ApiURL}}/project/categories/{{selectedProjectType}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project",
+												"categories",
+												"{{selectedProjectType}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add Project",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"necessaryToPassRand\", Boolean(Math.floor(Math.random())))\r",
+													"\r",
+													"pm.environment.set('currentdate', new Date().toISOString());\r",
+													"//console.log(new Date().toISOString())\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
+													"    pm.response.to.have.status(200)\r",
+													"\r",
+													"    const request = JSON.parse(pm.request.body.raw)\r",
+													"    console.log(request)\r",
+													"    pm.environment.set('createdProjectKey', request.project.projectKey)\r",
+													"\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n \"date\": \"{{currentdate}}\",\r\n  \"project\": {\r\n    \"projectKey\": \"{{$guid}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"typeDefinitionKey\": \"{{selectedProjectType}}\",\r\n    \"description\": \"{{$randomLoremSentences}}\",\r\n    \"deadlineTime\":\"2021-01-04T14:46:52.915Z\",\r\n    \"necessaryToPass\": {{necessaryToPassRand}},\r\n    \"categoryKey\": \"{{randomSelectedCategory}}\",\r\n    \"subjectKey\": \"{{createdSubjectKey}}\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{ApiURL}}/project",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get created Project",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/project/{{createdProjectKey}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project",
+												"{{createdProjectKey}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get another Project Type",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Odpowiedź jest w prawidłowej formie\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const keys = Object.keys(jsonData)\r",
+													"\r",
+													"    keys.forEach(key =>{\r",
+													"        pm.expect(jsonData[key]).to.be.a('string') //check value\r",
+													"        pm.expect(key).to.be.a('string') //check key\r",
+													"        pm.expect(key).to.have.lengthOf(36)\r",
+													"    })\r",
+													"    \r",
+													"    pm.environment.set(\"selectedProjectType\", keys[1])\r",
+													"})\r",
+													"\r",
+													"//https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#asserting-a-value-type"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/project/types",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project",
+												"types"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get random Project Category",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													"\r",
+													"const jsonData = pm.response.json();\r",
+													"const randIndex = Math.floor(Math.random() * jsonData.length)\r",
+													"const key = jsonData[randIndex].categoryKey\r",
+													"\r",
+													"pm.environment.set(\"randomSelectedCategory\", key)\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{ApiURL}}/project/categories/{{selectedProjectType}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project",
+												"categories",
+												"{{selectedProjectType}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Project Statuses",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Odpowiedź jest w prawidłowej formie\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const keys = Object.keys(jsonData)\r",
+													"\r",
+													"    keys.forEach(key =>{\r",
+													"        pm.expect(jsonData[key]).to.be.a('string') //check value\r",
+													"        pm.expect(key).to.be.a('string') //check key\r",
+													"\r",
+													"        pm.expect(key).to.have.lengthOf(36)\r",
+													"    })\r",
+													"    \r",
+													"    pm.environment.set(\"selectedStatus\", keys[3])\r",
+													"})\r",
+													"\r",
+													"//https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#asserting-a-value-type"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/project/statuses",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project",
+												"statuses"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Project",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"necessaryToPassRand\", Boolean(Math.floor(Math.random())))"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n \"date\": \"{{currentdate}}\",\r\n  \"project\": {\r\n    \"projectKey\": \"{{createdProjectKey}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"typeDefinitionKey\": \"{{selectedProjectType}}\",\r\n    \"description\": \"{{$randomLoremSentences}}\",\r\n    \"deadlineTime\":\"2021-03-01T14:46:52.915Z\",\r\n    \"necessaryToPass\": {{necessaryToPassRand}},\r\n    \"categoryKey\": \"{{randomSelectedCategory}}\",\r\n    \"projectStatusKey\": \"{{selectedStatus}}\",\r\n    \"subjectKey\": \"{{createdSubjectKey}}\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{ApiURL}}/project",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project"
 											]
 										}
 									},

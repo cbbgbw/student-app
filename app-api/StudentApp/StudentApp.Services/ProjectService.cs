@@ -33,7 +33,17 @@ namespace StudentApp.Services
 
         public async Task<int> UpdateAsync(Project project)
         {
-            _context.Project.Update(project);
+            var modifyingProject = await _context.Project.FirstOrDefaultAsync(s => s.ProjectKey == project.ProjectKey);
+
+            modifyingProject.Name = project.Name;
+            modifyingProject.TypeDefinitionKey = project.TypeDefinitionKey;
+            modifyingProject.Description = project.Description;
+            modifyingProject.DeadlineTime = project.DeadlineTime;
+            modifyingProject.NecessaryToPass = project.NecessaryToPass;
+            modifyingProject.ProjectStatusKey = project.ProjectStatusKey;
+            modifyingProject.CategoryKey = project.CategoryKey;
+            modifyingProject.ModifyTime = project.ModifyTime;
+
             return await _context.SaveChangesAsync();
         }
 
