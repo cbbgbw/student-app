@@ -94,15 +94,15 @@ namespace StudentApp.API.Controllers
         #region ALL PROJECTS COUNT
 
         [CustomAuth.Authorize]
-        [HttpGet("count")]
-        public async Task<ICollection<ResponseProject.ProjectCountResponse>> GetProjectsAndExamsCount()
+        [HttpGet("count/{days:int=90}")]
+        public async Task<ICollection<ResponseProject.ProjectCountResponse>> GetProjectsAndExamsCount(int days = 90)
         {
             var userData = (SR.UserResponse)HttpContext.Items["User"];
 
             if (userData == null)
                 return null;
 
-            var result = await _projectService.GetProjectAndExamCountBySemester(userData.CurrentSemesterDefinitionKey);
+            var result = await _projectService.GetProjectAndExamCountBySemester(userData.CurrentSemesterDefinitionKey, days);
 
             return _mapper.Map<ICollection<ResponseProject.ProjectCountResponse>>(result);
         }
