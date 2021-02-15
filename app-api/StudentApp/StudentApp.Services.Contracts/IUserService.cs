@@ -10,8 +10,10 @@ namespace StudentApp.Services.Contracts
     {
         Task<User> AuthenticateAsync(string loginName, string password);
         Task<int> CreateAsync(User user, string password, int semesterValue);
+        Task<int> UpdateAsync(User user);
         Task<User> GetSingleAsync(Guid userKey);
         Task<UserResponse> GetSingleWithCurrentSemesterAsync(Guid userKey);
         Task<ICollection<User>> GetAllAsync();
+
     }
 }

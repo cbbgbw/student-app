@@ -39,6 +39,13 @@ namespace StudentApp.Services
             return PasswordHash.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt) == false ? null : user;
         }
 
+        public async Task<int> UpdateAsync(User user)
+        {
+            var modifyingUSer = await _context.User.FirstOrDefaultAsync(u => u.UserKey == user.UserKey);
+
+            return await _context.SaveChangesAsync();
+        }
+
         public async Task<User> GetSingleAsync(Guid userKey)
         {
             return await _context.User.SingleAsync(user => user.UserKey == userKey);
