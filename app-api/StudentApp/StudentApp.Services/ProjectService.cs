@@ -35,19 +35,19 @@ namespace StudentApp.Services
         public async Task<R.ProjectResponse> GetSingleAsync(Guid projectKey)
         {
             var query = from p in _context.Project
-                join subject in _context.Subject on p.SubjectKey equals subject.SubjectKey
-                join dt in _context.Definition on p.TypeDefinitionKey equals dt.DefinitionKey
-                join c in _context.Category on p.CategoryKey equals c.CategoryKey
-                join status in _context.Status on p.ProjectStatusKey equals status.StatusKey
-                where p.ProjectKey == projectKey
-                select new
-                {
-                    p,
-                    subjectName = subject.Name,
-                    typeDefinitionName = dt.Value,
-                    categoryName = c.CategoryName,
-                    statusName = status.Name
-                };
+                        join subject in _context.Subject on p.SubjectKey equals subject.SubjectKey
+                        join dt in _context.Definition on p.TypeDefinitionKey equals dt.DefinitionKey
+                        join c in _context.Category on p.CategoryKey equals c.CategoryKey
+                        join status in _context.Status on p.ProjectStatusKey equals status.StatusKey
+                        where p.ProjectKey == projectKey
+                        select new
+                        {
+                            p,
+                            subjectName = subject.Name,
+                            typeDefinitionName = dt.Value,
+                            categoryName = c.CategoryName,
+                            statusName = status.Name
+                        };
 
             var project = await query.FirstOrDefaultAsync();
 
@@ -58,19 +58,19 @@ namespace StudentApp.Services
         public async Task<ICollection<R.ProjectResponse>> GetAllBySubjectAsync(Guid subjectKey)
         {
             var query = from p in _context.Project
-                join subject in _context.Subject on p.SubjectKey equals subject.SubjectKey
-                join dt in _context.Definition on p.TypeDefinitionKey equals dt.DefinitionKey
-                join c in _context.Category on p.CategoryKey equals c.CategoryKey
-                join status in _context.Status on p.ProjectStatusKey equals status.StatusKey
-                where subject.SubjectKey == subjectKey
-                select new
-                {
-                    p,
-                    subjectName = subject.Name,
-                    typeDefinitionName = dt.Value,
-                    categoryName = c.CategoryName,
-                    statusName = status.Name
-                };
+                        join subject in _context.Subject on p.SubjectKey equals subject.SubjectKey
+                        join dt in _context.Definition on p.TypeDefinitionKey equals dt.DefinitionKey
+                        join c in _context.Category on p.CategoryKey equals c.CategoryKey
+                        join status in _context.Status on p.ProjectStatusKey equals status.StatusKey
+                        where subject.SubjectKey == subjectKey
+                        select new
+                        {
+                            p,
+                            subjectName = subject.Name,
+                            typeDefinitionName = dt.Value,
+                            categoryName = c.CategoryName,
+                            statusName = status.Name
+                        };
 
             var projects = new List<R.ProjectResponse>();
 
@@ -87,19 +87,20 @@ namespace StudentApp.Services
         public async Task<ICollection<R.ProjectResponse>> GetAllProjectsInSemesterAsync(Guid semesterKey)
         {
             var query = from p in _context.Project
-                join subject in _context.Subject on p.SubjectKey equals subject.SubjectKey
-                join dt in _context.Definition on p.TypeDefinitionKey equals dt.DefinitionKey
-                join c in _context.Category on p.CategoryKey equals c.CategoryKey
-                join status in _context.Status on p.ProjectStatusKey equals status.StatusKey
-                where subject.SemesterDefinitionKey == semesterKey
-                select new
-                {
-                    p,
-                    subjectName = subject.Name,
-                    typeDefinitionName = dt.Value,
-                    categoryName = c.CategoryName,
-                    statusName = status.Name
-                };
+                        join subject in _context.Subject on p.SubjectKey equals subject.SubjectKey
+                        join dt in _context.Definition on p.TypeDefinitionKey equals dt.DefinitionKey
+                        join c in _context.Category on p.CategoryKey equals c.CategoryKey
+                        join status in _context.Status on p.ProjectStatusKey equals status.StatusKey
+                        orderby p.DeadlineTime ascending
+                        where subject.SemesterDefinitionKey == semesterKey
+                        select new
+                        {
+                            p,
+                            subjectName = subject.Name,
+                            typeDefinitionName = dt.Value,
+                            categoryName = c.CategoryName,
+                            statusName = status.Name
+                        };
 
             var projects = new List<R.ProjectResponse>();
 
@@ -118,20 +119,21 @@ namespace StudentApp.Services
             var toDate = DateTime.Now.AddDays(days);
 
             var query = from p in _context.Project
-                join subject in _context.Subject on p.SubjectKey equals subject.SubjectKey
-                join dt in _context.Definition on p.TypeDefinitionKey equals dt.DefinitionKey
-                join c in _context.Category on p.CategoryKey equals c.CategoryKey
-                join status in _context.Status on p.ProjectStatusKey equals status.StatusKey
-                where subject.SemesterDefinitionKey == semesterKey
-                    && p.DeadlineTime < toDate
-                select new
-                {
-                    p,
-                    subjectName = subject.Name,
-                    typeDefinitionName = dt.Value,
-                    categoryName = c.CategoryName,
-                    statusName = status.Name
-                };
+                        join subject in _context.Subject on p.SubjectKey equals subject.SubjectKey
+                        join dt in _context.Definition on p.TypeDefinitionKey equals dt.DefinitionKey
+                        join c in _context.Category on p.CategoryKey equals c.CategoryKey
+                        join status in _context.Status on p.ProjectStatusKey equals status.StatusKey
+                        orderby p.DeadlineTime ascending 
+                        where subject.SemesterDefinitionKey == semesterKey
+                            && p.DeadlineTime < toDate
+                        select new
+                        {
+                            p,
+                            subjectName = subject.Name,
+                            typeDefinitionName = dt.Value,
+                            categoryName = c.CategoryName,
+                            statusName = status.Name
+                        };
 
             var projects = new List<R.ProjectResponse>();
 
@@ -149,39 +151,14 @@ namespace StudentApp.Services
         {
             var toDate = DateTime.Now.AddDays(days);
 
-            var query =
-                from def in _context.Definition
-                join subq in
-                    (from s in _context.Subject
-                        join p in _context.Project on s.SubjectKey equals p.SubjectKey
-                        join d in _context.Definition on p.TypeDefinitionKey equals d.DefinitionKey
-                        where d.GroupName == "PROJECT_TYPES"
-                              && s.SemesterDefinitionKey == semesterKey
-                              && p.DeadlineTime < toDate
-                     group d by d.DefinitionKey
-                        into newGroup
-                        select new
-                        {
-                            Key = newGroup.Key,
-                            Count = newGroup.Count()
-                        })
-                    on def.DefinitionKey equals subq.Key
-                select new
-                {
-                    subq.Key,
-                    def.Value,
-                    subq.Count
-                };
-
-            var data = await query.ToListAsync();
-            var list = new List<R.ProjectCountResponse>();
-
-            foreach (var item in data)
-            {
-                list.Add(new R.ProjectCountResponse(item.Key, item.Value, item.Count));
-            }
-
-            return list;
+            return (from projectType in await _context.Definition.Where(d => d.GroupName == "PROJECT_TYPES").ToListAsync()
+                    let innerQuery = from d in _context.Definition
+                                     from p in _context.Project.Where(project => project.TypeDefinitionKey == d.DefinitionKey)
+                                         .DefaultIfEmpty()
+                                     from s in _context.Subject.Where(subject => subject.SubjectKey == p.SubjectKey).DefaultIfEmpty()
+                                     where s.SemesterDefinitionKey == semesterKey && p.DeadlineTime < toDate && d.DefinitionKey == projectType.DefinitionKey
+                                     select p
+                    select new R.ProjectCountResponse(projectType.DefinitionKey, projectType.Value, innerQuery.Count())).ToList();
         }
 
         /* Metody pomocnicze */
@@ -192,9 +169,9 @@ namespace StudentApp.Services
         public async Task<ICollection<Category>> GetOrderedCategoriesByTypeAsync(Guid typeDefinitionKey, Guid userKey)
         {
             return await _context.Category.
-                Where(d => d.ProjectTypeKey == typeDefinitionKey 
+                Where(d => d.ProjectTypeKey == typeDefinitionKey
                            && (d.UserKey == userKey || d.UserKey == Guid.Parse("00000000-0000-0000-0000-FFFFFFFFFFFF"))).OrderBy(p => p.OrderIndex).ToListAsync();
-        } 
+        }
 
         public async Task<int> CreateCategoryAsync(Category category)
         {
