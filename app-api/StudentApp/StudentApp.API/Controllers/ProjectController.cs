@@ -6,7 +6,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentApp.Services.Contracts;
-using RQ = StudentApp.API.DataContracts.Requests.Project.POST;
+using RQ_POST = StudentApp.API.DataContracts.Requests.Project.POST;
+using RQ_PUT = StudentApp.API.DataContracts.Requests.Project.PUT;
 using RQ_CAT = StudentApp.API.DataContracts.Requests.Category.POST;
 using DC = StudentApp.API.DataContracts;
 using ResponseProject = StudentApp.API.DataContracts.Responses.Project;
@@ -94,17 +95,17 @@ namespace StudentApp.API.Controllers
         #region ALL PROJECTS COUNT
 
         [CustomAuth.Authorize]
-        [HttpGet("count")]
-        public async Task<Tuple<Dictionary<Guid, int>, Dictionary<Guid, int>>> GetProjectsAndExamsCount()
+        [HttpGet("count/{days:int=90}")]
+        public async Task<ICollection<ResponseProject.ProjectCountResponse>> GetProjectsAndExamsCount(int days = 90)
         {
             var userData = (SR.UserResponse)HttpContext.Items["User"];
 
             if (userData == null)
                 return null;
 
-            var dictionares = await _projectService.GetProjectAndExamCountBySemester(userData.CurrentSemesterDefinitionKey);
+            var result = await _projectService.GetProjectAndExamCountBySemester(userData.CurrentSemesterDefinitionKey, days);
 
-            return dictionares.ToTuple();
+            return _mapper.Map<ICollection<ResponseProject.ProjectCountResponse>>(result);
         }
 
         #endregion
@@ -116,9 +117,9 @@ namespace StudentApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> CreateProject([FromBody] RQ.ProjectPostRequest project)
+        public async Task<ActionResult> CreateProject([FromBody] RQ_POST.ProjectPostRequest project)
         {
-            RQ.ProjectPostValidator validator = new RQ.ProjectPostValidator(_projectService, _subjectService);
+            RQ_POST.ProjectPostValidator validator = new RQ_POST.ProjectPostValidator(_projectService, _subjectService);
             var results = await validator.ValidateAsync(project.Project);
 
             if (results.IsValid)
@@ -126,6 +127,28 @@ namespace StudentApp.API.Controllers
                 var data = await _projectService.CreateAsync(_mapper.Map<S.Project>(project));
 
                 return data == 1 ? Ok() : Problem("Brak dostępu do bazy danych", null, 500);
+            }
+
+            return BadRequest(results.Errors);
+        }
+
+        #endregion
+
+        #region PROJECT PUT
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateProject([FromBody] RQ_PUT.ProjectPutRequest project)
+        {
+            var userData = (SR.UserResponse) HttpContext.Items["User"];
+
+            RQ_PUT.ProjectPutValidator validator = new RQ_PUT.ProjectPutValidator(_projectService, userData.UserKey);
+            var results = await validator.ValidateAsync(project.Project);
+
+            if (results.IsValid)
+            {
+                var data = await _projectService.UpdateAsync(_mapper.Map<S.Project>(project));
+
+                return data == 1 ? Ok() : Problem("Brak dostępu do db", null, 500);
             }
 
             return BadRequest(results.Errors);

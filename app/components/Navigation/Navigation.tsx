@@ -1,74 +1,75 @@
-import React, { FC } from 'react'
-import { Box, Flex } from '@chakra-ui/react'
-import { useAuth } from '../../hooks/useAuth'
+import Calendar from '../../public/icons/sidebar/calendar.svg'
+import Dashboard from '../../public/icons/sidebar/Dashboard.svg'
+import Subjects from '../../public/icons/sidebar/Subjects.svg'
+import { Box, Button, Flex, Link, List } from '@chakra-ui/react'
+import NextLink from 'next/link'
+import { useRouter } from 'next/router'
 
-export const navWidth = 100
-export const Navigation: FC = () => {
-  const { mutateSemester } = useAuth()
+interface Data {
+  icon: JSX.Element
+  href: string
+}
 
-  const navigationList = [
-    {
-      name: 'Pulpit',
+export const Navigation = () => {
+  const { push } = useRouter()
+  const navigationData: Record<string, Data> = {
+    Dashboard: {
+      icon: <Dashboard />,
       href: '/app',
     },
-    {
-      name: 'Przedmioty',
+    Kalendarz: {
+      icon: <Calendar />,
+      href: '/calendar',
+    },
+    Przedmioty: {
+      icon: <Subjects />,
       href: '/subjects',
     },
-  ]
+    Projekty: {
+      icon: <Subjects />,
+      href: '/projects',
+    },
+  }
+
+  const renderNavigation = () => (
+    <List>
+      {Object.keys(navigationData).map((key) => (
+        <Box
+          key={key}
+          marginLeft={5}
+          marginRight={5}
+          marginBottom={5}
+          as={Flex}
+          flexDir="row"
+          alignItems="center"
+          color="white"
+        >
+          {navigationData[key].icon}
+          <Link as={NextLink} href={navigationData[key].href}>
+            {key}
+          </Link>
+        </Box>
+      ))}
+    </List>
+  )
 
   return (
-    <Box paddingTop={20}>
-      <Flex pos="absolute" top={0} w="100vw" border="2px solid red" h={20} />
-      {/* <Flex padding={25} justify="flex-end"> */}
-      {/*  <CSelect mr={15} maxW={200}> */}
-      {/*    {generateSemesters()} */}
-      {/*  </CSelect> */}
-      {/*  <Menu placement="bottom-start"> */}
-      {/*    <MenuButton background="transparent" as={Button}> */}
-      {/*      <AccountIcon /> */}
-      {/*    </MenuButton> */}
-      {/*    <MenuList> */}
-      {/*      <MenuItem>Wyloguj</MenuItem> */}
-      {/*    </MenuList> */}
-      {/*  </Menu> */}
-      {/*  <style jsx> */}
-      {/*    {` */}
-      {/*      .topBar { */}
-      {/*        position: absolute; */}
-      {/*        top: 0; */}
-      {/*        right: 0; */}
-      {/*      } */}
-      {/*    `} */}
-      {/*  </style> */}
-      {/* </Flex> */}
-      {/* <aside className="app-navigation"> */}
-      {/*  <ul> */}
-      {/*    {navigationList.map((el) => ( */}
-      {/*      <li key={el.name}>Icon</li> */}
-      {/*    ))} */}
-      {/*    <button className="cyberpunk">Hype the beast</button> */}
-      {/*  </ul> */}
-      {/*  <style jsx> */}
-      {/*    {` */}
-      {/*      .app-navigation { */}
-      {/*        position: absolute; */}
-      {/*        height: 100%; */}
-      {/*        left: 0; */}
-      {/*        top: 0; */}
-
-      {/*        border: 1px solid red; */}
-      {/*        width: ${navWidth}px; */}
-      {/*        box-sizing: border-box; */}
-      {/*      } */}
-
-      {/*      .cyberpunk { */}
-      {/*        background: ${CyberpunkTheme.Black}; */}
-      {/*        color: ${CyberpunkTheme.Pantone}; */}
-      {/*      } */}
-      {/*    `} */}
-      {/*  </style> */}
-      {/* </aside> */}
-    </Box>
+    <Flex
+      justifyContent="space-between"
+      pt={150}
+      flexDir="column"
+      h="100vh"
+      backgroundColor="#2B2E61"
+    >
+      {renderNavigation()}
+      <Button
+        onClick={() => {
+          localStorage.setItem('token', '')
+          push('/login')
+        }}
+      >
+        Wyloguj
+      </Button>
+    </Flex>
   )
 }

@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using StudentApp.Services.Contracts;
-using RQ = StudentApp.API.DataContracts.Requests.Event.POST;
+using RQ_POST = StudentApp.API.DataContracts.Requests.Event.POST;
+using RQ_PUT = StudentApp.API.DataContracts.Requests.Event.PUT;
 using DC = StudentApp.API.DataContracts;
 using S = StudentApp.Services.Model;
 using SR = StudentApp.Services.Responses.User;
@@ -51,9 +53,9 @@ namespace StudentApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> CreateEvent([FromBody] RQ.EventPostRequest eventModel)
+        public async Task<ActionResult> CreateEvent([FromBody] RQ_POST.EventPostRequest eventModel)
         {
-            RQ.EventPostValidator validator = new RQ.EventPostValidator(_projectService);
+            RQ_POST.EventPostValidator validator = new RQ_POST.EventPostValidator(_projectService);
             var results = await validator.ValidateAsync(eventModel.Event);
 
             if (results.IsValid)
@@ -61,6 +63,28 @@ namespace StudentApp.API.Controllers
                 var data = await _eventService.CreateAsync(_mapper.Map<S.Event>(eventModel));
 
                 return data == 1 ? Ok() : Problem("Brak dostępu do bazy danych", null, 500);
+            }
+
+            return BadRequest(results.Errors);
+        }
+
+        #endregion
+
+        #region PUT
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateEvent([FromBody] RQ_PUT.EventPutRequest eventModel)
+        {
+            var userData = (SR.UserResponse) HttpContext.Items["User"];
+
+            RQ_PUT.EventPutValidator validator = new RQ_PUT.EventPutValidator();
+            var results = await validator.ValidateAsync(eventModel.Event);
+
+            if (results.IsValid)
+            {
+                var data = await _eventService.UpdateAsync(_mapper.Map<S.Event>(eventModel));
+
+                return data == 1 ? Ok() : Problem("Brak dostępu do db", null, 500);
             }
 
             return BadRequest(results.Errors);

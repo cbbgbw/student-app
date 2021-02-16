@@ -1,11 +1,16 @@
-import React, { createContext, FC, useEffect, useState } from 'react'
+import React, {
+  createContext,
+  FC,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react'
 import { useRouter } from 'next/router'
 import { ModalWrapper } from '../../../forms/ModalWrapper'
 import LoadingPage from '../../page/LoadingPage'
-import { useStore } from '../../../utils/storeProvider'
-import { setSemesters } from '../../../store/modules/user/userSelectors'
-import { useUserSemesters } from '../../../actions/user/useUserSemesters'
 import { ModalType } from '../../../types/types'
+import { Navigation } from '../../Navigation/Navigation'
+import { Flex } from '@chakra-ui/layout'
 
 interface GlobalDataContext {
   modalType: ModalType
@@ -27,36 +32,63 @@ export const GlobalDataProvider: FC = (props) => {
 }
 
 export const AuthProvider: FC = (props) => {
-  const { isError, isLoading, mutate, semesters } = useUserSemesters()
-
   const { pathname, push } = useRouter()
-  const [pathRequested, setPathRequested] = useState(pathname)
+  const [isLogin, setIsLogin] = useState(false)
 
-  const setSemestersLocal = useStore(setSemesters)
-  const semesterKeys = semesters && Object.keys(semesters)
+  const withoutAuth = ['/login', '/register']
+  const isPageWithoutAuth = withoutAuth.includes(pathname)
 
   useEffect(() => {
-    if (semesters && semesterKeys) {
-      setSemestersLocal(semesters)
-      if (semesterKeys.length === 0) {
-        push('/login')
-      } else if (semesterKeys.length > 0 && pathRequested) {
-        push(pathRequested)
-      }
-    }
-  }, [semesters])
+    let token = localStorage.getItem('token')
+    const isAbleToAuthorize = token && token !== ''
 
-  return !semesters ||
-    (semesterKeys?.length === 0 && pathname === 'login') ||
-    pathname === 'register' ? (
-    <LoadingPage />
-  ) : (
+    if (!isAbleToAuthorize && !isPageWithoutAuth) {
+      push('/login')
+    }
+    setIsLogin(!!isAbleToAuthorize)
+  }, [])
+
+  if (!isLogin && !isPageWithoutAuth) {
+    return <LoadingPage />
+  }
+  return (
     <GlobalDataProvider>
-      {/* <Navigation /> */}
-      {props.children}
-      <ModalWrapper />
+      {isPageWithoutAuth ? (
+        props.children
+      ) : (
+        <Flex flexDir="row">
+          {!isPageWithoutAuth && <Navigation />}
+          <Flex
+            alignItems="start"
+            padding="50px "
+            w="100vw"
+            h="100vh"
+            backgroundColor="#DCDAF2"
+          >
+            {props.children}
+          </Flex>
+          <ModalWrapper />
+        </Flex>
+      )}
     </GlobalDataProvider>
   )
+
+  // const semesterKeys = semesters && Object.keys(semesters)
+
+  // useEffect(() => {
+  //   if (semesters && semesterKey s) {
+  //     setSemestersLocal(semesters)
+  //     if (semesterKeys.length === 0) {
+  //       push('/login')
+  //     } else if (semesterKeys.length > 0 && pathRequested) {
+  //       push(pathRequested)
+  //     }
+  //   }
+  // }, [semesters])
+
+  // return pathname === 'register' ? (
+  //   <LoadingPage />
+  // ) : (
 }
 
 // source https://blog.logrocket.com/using-authentication-in-next-js/

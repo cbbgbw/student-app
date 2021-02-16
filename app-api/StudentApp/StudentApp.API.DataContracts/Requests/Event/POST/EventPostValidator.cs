@@ -20,6 +20,16 @@ namespace StudentApp.API.DataContracts.Requests.Event.POST
             RuleFor(ev => ev.ProjectKey)
                 .NotEmpty()
                 .Must(ValidateProject).WithMessage("Nie wybrano projektu");
+
+            RuleFor(ev => ev.Title)
+                .NotEmpty()
+                .WithMessage("Nie podano nazwy wydarzenia")
+                .MaximumLength(100)
+                .WithMessage("Nazwa zbyt długa (max 100 znaków)");
+
+            RuleFor(ev => ev.Content)
+                .MaximumLength(500)
+                .WithMessage("Opis zbyt długi (max 500 znaków)");
         }
     }
 }

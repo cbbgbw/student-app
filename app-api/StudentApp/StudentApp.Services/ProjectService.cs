@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,22 @@ namespace StudentApp.Services
         public async Task<int> CreateAsync(Project project)
         {
             await _context.Project.AddAsync(project);
+
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> UpdateAsync(Project project)
+        {
+            var modifyingProject = await _context.Project.FirstOrDefaultAsync(s => s.ProjectKey == project.ProjectKey);
+
+            modifyingProject.Name = project.Name;
+            modifyingProject.TypeDefinitionKey = project.TypeDefinitionKey;
+            modifyingProject.Description = project.Description;
+            modifyingProject.DeadlineTime = project.DeadlineTime;
+            modifyingProject.NecessaryToPass = project.NecessaryToPass;
+            modifyingProject.ProjectStatusKey = project.ProjectStatusKey;
+            modifyingProject.CategoryKey = project.CategoryKey;
+            modifyingProject.ModifyTime = project.ModifyTime;
 
             return await _context.SaveChangesAsync();
         }
@@ -144,23 +161,43 @@ namespace StudentApp.Services
             return projects;
         }
 
-        public async Task<(Dictionary<Guid, int>, Dictionary<Guid, int>)> GetProjectAndExamCountBySemester(Guid semesterKey)
+        public async Task<ICollection<R.ProjectCountResponse>> GetProjectAndExamCountBySemester(Guid semesterKey, int days)
         {
-            var all = await GetAllProjectsInSemesterAsync(semesterKey);
+            var toDate = DateTime.Now.AddDays(days);
 
-            var projectTypeDefinition = await _context.Definition.SingleAsync(d => d.GroupName == "PROJECT_TYPES" && d.Value == "Projekt");
-            var projectTypeGuid = projectTypeDefinition.DefinitionKey;
-            var projects = all.Where(p => p.TypeDefinitionKey == projectTypeGuid);
-            var projectsAmount = projects.Count();
-            var projectDictionary = new Dictionary<Guid, int> {{projectTypeGuid, projectsAmount}};
+            var query =
+                from def in _context.Definition
+                join subq in
+                    (from s in _context.Subject
+                        join p in _context.Project on s.SubjectKey equals p.SubjectKey
+                        join d in _context.Definition on p.TypeDefinitionKey equals d.DefinitionKey
+                        where d.GroupName == "PROJECT_TYPES"
+                              && s.SemesterDefinitionKey == semesterKey
+                              && p.DeadlineTime < toDate
+                     group d by d.DefinitionKey
+                        into newGroup
+                        select new
+                        {
+                            Key = newGroup.Key,
+                            Count = newGroup.Count()
+                        })
+                    on def.DefinitionKey equals subq.Key
+                select new
+                {
+                    subq.Key,
+                    def.Value,
+                    subq.Count
+                };
 
-            var examTypeDefinition = await _context.Definition.SingleAsync(d => d.GroupName == "PROJECT_TYPES" && d.Value == "Egzamin");
-            var examTypeGuid = examTypeDefinition.DefinitionKey;
-            var exams = all.Where(p => p.TypeDefinitionKey == examTypeGuid);
-            var examsAmount = exams.Count();
-            var examDictionary = new Dictionary<Guid, int> { { examTypeGuid, examsAmount } };
+            var data = await query.ToListAsync();
+            var list = new List<R.ProjectCountResponse>();
 
-            return (projectDictionary, examDictionary);
+            foreach (var item in data)
+            {
+                list.Add(new R.ProjectCountResponse(item.Key, item.Value, item.Count));
+            }
+
+            return list;
         }
 
         /* Metody pomocnicze */
