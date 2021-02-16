@@ -39,13 +39,13 @@ export const useProjects = () => {
 }
 
 interface ProjectCount {
-  count: number
-  key: string
-  name: string
+  countValue: number
+  typeDefinitionKey: string
+  typeName: string
 }
 
 export const useProjectCount = () => {
-  const { data, error } = useSWR<Record<string, ProjectCount> | undefined>(
+  const { data, error } = useSWR<ProjectCount[] | undefined>(
     'project/count',
     fetcher,
   )

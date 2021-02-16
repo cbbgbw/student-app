@@ -1,18 +1,10 @@
-import React, {
-  createContext,
-  FC,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from 'react'
+import React, { createContext, FC, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { ModalWrapper } from '../../../forms/ModalWrapper'
 import LoadingPage from '../../page/LoadingPage'
 import { ModalType } from '../../../types/types'
 import { Navigation } from '../../Navigation/Navigation'
 import { Flex } from '@chakra-ui/layout'
-import { Search } from '../../Search'
-import { Box } from '@chakra-ui/react'
 
 interface GlobalDataContext {
   modalType: ModalType
@@ -60,10 +52,15 @@ export const AuthProvider: FC = (props) => {
       ) : (
         <Flex flexDir="row">
           {!isPageWithoutAuth && <Navigation />}
-          <Box w="100vw" h="100vh" backgroundColor="#DCDAF2">
-            {/*<Search />*/}
+          <Flex
+            alignItems="start"
+            padding="50px "
+            w="100vw"
+            h="100vh"
+            backgroundColor="#DCDAF2"
+          >
             {props.children}
-          </Box>
+          </Flex>
           <ModalWrapper />
         </Flex>
       )}

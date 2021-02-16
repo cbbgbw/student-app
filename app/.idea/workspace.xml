@@ -5,21 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c4dde2a-edd9-4a1e-a788-fc0bcb9ad7cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/components/chakra/Fonts/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/Subjects/Container/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/Subjects/EventList/EventListItem/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/Subjects/EventList/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/Subjects/Note/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/Subjects/ProjectList/ProjectListItem/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/ui/Subjects/ProjectList/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/Linker/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/icons/zakladka.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/hooks/event.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/hooks/event.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/hooks/project.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/hooks/project.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/hooks/subject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/hooks/subject.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/Auth/Provider/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Auth/Provider/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Search/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Search/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Navigation/Navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Navigation/Navigation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms/AddProject/AddProject.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/AddProject/AddProject.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms/AddSubject/AddSubject.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/AddSubject/AddSubject.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/app/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/projects/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/projects/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/subjects/[key].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/subjects/[key].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/subjects/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/subjects/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +69,7 @@
     <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/jest" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="E:\2021\DEV\student-app\app\node_modules\prettier" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.HTML" />
     <property name="ts.external.directory.path" value="E:\2021\DEV\student-app\app\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -79,11 +78,11 @@
       <recent name="E:\2021\DEV\student-app\app\public\icons" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\2021\DEV\student-app\app\public\icons" />
       <recent name="E:\2021\DEV\student-app\app\api\hooks" />
       <recent name="E:\2021\DEV\student-app\app\hooks\auth" />
       <recent name="E:\2021\DEV\student-app\app\components\ui\Dashboard" />
       <recent name="E:\2021\DEV\student-app\app\components\page" />
-      <recent name="E:\2021\DEV\student-app\app\pages\subjects" />
     </key>
     <key name="es6.move.members.recent.items">
       <recent name="E:\2021\DEV\student-app\app\api\actions\subject.ts" />
@@ -226,7 +225,11 @@
       <workItem from="1613042964492" duration="2347000" />
       <workItem from="1613045618895" duration="3070000" />
       <workItem from="1613051462316" duration="6151000" />
-      <workItem from="1613128063299" duration="10395000" />
+      <workItem from="1613128063299" duration="12649000" />
+      <workItem from="1613207992407" duration="13040000" />
+      <workItem from="1613292009668" duration="719000" />
+      <workItem from="1613400044440" duration="12843000" />
+      <workItem from="1613486045192" duration="1149000" />
     </task>
     <task id="LOCAL-00001" summary="Poprawki eslintowe/prettierowe bo cos sie wygrzmociło XD">
       <created>1609922949286</created>
@@ -277,7 +280,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612883963667</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Ekran przedmiotu">
+      <created>1613148938439</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1613148938439</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -306,7 +316,9 @@
     <MESSAGE value="Obsługa użytkownika" />
     <MESSAGE value="CSPE_DEV-36 Obsługa logowania, rejestracji&#10;Dodanie obsługi semestru po autoryzacji" />
     <MESSAGE value="Dashboard" />
-    <option name="LAST_COMMIT_MESSAGE" value="Dashboard" />
+    <MESSAGE value="Ekran przedmiotu" />
+    <MESSAGE value="CSPE_DEV-46 Dodanie wylogowywania" />
+    <option name="LAST_COMMIT_MESSAGE" value="CSPE_DEV-46 Dodanie wylogowywania" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -330,6 +342,10 @@
         <watch expression="push" />
       </configuration>
     </watches-manager>
+  </component>
+  <component name="XPathView.XPathProjectComponent">
+    <history />
+    <find-history />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

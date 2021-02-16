@@ -15,10 +15,10 @@ const SubjectPage = () => {
 
   return (
     <Grid
-      margin="40px"
+      width="100%"
       gridColumnGap="80px"
       gridTemplateColumns="auto"
-      gridRowGap={'20px'}
+      gridRowGap="20px"
     >
       <GridItem
         borderRadius="12px"
