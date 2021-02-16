@@ -33,6 +33,7 @@ namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
 
             #region SUBJECT
 
+            /* POST */
             CreateMap<DCSubject.POST.SubjectPost, S.Subject>();
 
             CreateMap<DCSubject.POST.SubjectPostRequest, S.Subject>().
@@ -42,12 +43,21 @@ namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
 
             CreateMap<S.Subject, DC.Subject>();
 
+            /* RESPONSE */
             CreateMap<SResponses.Subject.SubjectResponse, DCResponses.Subject.SubjectResponse>();
+
+            /* PUT */
+            CreateMap<DCSubject.PUT.SubjectPut, S.Subject>();
+
+            CreateMap<DCSubject.PUT.SubjectPutRequest, S.Subject>().
+                ConstructUsing((s, ctx) => ctx.Mapper.Map<S.Subject>(s.Subject))
+                .ForMember(dest => dest.ModifyTime, opt => opt.MapFrom(src => src.Date));
 
             #endregion
 
             #region PROJECT
 
+            /* POST */
             CreateMap<DCProject.POST.ProjectPost, S.Project>();
 
             CreateMap<DCProject.POST.ProjectPostRequest, S.Project>()
@@ -59,7 +69,15 @@ namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
 
             CreateMap<S.Project, DC.Project>();
 
+            /* RESPONSE */
             CreateMap<SResponses.Project.ProjectResponse, DCResponses.Project.ProjectResponse>();
+
+            /* PUT */
+            CreateMap<DCProject.PUT.ProjectPut, S.Project>();
+
+            CreateMap<DCProject.PUT.ProjectPutRequest, S.Project>().
+                ConstructUsing((s, ctx) => ctx.Mapper.Map<S.Project>(s.Project))
+                .ForMember(dest => dest.ModifyTime, opt => opt.MapFrom(src => src.Date));
 
             CreateMap<SResponses.Project.ProjectCountResponse, DCResponses.Project.ProjectCountResponse>();
 
@@ -67,6 +85,7 @@ namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
 
             #region EVENT
 
+            /* POST */
             CreateMap<DCEvent.POST.EventPost, S.Event>();
 
             CreateMap<DCEvent.POST.EventPostRequest, S.Event>()
@@ -75,6 +94,13 @@ namespace StudentApp.IoC.Configuration.AutoMapper.Profiles
                  .ForMember(dest => dest.ModifyTime, opt => opt.MapFrom(src => src.Date));
 
             CreateMap<S.Event, DC.Event>();
+
+            /* PUT */
+            CreateMap<DCEvent.PUT.EventPut, S.Event>();
+
+            CreateMap<DCEvent.PUT.EventPutRequest, S.Event>().
+                ConstructUsing((s, ctx) => ctx.Mapper.Map<S.Event>(s.Event))
+                .ForMember(dest => dest.ModifyTime, opt => opt.MapFrom(src => src.Date));
 
             #endregion
 

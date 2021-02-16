@@ -6,27 +6,15 @@ import { Add } from '../../components/Add/Add'
 // import styles from './index.module.scss'
 import { Box, Flex, List, ListItem, Text } from '@chakra-ui/react'
 import { GlobalDataContext } from '../../components/Auth/Provider'
-import { useProjects } from '../../api/hooks/project'
+import { useProjectCount, useProjects } from '../../api/hooks/project'
 import { useEvents } from '../../api/hooks/event'
 import { parseISOString } from '../../utils/dateUtils'
 
 const Dashboard: FC = () => {
+  const { projectsCount } = useProjectCount()
   const { projects } = useProjects()
   const { getEventsParsed } = useEvents()
   const events = getEventsParsed()
-
-  const projectsCount = [
-    {
-      name: 'Projekty',
-      key: 'xdasdasfaf',
-      count: 12,
-    },
-    {
-      name: 'Egzaminy',
-      key: 'asdagege',
-      count: 24,
-    },
-  ]
 
   const generateEvents = () =>
     events &&
@@ -111,17 +99,17 @@ const Dashboard: FC = () => {
     ))
 
   const generateCounters = () =>
-    projectsCount.map((values) => (
-      <Flex key={values.key} flexDir="column" alignItems="center">
-        <Text>{values.name}</Text>
+    projectsCount?.map((values) => (
+      <Flex key={values.typeDefinitionKey} flexDir="column" alignItems="center">
+        <Text>{values.typeName}</Text>
         <Text borderRadius="12px" padding="7px" backgroundColor="#E3DDF0">
-          {values.count}
+          {values.countValue}
         </Text>
       </Flex>
     ))
 
   return (
-    <Flex direction="row">
+    <Flex w="100%" direction="row">
       {/* <Flex mt={6} mb={6} mr={20} justifyContent="flex-end"> */}
       {/*  <SelectSemesterPopover /> */}
       {/* </Flex> */}

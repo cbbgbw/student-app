@@ -7,6 +7,10 @@ import { ButtonStylesOverride } from '../consts/styles'
 
 const colors = {}
 const theme = extendTheme({
+  fonts: {
+    heading: 'Source Sans Pro',
+    body: 'Source Sans Pro',
+  },
   colors,
   components: {
     Button: ButtonStylesOverride,

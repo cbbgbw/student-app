@@ -32,6 +32,22 @@ namespace StudentApp.Services
             return await _context.SaveChangesAsync();
         }
 
+        public async Task<int> UpdateAsync(Project project)
+        {
+            var modifyingProject = await _context.Project.FirstOrDefaultAsync(s => s.ProjectKey == project.ProjectKey);
+
+            modifyingProject.Name = project.Name;
+            modifyingProject.TypeDefinitionKey = project.TypeDefinitionKey;
+            modifyingProject.Description = project.Description;
+            modifyingProject.DeadlineTime = project.DeadlineTime;
+            modifyingProject.NecessaryToPass = project.NecessaryToPass;
+            modifyingProject.ProjectStatusKey = project.ProjectStatusKey;
+            modifyingProject.CategoryKey = project.CategoryKey;
+            modifyingProject.ModifyTime = project.ModifyTime;
+
+            return await _context.SaveChangesAsync();
+        }
+
         public async Task<R.ProjectResponse> GetSingleAsync(Guid projectKey)
         {
             var query = from p in _context.Project

@@ -22,6 +22,10 @@ namespace StudentApp.API.DataContracts.Requests.Subject.POST
             RuleFor(subject => subject.TypeDefinitionKey)
                 .NotEmpty()
                 .Must(ValidateType).WithMessage("Nie znaleziono podanego typu definicji.");
+
+            RuleFor(subject => subject.Name)
+                .NotEmpty()
+                .WithMessage("Podaj nazwę przedmiotu");
         }
     }
 }

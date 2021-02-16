@@ -21,13 +21,18 @@ import { postProject, ProjectFormData } from '../../api/actions/project'
 export const AddProject: FC = () => {
   const { push } = useRouter()
   const { projectTypes } = useProjectTypes()
-  const { projectStatuses } = useProjectStatuses()
   const [projectType, setProjectType] = useState<string>()
   const { projectCategories } = useProjectCategory(projectType)
   const { getAsKeyValue } = useSubjects()
   const { handleSubmit, register } = useForm<PostProps>()
   const { modalType, setModalType } = useContext(GlobalDataContext)
   const [datePicked, setDatePicked] = useState(new Date())
+
+  useEffect(() => {
+    if (projectTypes) {
+      setProjectType(Object.keys(projectTypes)[0])
+    }
+  }, [projectTypes])
 
   const onProjectCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setProjectType(e.target.value)

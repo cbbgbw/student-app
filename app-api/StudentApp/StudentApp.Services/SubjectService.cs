@@ -33,9 +33,19 @@ namespace StudentApp.Services
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> UpdateAsync(Subject subject)
+        public async Task<int> UpdateAsync(Subject subject)
         {
-            throw new NotImplementedException();
+            var modifyingSubject = await _context.Subject.FirstOrDefaultAsync(s => s.SubjectKey == subject.SubjectKey);
+
+            modifyingSubject.Name = subject.Name;
+            modifyingSubject.Description = subject.Description;
+            modifyingSubject.IsPassed = subject.IsPassed;
+            modifyingSubject.TypeDefinitionKey = subject.TypeDefinitionKey;
+            modifyingSubject.HasProjectToPass = subject.HasProjectToPass;
+            modifyingSubject.SemesterDefinitionKey = subject.SemesterDefinitionKey;
+            modifyingSubject.ModifyTime = subject.ModifyTime;
+
+            return await _context.SaveChangesAsync();
         }
 
         public async Task<bool> DeleteAsync(Guid subjectKey)

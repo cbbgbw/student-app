@@ -32,6 +32,18 @@ namespace StudentApp.Services
             return await _context.SaveChangesAsync();
         }
 
+        public async Task<int> UpdateAsync(Event eventModel)
+        {
+            var modifyingEvent = await _context.Event.FirstOrDefaultAsync(e => e.EventKey == eventModel.EventKey);
+
+            modifyingEvent.Title = eventModel.Title;
+            modifyingEvent.Content = eventModel.Content;
+            modifyingEvent.SetTime = eventModel.SetTime;
+            modifyingEvent.ModifyTime = eventModel.ModifyTime;
+
+            return await _context.SaveChangesAsync();
+        }
+
         public async Task<ICollection<Event>> GetAllBySubjectAsync(Guid subjectKey)
         {
             var query = from s in _context.Subject

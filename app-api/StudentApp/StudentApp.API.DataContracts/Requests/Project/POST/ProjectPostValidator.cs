@@ -19,13 +19,6 @@ namespace StudentApp.API.DataContracts.Requests.Project.POST
                 return types.FirstOrDefault(type => type.DefinitionKey == projectTypeKey) != null;
             }
 
-            //bool validateStatus(Guid statusKey)
-            //{
-            //    var statuses = projectService.GetAllStatusesAsync().Result;
-
-            //    return statuses.FirstOrDefault(status => status.StatusKey == statusKey) != null;
-            //}
-
             //bool ValidateCategory(Guid categoryKey, Guid projectStatusKey)
             //{
             //    var categories = projectService.GetOrderedCategoriesByTypeAsync(projectStatusKey).Result;
@@ -40,7 +33,7 @@ namespace StudentApp.API.DataContracts.Requests.Project.POST
 
             RuleFor(proj => proj.TypeDefinitionKey)
                 .NotEmpty()
-                .Must(ValidateType).WithMessage("Nie znaleziono podanego typu definicji,");
+                .Must(ValidateType).WithMessage("Nie znaleziono podanego typu definicji");
 
             //RuleFor(proj => proj.ProjectStatusKey)
             //    .NotEmpty()
@@ -52,10 +45,12 @@ namespace StudentApp.API.DataContracts.Requests.Project.POST
 
             RuleFor(proj => proj.SubjectKey)
                 .NotEmpty()
-                .Must(ValidateProjectSubject).WithMessage("Nie znaleziono podanego przedmiotu");
+                .Must(ValidateProjectSubject)
+                .WithMessage("Nie znaleziono podanego przedmiotu");
 
             RuleFor(proj => proj.Name)
-                .NotEmpty();
+                .NotEmpty()
+                .WithMessage("Nie podano nazwy projektu");
         }
     }
 }

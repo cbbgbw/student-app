@@ -9,10 +9,11 @@ import { CSelect } from '../../components/Forms/CSelect/CSelect'
 import { CTextArea } from '../../components/Forms/CTextarea/CTextArea'
 import { useSemesters } from '../../api/hooks/semester'
 import { PostProps, subjectPost } from '../../api/actions/subject'
-import { useSubjectTypes } from '../../api/hooks/subject'
+import { useSubjects, useSubjectTypes } from '../../api/hooks/subject'
 
 export const AddSubject: FC = () => {
   const router = useRouter()
+  const { reFetch } = useSubjects()
   const { currentSemester } = useSemesters()
   const { modalType, setModalType } = useContext(GlobalDataContext)
 
@@ -23,11 +24,12 @@ export const AddSubject: FC = () => {
   const onSubjectSubmit = async (data: PostProps) => {
     await subjectPost(data, currentSemester?.[0])
       .then(() => setModalType(ModalType.None))
-      .then(() =>
+      .then(() => {
+        reFetch()
         router.push({
           pathname: '/subjects',
-        }),
-      )
+        })
+      })
   }
 
   return (
@@ -60,8 +62,3 @@ export const AddSubject: FC = () => {
     </ReusableModal>
   )
 }
-
-/* TODO
-  Dodać walidację na:
-  puste pola
-  wymagane pola */
