@@ -12,3 +12,11 @@ Changelog:
 - Dodana została funkcjonalność zmiany semestrów https://ig-manag.myjetbrains.com/youtrack/issue/CSPE_DEV-44
 
 Powyższe funkcjonalności są do przetestowania manualnego podczas wydania wersji 0.0.2
+
+# 0.0.2
+- Dodany został dashboard https://ig-manag.myjetbrains.com/youtrack/issue/CSPE_DEV-7
+- Dodany został boczny pasek nawigacji https://ig-manag.myjetbrains.com/youtrack/issue/CSPE_DEV-8
+- Dodana została możliwość dodawania wydarzeń https://ig-manag.myjetbrains.com/youtrack/issue/CSPE_DEV-28
+- Dodana została możliwość wylogowania/zalogowania się z aplikacji
+- Dodana zostala autoryzacja https://ig-manag.myjetbrains.com/youtrack/issue/CSPE_DEV-85
+- Ogólne poprawki https://ig-manag.myjetbrains.com/youtrack/issue/CSPE_DEV-88
