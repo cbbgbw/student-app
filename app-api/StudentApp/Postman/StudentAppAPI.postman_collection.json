@@ -46,10 +46,10 @@
 					"name": "Add",
 					"item": [
 						{
-							"name": "Subject",
+							"name": "User",
 							"item": [
 								{
-									"name": "Authenticate User",
+									"name": "Add User",
 									"event": [
 										{
 											"listen": "test",
@@ -58,20 +58,37 @@
 													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
 													"    pm.response.to.have.status(200)\r",
 													"\r",
+													"    const request = JSON.parse(pm.request.body.raw)\r",
+													"    console.log(request)\r",
+													"    pm.environment.set('createdUserKey', request.user.userKey)\r",
+													"\r",
 													"    const jsonData = JSON.parse(responseBody)\r",
 													"    pm.environment.set('authToken', jsonData.token)\r",
 													"})"
 												],
 												"type": "text/javascript"
 											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.environment.set('currentdate', new Date().toISOString());\r",
+													""
+												],
+												"type": "text/javascript"
+											}
 										}
 									],
 									"request": {
+										"auth": {
+											"type": "noauth"
+										},
 										"method": "POST",
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"loginName\": \"admin\",\r\n  \"password\": \"cyberbug2021\"\r\n}",
+											"raw": "{\r\n  \"date\": \"{{currentdate}}\",\r\n  \"user\": {\r\n    \"userKey\": \"{{$guid}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"loginName\": \"{{$randomUserName}}\",\r\n    \"password\": \"{{$randomPassword}}\",\r\n    \"emailAddress\": \"{{$randomEmail}}\",\r\n    \"semesterValue\": \"{{$randomInt}}\"\r\n  }\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -79,18 +96,165 @@
 											}
 										},
 										"url": {
-											"raw": "{{ApiURL}}/user/authenticate",
+											"raw": "{{ApiURL}}/user/register",
 											"host": [
 												"{{ApiURL}}"
 											],
 											"path": [
 												"user",
-												"authenticate"
+												"register"
 											]
 										}
 									},
 									"response": []
 								},
+								{
+									"name": "Get created User",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/user/{{createdUserKey}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"user",
+												"{{createdUserKey}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Semester",
+							"item": [
+								{
+									"name": "Add Semester",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
+													"    pm.response.to.have.status(200)\r",
+													"\r",
+													"    const jsonData = pm.response.json();\r",
+													"\r",
+													"    pm.environment.set('createdSemesterKey', jsonData)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"randomSemesterValue\", Math.floor(Math.random()*10) + 2)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/semester/{{randomSemesterValue}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"semester",
+												"{{randomSemesterValue}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get created Semester",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/semester/single/{{createdSemesterKey}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"semester",
+												"single",
+												"{{createdSemesterKey}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Subject",
+							"item": [
 								{
 									"name": "Get current Semester",
 									"event": [
@@ -230,6 +394,7 @@
 											"listen": "prerequest",
 											"script": {
 												"exec": [
+													"pm.environment.set('currentdate', new Date().toISOString());\r",
 													""
 												],
 												"type": "text/javascript"
@@ -251,7 +416,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"date\": \"2021-01-04T14:46:52.915Z\",\r\n  \"subject\": {\r\n    \"subjectKey\": \"{{$guid}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"description\": \"{{$randomLoremSentences}}\",\r\n    \"typeDefinitionKey\": \"{{selectedSubjectType}}\",\r\n    \"hasProjectToPass\": {{$randomBoolean}},\r\n    \"semesterDefinitionKey\": \"{{selectedSemesterKey}}\"\r\n  }\r\n}",
+											"raw": "{\r\n  \"date\": \"{{currentdate}}\",\r\n  \"subject\": {\r\n    \"subjectKey\": \"{{$guid}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"description\": \"{{$randomLoremSentences}}\",\r\n    \"typeDefinitionKey\": \"{{selectedSubjectType}}\",\r\n    \"hasProjectToPass\": {{$randomBoolean}},\r\n    \"semesterDefinitionKey\": \"{{selectedSemesterKey}}\"\r\n  }\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -328,49 +493,6 @@
 							"name": "Project",
 							"item": [
 								{
-									"name": "Authenticate User",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
-													"    pm.response.to.have.status(200)\r",
-													"\r",
-													"    const jsonData = JSON.parse(responseBody)\r",
-													"    pm.environment.set('authToken', jsonData.token)\r",
-													"})"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"loginName\": \"admin\",\r\n  \"password\": \"cyberbug2021\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{ApiURL}}/user/authenticate",
-											"host": [
-												"{{ApiURL}}"
-											],
-											"path": [
-												"user",
-												"authenticate"
-											]
-										}
-									},
-									"response": []
-								},
-								{
 									"name": "Get current Semester",
 									"event": [
 										{
@@ -443,7 +565,6 @@
 													"    keys.forEach(key =>{\r",
 													"        pm.expect(jsonData[key]).to.be.a('string') //check value\r",
 													"        pm.expect(key).to.be.a('string') //check key\r",
-													"\r",
 													"        pm.expect(key).to.have.lengthOf(36)\r",
 													"    })\r",
 													"    \r",
@@ -477,6 +598,110 @@
 											"path": [
 												"project",
 												"types"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Subjects by Semester",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Odpowiedź jest w prawidłowej formie\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const randIndex = Math.floor(Math.random() * jsonData.length)\r",
+													"    const key = jsonData[randIndex].subjectKey\r",
+													"\r",
+													"    pm.environment.set(\"selectedSubjectKey\", key)\r",
+													"})\r",
+													"\r",
+													"//https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#asserting-a-value-type"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/subject/semester",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"subject",
+												"semester"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add Category",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
+													"    pm.response.to.have.status(200)\r",
+													"\r",
+													"    const request = JSON.parse(pm.request.body.raw)\r",
+													"    console.log(request)\r",
+													"    pm.environment.set('createdCategoryKey', request.category.categoryKey)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.environment.set('currentdate', new Date().toISOString());"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"date\": \"{{currentdate}}\",\r\n  \"category\": {\r\n    \"categoryKey\": \"{{$guid}}\",\r\n    \"projectTypeKey\": \"00000000-0000-0000-0000-000000000012\",\r\n    \"userKey\": \"{{$currentUserKey}}\",\r\n    \"categoryName\": \"{{$randomNoun}}\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{ApiURL}}/project/category",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project",
+												"category"
 											]
 										}
 									},
@@ -545,64 +770,18 @@
 									"response": []
 								},
 								{
-									"name": "Get Subjects by Semester",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
-													"    pm.response.to.have.status(200)\r",
-													"})\r",
-													"\r",
-													"pm.test(\"Odpowiedź jest w prawidłowej formie\", () => {\r",
-													"    const jsonData = pm.response.json();\r",
-													"    const randIndex = Math.floor(Math.random() * jsonData.length)\r",
-													"    const key = jsonData[randIndex].subjectKey\r",
-													"\r",
-													"    pm.environment.set(\"selectedSubjectKey\", key)\r",
-													"})\r",
-													"\r",
-													"//https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#asserting-a-value-type"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{authToken}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{ApiURL}}/subject/semester",
-											"host": [
-												"{{ApiURL}}"
-											],
-											"path": [
-												"subject",
-												"semester"
-											]
-										}
-									},
-									"response": []
-								},
-								{
 									"name": "Add Project",
 									"event": [
 										{
 											"listen": "prerequest",
 											"script": {
 												"exec": [
-													"pm.variables.set(\"necessaryToPassRand\", Boolean(Math.floor(Math.random())))"
+													"pm.variables.set(\"necessaryToPassRand\", Boolean(Math.floor(Math.random())))\r",
+													"\r",
+													"pm.environment.set('currentdate', new Date().toISOString());\r",
+													"//console.log(new Date().toISOString())\r",
+													"\r",
+													""
 												],
 												"type": "text/javascript"
 											}
@@ -639,7 +818,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"date\": \"2021-01-04T14:46:52.915Z\",\r\n  \"project\": {\r\n    \"projectKey\": \"{{$guid}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"typeDefinitionKey\": \"{{selectedProjectType}}\",\r\n    \"description\": \"{{$randomLoremSentences}}\",\r\n    \"deadlineTime\":\"2021-01-04T14:46:52.915Z\",\r\n    \"necessaryToPass\": {{necessaryToPassRand}},\r\n    \"categoryKey\": \"{{randomSelectedCategory}}\",\r\n    \"subjectKey\": \"{{selectedSubjectKey}}\"\r\n    }\r\n}",
+											"raw": "{\r\n \"date\": \"{{currentdate}}\",\r\n  \"project\": {\r\n    \"projectKey\": \"{{$guid}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"typeDefinitionKey\": \"{{selectedProjectType}}\",\r\n    \"description\": \"{{$randomLoremSentences}}\",\r\n    \"deadlineTime\":\"2021-01-04T14:46:52.915Z\",\r\n    \"necessaryToPass\": {{necessaryToPassRand}},\r\n    \"categoryKey\": \"{{createdCategoryKey}}\",\r\n    \"subjectKey\": \"{{selectedSubjectKey}}\"\r\n    }\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -703,195 +882,8 @@
 							]
 						},
 						{
-							"name": "Semester",
-							"item": [
-								{
-									"name": "Authenticate User",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
-													"    pm.response.to.have.status(200)\r",
-													"\r",
-													"    const jsonData = JSON.parse(responseBody)\r",
-													"    pm.environment.set('authToken', jsonData.token)\r",
-													"})"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"loginName\": \"admin\",\r\n  \"password\": \"cyberbug2021\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{ApiURL}}/user/authenticate",
-											"host": [
-												"{{ApiURL}}"
-											],
-											"path": [
-												"user",
-												"authenticate"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Add Semester",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
-													"    pm.response.to.have.status(200)\r",
-													"\r",
-													"    const jsonData = pm.response.json();\r",
-													"\r",
-													"    pm.environment.set('createdSemesterKey', jsonData)\r",
-													"})"
-												],
-												"type": "text/javascript"
-											}
-										},
-										{
-											"listen": "prerequest",
-											"script": {
-												"exec": [
-													""
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{authToken}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "POST",
-										"header": [],
-										"url": {
-											"raw": "{{ApiURL}}/semester/4",
-											"host": [
-												"{{ApiURL}}"
-											],
-											"path": [
-												"semester",
-												"4"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Get created Semester",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
-													"    pm.response.to.have.status(200)\r",
-													"})"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{authToken}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{ApiURL}}/semester/single/{{createdSemesterKey}}",
-											"host": [
-												"{{ApiURL}}"
-											],
-											"path": [
-												"semester",
-												"single",
-												"{{createdSemesterKey}}"
-											]
-										}
-									},
-									"response": []
-								}
-							]
-						},
-						{
 							"name": "Event",
 							"item": [
-								{
-									"name": "Authenticate User",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
-													"    pm.response.to.have.status(200)\r",
-													"\r",
-													"    const jsonData = JSON.parse(responseBody)\r",
-													"    pm.environment.set('authToken', jsonData.token)\r",
-													"})"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"loginName\": \"admin\",\r\n  \"password\": \"cyberbug2021\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{ApiURL}}/user/authenticate",
-											"host": [
-												"{{ApiURL}}"
-											],
-											"path": [
-												"user",
-												"authenticate"
-											]
-										}
-									},
-									"response": []
-								},
 								{
 									"name": "Get current Semester",
 									"event": [
@@ -1064,6 +1056,16 @@
 												],
 												"type": "text/javascript"
 											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.environment.set('currentdate', new Date().toISOString());\r",
+													""
+												],
+												"type": "text/javascript"
+											}
 										}
 									],
 									"request": {
@@ -1081,7 +1083,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"date\": \"2021-01-04T14:46:52.915Z\",\r\n  \"event\": {\r\n    \"eventKey\": \"{{$guid}}\",\r\n    \"title\": \"{{$randomDepartment}}\",\r\n    \"content\": \"{{$randomLoremSentences}}\",\r\n    \"projectKey\": \"{{selectedProjectKey}}\",\r\n    \"setTime\":\"2021-01-04T14:46:52.915Z\"\r\n    }\r\n}",
+											"raw": "{\r\n  \"date\": \"{{currentdate}}\",\r\n  \"event\": {\r\n    \"eventKey\": \"{{$guid}}\",\r\n    \"title\": \"{{$randomDepartment}}\",\r\n    \"content\": \"{{$randomLoremSentences}}\",\r\n    \"projectKey\": \"{{selectedProjectKey}}\",\r\n    \"setTime\":\"2021-03-02T14:46:52.915Z\"\r\n    }\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1143,53 +1145,15 @@
 									"response": []
 								}
 							]
-						},
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"item": [
 						{
 							"name": "User",
 							"item": [
-								{
-									"name": "Authenticate User",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
-													"    pm.response.to.have.status(200)\r",
-													"\r",
-													"    const jsonData = JSON.parse(responseBody)\r",
-													"    pm.environment.set('authToken', jsonData.token)\r",
-													"})"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"loginName\": \"admin\",\r\n  \"password\": \"cyberbug2021\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{ApiURL}}/user/authenticate",
-											"host": [
-												"{{ApiURL}}"
-											],
-											"path": [
-												"user",
-												"authenticate"
-											]
-										}
-									},
-									"response": []
-								},
 								{
 									"name": "Add User",
 									"event": [
@@ -1203,7 +1167,20 @@
 													"    const request = JSON.parse(pm.request.body.raw)\r",
 													"    console.log(request)\r",
 													"    pm.environment.set('createdUserKey', request.user.userKey)\r",
+													"\r",
+													"    const jsonData = JSON.parse(responseBody)\r",
+													"    pm.environment.set('authToken', jsonData.token)\r",
 													"})"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.environment.set('currentdate', new Date().toISOString());\r",
+													""
 												],
 												"type": "text/javascript"
 											}
@@ -1217,7 +1194,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"date\": \"2021-01-17T21:00:49.878Z\",\r\n  \"user\": {\r\n    \"userKey\": \"{{$guid}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"loginName\": \"{{$randomUserName}}\",\r\n    \"password\": \"{{$randomPassword}}\",\r\n    \"emailAddress\": \"{{$randomEmail}}\"\r\n  }\r\n}",
+											"raw": "{\r\n  \"date\": \"{{currentdate}}\",\r\n  \"user\": {\r\n    \"userKey\": \"{{$guid}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"loginName\": \"{{$randomUserName}}\",\r\n    \"password\": \"{{$randomPassword}}\",\r\n    \"emailAddress\": \"{{$randomEmail}}\",\r\n    \"semesterValue\": \"1\"\r\n  }\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1232,49 +1209,6 @@
 											"path": [
 												"user",
 												"register"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Authenticate User",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
-													"    pm.response.to.have.status(200)\r",
-													"\r",
-													"    const jsonData = JSON.parse(responseBody)\r",
-													"    pm.environment.set('authToken', jsonData.token)\r",
-													"})"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"request": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"loginName\": \"admin\",\r\n  \"password\": \"cyberbug2021\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{ApiURL}}/user/authenticate",
-											"host": [
-												"{{ApiURL}}"
-											],
-											"path": [
-												"user",
-												"authenticate"
 											]
 										}
 									},
@@ -1322,6 +1256,1164 @@
 									"response": []
 								}
 							]
+						},
+						{
+							"name": "Semester",
+							"item": [
+								{
+									"name": "Get current Semester",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Odpowiedź jest w prawidłowej formie\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const keys = Object.keys(jsonData)\r",
+													"\r",
+													"    keys.forEach(key =>{\r",
+													"        pm.expect(jsonData[key]).to.be.a('string') //check value\r",
+													"        pm.expect(key).to.be.a('string') //check key\r",
+													"        pm.expect(key).to.have.lengthOf(36)\r",
+													"    })\r",
+													"    \r",
+													"    pm.environment.set(\"firstUserSemesterKey\", keys[0])\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/semester/current",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"semester",
+												"current"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add Semester",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
+													"    pm.response.to.have.status(200)\r",
+													"\r",
+													"    const jsonData = pm.response.json();\r",
+													"\r",
+													"    pm.environment.set('createdSemesterKey', jsonData)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/semester/11",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"semester",
+												"11"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get created Semester",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/semester/single/{{createdSemesterKey}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"semester",
+												"single",
+												"{{createdSemesterKey}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Change Semester",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/semester/{{firstUserSemesterKey}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"semester",
+												"{{firstUserSemesterKey}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get changed Semester",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Odpowiedź jest w prawidłowej formie\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const keys = Object.keys(jsonData)\r",
+													"\r",
+													"    keys.forEach(key =>{\r",
+													"        pm.expect(jsonData[key]).to.be.a('string') //check value\r",
+													"        pm.expect(key).to.be.a('string') //check key\r",
+													"        pm.expect(key).to.have.lengthOf(36)\r",
+													"    })\r",
+													"    \r",
+													"    pm.environment.set(\"currentSemesterKey\", keys[0])\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/semester/current",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"semester",
+												"current"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Subject",
+							"item": [
+								{
+									"name": "Get Subject Types",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Odpowiedź jest w prawidłowej formie\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const keys = Object.keys(jsonData)\r",
+													"\r",
+													"    keys.forEach(key =>{\r",
+													"        pm.expect(jsonData[key]).to.be.a('string') //check value\r",
+													"        pm.expect(key).to.be.a('string') //check key\r",
+													"\r",
+													"        pm.expect(key).to.have.lengthOf(36)\r",
+													"    })\r",
+													"    \r",
+													"    pm.environment.set(\"selectedSubjectType\", keys[0])\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/subject/types",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"subject",
+												"types"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add Subject",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
+													"    pm.response.to.have.status(200)\r",
+													"\r",
+													"    const request = JSON.parse(pm.request.body.raw)\r",
+													"    console.log(request)\r",
+													"    pm.environment.set('createdSubjectKey', request.subject.subjectKey)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.environment.set('currentdate', new Date().toISOString());"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"date\": \"{{currentdate}}\",\r\n  \"subject\": {\r\n    \"subjectKey\": \"{{$guid}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"description\": \"{{$randomLoremSentences}}\",\r\n    \"typeDefinitionKey\": \"{{selectedSubjectType}}\",\r\n    \"hasProjectToPass\": {{$randomBoolean}},\r\n    \"semesterDefinitionKey\": \"{{currentSemesterKey}}\"\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{ApiURL}}/subject",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"subject"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get created Subject",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/subject/{{createdSubjectKey}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"subject",
+												"{{createdSubjectKey}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get another Subject Types",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Odpowiedź jest w prawidłowej formie\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const keys = Object.keys(jsonData)\r",
+													"\r",
+													"    keys.forEach(key =>{\r",
+													"        pm.expect(jsonData[key]).to.be.a('string') //check value\r",
+													"        pm.expect(key).to.be.a('string') //check key\r",
+													"\r",
+													"        pm.expect(key).to.have.lengthOf(36)\r",
+													"    })\r",
+													"    \r",
+													"    pm.environment.set(\"selectedSubjectType\", keys[1])\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/subject/types",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"subject",
+												"types"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Subject",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.environment.set('currentdate', new Date().toISOString());"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"date\": \"{{currentdate}}\",\r\n  \"subject\": {\r\n    \"subjectKey\": \"{{createdSubjectKey}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"description\": \"Nowy opis przedmiotu po update #2\",\r\n    \"isPassed\": true,\r\n    \"typeDefinitionKey\": \"{{selectedSubjectType}}\",\r\n    \"hasProjectToPass\": {{$randomBoolean}},\r\n    \"semesterDefinitionKey\": \"{{currentSemesterKey}}\"\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{ApiURL}}/subject",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"subject"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Project",
+							"item": [
+								{
+									"name": "Get Project Types",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Odpowiedź jest w prawidłowej formie\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const keys = Object.keys(jsonData)\r",
+													"\r",
+													"    keys.forEach(key =>{\r",
+													"        pm.expect(jsonData[key]).to.be.a('string') //check value\r",
+													"        pm.expect(key).to.be.a('string') //check key\r",
+													"        pm.expect(key).to.have.lengthOf(36)\r",
+													"    })\r",
+													"    \r",
+													"    pm.environment.set(\"selectedProjectType\", keys[0])\r",
+													"})\r",
+													"\r",
+													"//https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#asserting-a-value-type"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/project/types",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project",
+												"types"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Project Categories",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													"\r",
+													"const jsonData = pm.response.json();\r",
+													"const randIndex = Math.floor(Math.random() * jsonData.length)\r",
+													"const key = jsonData[randIndex].categoryKey\r",
+													"\r",
+													"pm.environment.set(\"randomSelectedCategory\", key)\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{ApiURL}}/project/categories/{{selectedProjectType}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project",
+												"categories",
+												"{{selectedProjectType}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add Project",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"necessaryToPassRand\", Boolean(Math.floor(Math.random())))\r",
+													"\r",
+													"pm.environment.set('currentdate', new Date().toISOString());\r",
+													"//console.log(new Date().toISOString())\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
+													"    pm.response.to.have.status(200)\r",
+													"\r",
+													"    const request = JSON.parse(pm.request.body.raw)\r",
+													"    console.log(request)\r",
+													"    pm.environment.set('createdProjectKey', request.project.projectKey)\r",
+													"\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n \"date\": \"{{currentdate}}\",\r\n  \"project\": {\r\n    \"projectKey\": \"{{$guid}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"typeDefinitionKey\": \"{{selectedProjectType}}\",\r\n    \"description\": \"{{$randomLoremSentences}}\",\r\n    \"deadlineTime\":\"2021-01-04T14:46:52.915Z\",\r\n    \"necessaryToPass\": {{necessaryToPassRand}},\r\n    \"categoryKey\": \"{{randomSelectedCategory}}\",\r\n    \"subjectKey\": \"{{createdSubjectKey}}\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{ApiURL}}/project",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get created Project",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/project/{{createdProjectKey}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project",
+												"{{createdProjectKey}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get another Project Type",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Odpowiedź jest w prawidłowej formie\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const keys = Object.keys(jsonData)\r",
+													"\r",
+													"    keys.forEach(key =>{\r",
+													"        pm.expect(jsonData[key]).to.be.a('string') //check value\r",
+													"        pm.expect(key).to.be.a('string') //check key\r",
+													"        pm.expect(key).to.have.lengthOf(36)\r",
+													"    })\r",
+													"    \r",
+													"    pm.environment.set(\"selectedProjectType\", keys[1])\r",
+													"})\r",
+													"\r",
+													"//https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#asserting-a-value-type"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/project/types",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project",
+												"types"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get random Project Category",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													"\r",
+													"const jsonData = pm.response.json();\r",
+													"const randIndex = Math.floor(Math.random() * jsonData.length)\r",
+													"const key = jsonData[randIndex].categoryKey\r",
+													"\r",
+													"pm.environment.set(\"randomSelectedCategory\", key)\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{ApiURL}}/project/categories/{{selectedProjectType}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project",
+												"categories",
+												"{{selectedProjectType}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Project Statuses",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Odpowiedź jest w prawidłowej formie\", () => {\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const keys = Object.keys(jsonData)\r",
+													"\r",
+													"    keys.forEach(key =>{\r",
+													"        pm.expect(jsonData[key]).to.be.a('string') //check value\r",
+													"        pm.expect(key).to.be.a('string') //check key\r",
+													"\r",
+													"        pm.expect(key).to.have.lengthOf(36)\r",
+													"    })\r",
+													"    \r",
+													"    pm.environment.set(\"selectedStatus\", keys[3])\r",
+													"})\r",
+													"\r",
+													"//https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#asserting-a-value-type"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/project/statuses",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project",
+												"statuses"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Project",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"necessaryToPassRand\", Boolean(Math.floor(Math.random())))"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n \"date\": \"{{currentdate}}\",\r\n  \"project\": {\r\n    \"projectKey\": \"{{createdProjectKey}}\",\r\n    \"name\": \"{{$randomCompanyName}}\",\r\n    \"typeDefinitionKey\": \"{{selectedProjectType}}\",\r\n    \"description\": \"{{$randomLoremSentences}}\",\r\n    \"deadlineTime\":\"2021-03-01T14:46:52.915Z\",\r\n    \"necessaryToPass\": {{necessaryToPassRand}},\r\n    \"categoryKey\": \"{{randomSelectedCategory}}\",\r\n    \"projectStatusKey\": \"{{selectedStatus}}\",\r\n    \"subjectKey\": \"{{createdSubjectKey}}\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{ApiURL}}/project",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Event",
+							"item": [
+								{
+									"name": "Get Project by Subject",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const keys = Object.keys(jsonData)\r",
+													"\r",
+													"    const randIndex = Math.floor(Math.random() * keys.length)\r",
+													"    pm.environment.set(\"selectedProjectKey\", jsonData[randIndex].projectKey)\r",
+													"})\r",
+													"\r",
+													"//https://learning.postman.com/docs/writing-scripts/script-references/test-examples/#asserting-a-value-type"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/project/subject/{{createdSubjectKey}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"project",
+												"subject",
+												"{{createdSubjectKey}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Add Event",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
+													"    pm.response.to.have.status(200)\r",
+													"\r",
+													"    const request = JSON.parse(pm.request.body.raw)\r",
+													"    pm.environment.set('createdEventKey', request.event.eventKey)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.environment.set('currentdate', new Date().toISOString());\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"date\": \"{{currentdate}}\",\r\n  \"event\": {\r\n    \"eventKey\": \"{{$guid}}\",\r\n    \"title\": \"{{$randomDepartment}}\",\r\n    \"content\": \"{{$randomLoremSentences}}\",\r\n    \"projectKey\": \"{{selectedProjectKey}}\",\r\n    \"setTime\":\"2021-03-02T14:46:52.915Z\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{ApiURL}}/event",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"event"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get created Event",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{authToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{ApiURL}}/event/{{createdEventKey}}",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"event",
+												"{{createdEventKey}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Event",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+													"    pm.response.to.have.status(200)\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"date\": \"{{currentdate}}\",\r\n  \"event\": {\r\n    \"eventKey\": \"{{createdEventKey}}\",\r\n    \"title\": \"{{$randomDepartment}}\",\r\n    \"content\": \"{{$randomLoremSentences}}\",\r\n    \"setTime\":\"2021-04-02T14:46:52.915Z\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{ApiURL}}/event",
+											"host": [
+												"{{ApiURL}}"
+											],
+											"path": [
+												"event"
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						}
 					]
 				}
@@ -1360,6 +2452,78 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Get all Count",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ApiURL}}/subject/count",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"subject",
+										"count"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get single Subject",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ApiURL}}/subject/8F3B0342-67B0-49DC-9CB7-052568407A7E",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"subject",
+										"8F3B0342-67B0-49DC-9CB7-052568407A7E"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Subject",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"date\": \"2021-02-07T14:46:52.915Z\",\r\n  \"subject\": {\r\n    \"subjectKey\": \"8F3B0342-67B0-49DC-9CB7-052568407A7E\",\r\n    \"name\": \"\",\r\n    \"description\": \"Programowanie w C#, bardzo fajny przedmiot\",\r\n    \"isPassed\": true,\r\n    \"typeDefinitionKey\": \"00000000-0000-0000-0000-000000000021\",\r\n    \"hasProjectToPass\": false,\r\n    \"semesterDefinitionKey\": \"C7EFFBB1-77C8-4B99-824E-D3DCD985C8C8\"\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ApiURL}}/subject",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"subject"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -1382,14 +2546,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{ApiURL}}/project/subject/12DCDD15-FA06-4C94-9CDC-FC2BFC5E44B3",
+									"raw": "{{ApiURL}}/project/subject/8A20F12D-0F4B-44C3-AFF5-2C857DE17E26",
 									"host": [
 										"{{ApiURL}}"
 									],
 									"path": [
 										"project",
 										"subject",
-										"12DCDD15-FA06-4C94-9CDC-FC2BFC5E44B3"
+										"8A20F12D-0F4B-44C3-AFF5-2C857DE17E26"
 									]
 								}
 							},
@@ -1437,6 +2601,180 @@
 									"path": [
 										"project",
 										"statuses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all Count",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ApiURL}}/project/count",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"project",
+										"count"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get by Semester",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ApiURL}}/project/semester",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"project",
+										"semester"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get by Day",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ApiURL}}/project/day/10",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"project",
+										"day",
+										"10"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get single Subject",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ApiURL}}/project/2DB900CF-39FA-426D-A430-05090CCBE40F",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"project",
+										"2DB900CF-39FA-426D-A430-05090CCBE40F"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Project",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set('currentdate', new Date().toISOString());\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"date\": \"{{currentdate}}\",\r\n  \"project\": {\r\n    \"projectKey\": \"87a04ee6-f8f0-414e-8514-2bee6ab2e79e\",\r\n    \"name\": \"Test edycji projektu\",\r\n    \"typeDefinitionKey\": \"00000000-0000-0000-0000-000000000022\",\r\n    \"description\": \"\",\r\n    \"deadlineTime\":\"2021-02-10T14:46:52.915Z\",\r\n    \"necessaryToPass\": true,\r\n    \"projectStatusKey\": \"00000000-0000-0000-0000-000000000002\",\r\n    \"categoryKey\": \"00000000-0000-0000-0000-000000000002\",\r\n    \"subjectKey\": \"5903b5c7-4b01-44fe-b969-8a275c4f7224\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ApiURL}}/project",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"project"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Event",
+					"item": [
+						{
+							"name": "Get by Day",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ApiURL}}/event/day",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"event",
+										"day"
 									]
 								}
 							},
@@ -1502,7 +2840,7 @@
 							"response": []
 						},
 						{
-							"name": "Change Semester by User",
+							"name": "Change Semester",
 							"event": [
 								{
 									"listen": "test",
@@ -1528,13 +2866,13 @@
 								"method": "PUT",
 								"header": [],
 								"url": {
-									"raw": "{{ApiURL}}/semester/94255150-fb84-46e9-b61a-9b8e8890d06e",
+									"raw": "{{ApiURL}}/semester/c7effbb1-77c8-4b99-824e-d3dcd985c8c8",
 									"host": [
 										"{{ApiURL}}"
 									],
 									"path": [
 										"semester",
-										"94255150-fb84-46e9-b61a-9b8e8890d06e"
+										"c7effbb1-77c8-4b99-824e-d3dcd985c8c8"
 									]
 								}
 							},
@@ -1628,14 +2966,82 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Authenticate User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
+											"    pm.response.to.have.status(200)\r",
+											"\r",
+											"    const jsonData = JSON.parse(responseBody)\r",
+											"    pm.environment.set('authToken', jsonData.token)\r",
+											"    pm.environment.set('currentUserKey', jsonData.userKey)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"loginName\": \"admin\",\r\n  \"password\": \"cyberbug2021\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ApiURL}}/user/authenticate",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"user",
+										"authenticate"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
 				{
-					"name": "User",
+					"name": "Category",
 					"item": [
 						{
-							"name": "Get all Users",
+							"name": "Get Project Categories",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {\r",
+											"    pm.response.to.have.status(200)\r",
+											"})\r",
+											"\r",
+											"const jsonData = pm.response.json();\r",
+											"const randIndex = Math.floor(Math.random() * jsonData.length)\r",
+											"const key = jsonData[randIndex].categoryKey\r",
+											"\r",
+											"pm.environment.set(\"randomSelectedCategory\", key)\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1649,14 +3055,87 @@
 								},
 								"method": "GET",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{ApiURL}}/user/all",
+									"raw": "{{ApiURL}}/project/categories/{{selectedProjectType}}",
 									"host": [
 										"{{ApiURL}}"
 									],
 									"path": [
-										"user",
-										"all"
+										"project",
+										"categories",
+										"{{selectedProjectType}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Category",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Kod odpowiedzi jest prawidłowy - 200 OK', () => {  \r",
+											"    pm.response.to.have.status(200)\r",
+											"\r",
+											"    const request = JSON.parse(pm.request.body.raw)\r",
+											"    console.log(request)\r",
+											"    pm.environment.set('createdCategoryKey', request.category.categoryKey)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"date\": \"2021-02-01T14:46:52.915Z\",\r\n  \"category\": {\r\n    \"categoryKey\": \"{{$guid}}\",\r\n    \"projectTypeKey\": \"00000000-0000-0000-0000-000000000012\",\r\n    \"userKey\": \"{{$currentUserKey}}\",\r\n    \"categoryName\": \"Średnia kartkówka\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ApiURL}}/project/category",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"project",
+										"category"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Category",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{ApiURL}}/project/category/eba968a6-189e-405c-8e67-e2e342d336f1",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"project",
+										"category",
+										"eba968a6-189e-405c-8e67-e2e342d336f1"
 									]
 								}
 							},
@@ -1667,6 +3146,16 @@
 			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{authToken}}",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",

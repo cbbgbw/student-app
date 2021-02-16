@@ -26,7 +26,7 @@ namespace StudentApp.API.DataContracts.Requests.Subject.PUT
 
             RuleFor(subject => subject.Name)
                 .NotEmpty()
-                .WithMessage("Nie uzupełniona nazwa przedmiotu");
+                .WithMessage("Nie podano nazwy przedmiotu");
         }
     }
 }
