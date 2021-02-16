@@ -6,11 +6,13 @@ export interface Subject {
   name: string
   description?: string
   typeDefinitionKey: string
+  typeDefinitionName: string
   hasProjectToPass: boolean
   semester: number
   createTime: string
   modifyTime: string
   isArchive: boolean
+  isPassed: boolean
 }
 
 export const useSubjectTypes = () => {
@@ -26,7 +28,7 @@ export const useSubjectTypes = () => {
   }
 }
 export const useSubjects = () => {
-  const { data, error } = useSWR<Subject[] | undefined>(
+  const { data, mutate, error } = useSWR<Subject[] | undefined>(
     `subject/semester`,
     fetcher,
   )
@@ -42,5 +44,18 @@ export const useSubjects = () => {
     subjectArray: data,
     isLoading: !error && !data,
     isError: error,
+    reFetch: mutate,
+  }
+}
+
+export const useSubject = (key: string | undefined) => {
+  const { data, error } = useSWR<Subject | undefined>(
+    key ? `subject/${key}` : null,
+    fetcher,
+  )
+
+  return {
+    isLoading: !data && !error,
+    subject: data,
   }
 }

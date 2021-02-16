@@ -2,18 +2,25 @@ import useSWR from 'swr'
 import { fetcher } from '../axios'
 
 export interface Project {
-  projectKey: string
+  categoryKey: string
+  categoryName: string
+  deadlineTime: string
+  description: string
+  isArchive: boolean
+  mark: number
   name: string
   typeDefinitionName: string
   typeDefinitionKey: string
   description: string
   deadlineTime: string
   necessaryToPass: boolean
+  projectKey: string
   projectStatusKey: string
-  categoryKey: string
+  projectStatusName: string
   subjectKey: string
   subjectTitle: string
-  mark: number
+  typeDefinitionKey: string
+  typeDefinitionName: string
   workingAreaKey: string
   isArchive: boolean
 }
@@ -37,13 +44,13 @@ export const useProjects = () => {
 }
 
 interface ProjectCount {
-  count: number
-  key: string
-  name: string
+  countValue: number
+  typeDefinitionKey: string
+  typeName: string
 }
 
 export const useProjectCount = () => {
-  const { data, error } = useSWR<Record<string, ProjectCount> | undefined>(
+  const { data, error } = useSWR<ProjectCount[] | undefined>(
     'project/count',
     fetcher,
   )

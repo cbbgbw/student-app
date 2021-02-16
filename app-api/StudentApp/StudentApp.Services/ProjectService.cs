@@ -145,8 +145,10 @@ namespace StudentApp.Services
             return projects;
         }
 
-        public async Task<ICollection<R.ProjectCountResponse>> GetProjectAndExamCountBySemester(Guid semesterKey)
+        public async Task<ICollection<R.ProjectCountResponse>> GetProjectAndExamCountBySemester(Guid semesterKey, int days)
         {
+            var toDate = DateTime.Now.AddDays(days);
+
             var query =
                 from def in _context.Definition
                 join subq in
@@ -155,7 +157,8 @@ namespace StudentApp.Services
                         join d in _context.Definition on p.TypeDefinitionKey equals d.DefinitionKey
                         where d.GroupName == "PROJECT_TYPES"
                               && s.SemesterDefinitionKey == semesterKey
-                        group d by d.DefinitionKey
+                              && p.DeadlineTime < toDate
+                     group d by d.DefinitionKey
                         into newGroup
                         select new
                         {
