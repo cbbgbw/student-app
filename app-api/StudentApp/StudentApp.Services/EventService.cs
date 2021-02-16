@@ -26,7 +26,6 @@ namespace StudentApp.Services
         
         public async Task<Event> GetSingleAsync(Guid eventKey) => await _context.Event.SingleAsync(ev => ev.EventKey == eventKey);
         
-
         public async Task<int> CreateAsync(Event eventModel)
         {
             await _context.Event.AddAsync(eventModel);
@@ -50,6 +49,7 @@ namespace StudentApp.Services
             var query = from s in _context.Subject
                 join p in _context.Project on s.SubjectKey equals p.SubjectKey
                 join ev in _context.Event on p.ProjectKey equals ev.ProjectKey
+                orderby ev.SetTime ascending 
                 where s.SubjectKey == subjectKey
                 select ev;
 
