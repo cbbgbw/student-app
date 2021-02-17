@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react'
 import { ModalType } from '../../types/types'
 import { useRouter } from 'next/router'
+import { SubjectListItem } from '../../components/page/subjects/SubjectListItem'
 
 export const SubjectListView = () => {
   const { setModalType } = useContext(GlobalDataContext)
@@ -36,71 +37,64 @@ export const SubjectListView = () => {
       />
     ))
 
-  const renderItems = () =>
-    subjectArray?.map(({ name, isPassed, typeDefinitionName, subjectKey }) => (
-      <Flex
-        borderRadius="15px"
-        w="300px"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        backgroundColor="#271257"
-        key="name"
-        marginRight="80px"
-      >
-        <Heading mt="65px" color="white">
-          <Link
-            onClick={() =>
-              push({
-                pathname: '/subjects/[key]',
-                query: {
-                  key: subjectKey,
-                },
-              })
-            }
-          >
-            {name}
-          </Link>
-        </Heading>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          height="46px"
-          borderRadius="15px"
-          w="260px"
-          mb="15px"
-          color="white"
-          mt="130px"
-          backgroundColor={isPassed ? '#4cd964' : '#fa0000'}
-        >
-          <Heading fontSize="2xl" display="flex" justifyContent="center">
-            {isPassed ? 'zaliczony' : 'niezaliczony'}
-          </Heading>
-        </Box>
-      </Flex>
-    ))
+  const renderItems = () => (
+    <List
+      flexWrap="wrap"
+      as={Flex}
+      flexDir="row"
+      w="100%"
+      h="100%"
+      overflow="auto"
+      paddingX="30px"
+      css={{
+        '&::-webkit-scrollbar': {
+          width: '10px',
+        },
+        '&::-webkit-scrollbar-track': {
+          width: '6px',
+          background: '#dadada',
+          borderRadius: '24px',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          background: '#271257',
+          borderRadius: '24px',
+        },
+      }}
+    >
+      {subjectArray?.map(
+        ({ name, isPassed, typeDefinitionName, subjectKey }) => (
+          <SubjectListItem
+            name={name}
+            subjectKey={subjectKey}
+            isPassed={isPassed}
+          />
+        ),
+      )}
+    </List>
+  )
 
   return (
-    <Box
+    <Flex
       w="100%"
+      h="100%"
       borderRadius="15px"
-      margin="50px"
-      padding="40px"
+      padding="30px"
       backgroundColor="#ffffff"
+      flexDirection="column"
     >
-      <Flex paddingBottom="20px" justifyContent="flex-end">
+      <Flex paddingBottom="30px" justifyContent="flex-end">
         <Button
           backgroundColor="#271257"
+          w="200px"
+          h="55px"
+          fontSize="20px"
           onClick={() => setModalType(ModalType.AddSubject)}
         >
           Dodaj przedmiot
         </Button>
       </Flex>
-      <List flexWrap="wrap" as={Flex} flexDir="row">
-        {renderItems()}
-      </List>
-    </Box>
+      {renderItems()}
+    </Flex>
   )
 }
 

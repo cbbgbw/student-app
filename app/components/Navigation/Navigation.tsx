@@ -43,6 +43,7 @@ export const Navigation = () => {
           flexDir="row"
           alignItems="center"
           color="white"
+          fontSize="28px"
         >
           {navigationData[key].icon}
           <Link as={NextLink} href={navigationData[key].href}>
@@ -56,13 +57,18 @@ export const Navigation = () => {
   return (
     <Flex
       justifyContent="space-between"
-      pt={150}
+      alignItems="center"
+      pt={200}
       flexDir="column"
       h="100vh"
       backgroundColor="#2B2E61"
+      w="300px"
     >
       {renderNavigation()}
       <Button
+        width="100%"
+        height="55px"
+        fontSize="26px"
         onClick={() => {
           localStorage.setItem('token', '')
           push('/login')
