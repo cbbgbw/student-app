@@ -15,9 +15,7 @@ export const ProjectList = () => {
         {projects?.map((project) => {
           const date = new Date(project.deadlineTime)
           const onProjectLinkClick = () =>
-            push(
-              `/subjects/${project.subjectKey}/projects/${project.projectKey}`,
-            )
+            push(`projects/${project.projectKey}`)
 
           return (
             <ProjectListItem

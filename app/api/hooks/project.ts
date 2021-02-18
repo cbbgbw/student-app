@@ -4,13 +4,8 @@ import { fetcher } from '../axios'
 export interface Project {
   categoryKey: string
   categoryName: string
-  deadlineTime: string
-  description: string
-  isArchive: boolean
   mark: number
   name: string
-  typeDefinitionName: string
-  typeDefinitionKey: string
   description: string
   deadlineTime: string
   necessaryToPass: boolean
@@ -57,5 +52,16 @@ export const useProjectCount = () => {
 
   return {
     projectsCount: data,
+  }
+}
+
+export const useProject = (projectKey: string) => {
+  const { data, error } = useSWR<Project | undefined>(
+    `project/${projectKey}`,
+    fetcher,
+  )
+
+  return {
+    project: data,
   }
 }
