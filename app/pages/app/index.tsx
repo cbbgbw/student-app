@@ -26,6 +26,8 @@ const Dashboard: FC = () => {
             color="#1D0B47"
             backgroundColor="#E3DDF0"
             borderRadius="12px"
+            fontSize="2xl"
+            w="100px"
           >
             {key}
           </Text>
@@ -87,6 +89,7 @@ const Dashboard: FC = () => {
         mt="20px"
         borderRadius="6px"
         justifyContent="space-between"
+        alignItems="center"
         fontSize="2xl"
         border={
           value.typeDefinitionName === 'Projekt'
@@ -98,17 +101,16 @@ const Dashboard: FC = () => {
         }
         color={value.typeDefinitionName === 'Projekt' ? 'white' : '#1D0B47'}
       >
-        <Flex marginTop="5px">
-          <Text w="100px">{value.typeDefinitionName}</Text>
-          <Text ml="20px" w="450px">
+        <Flex marginTop="5px" alignItems="center" w="85%">
+          <Text w="150px">{value.typeDefinitionName}</Text>
+          <Text ml="20px" w="400px">
             {value.name}
           </Text>
-          <Text ml="20px" w="420px">
+          <Text ml="20px" w="350px">
             {value.subjectTitle}
           </Text>
         </Flex>
-
-        <Text ml="20px" w="150">
+        <Text ml="20px" justifyContent="end" w="15%">
           {getDateFormatted(value.deadlineTime)}
         </Text>
       </Flex>
@@ -125,7 +127,7 @@ const Dashboard: FC = () => {
     ))
 
   return (
-    <Flex w="100%" direction="row">
+    <Flex w="100%" direction="row" h="100%">
       {/* <Flex mt={6} mb={6} mr={20} justifyContent="flex-end"> */}
       {/*  <SelectSemesterPopover /> */}
       {/* </Flex> */}
@@ -141,7 +143,8 @@ const Dashboard: FC = () => {
           paddingY="10px"
           backgroundColor="white"
           mt="40px"
-          overflow="scroll"
+          overflow="auto"
+          h="75%"
           css={{
             '&::-webkit-scrollbar': {
               width: '10px',
@@ -171,8 +174,8 @@ const Dashboard: FC = () => {
             justifyContent="space-between"
             fontSize="2xl"
           >
-            <Flex>
-              <Text w="100px">Typ</Text>
+            <Flex w="85%">
+              <Text w="150px">Typ</Text>
               <Text ml="20px" w="400px">
                 Nazwa projektu
               </Text>
@@ -181,7 +184,9 @@ const Dashboard: FC = () => {
               </Text>
             </Flex>
 
-            <Text ml="20px">Data końcowa</Text>
+            <Text ml="20px" w="15%">
+              Data końcowa
+            </Text>
           </Flex>
 
           {generateIncoming()}
@@ -211,7 +216,7 @@ const Dashboard: FC = () => {
             color="#EAE1FA"
             justifyContent="center"
           >
-            <Heading fontSize="3xl" textAlign="center" marginY="20px">
+            <Heading fontSize="4xl" textAlign="center" marginY="20px">
               Wydarzenia
             </Heading>
             {generateEvents()}

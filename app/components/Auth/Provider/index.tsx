@@ -64,6 +64,7 @@ export const AuthProvider: FC = (props) => {
             w="100vw"
             h="100vh"
             backgroundColor="#DCDAF2"
+            overflowY="auto"
           >
             {props.children}
           </Flex>
