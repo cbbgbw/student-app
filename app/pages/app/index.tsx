@@ -9,6 +9,7 @@ import { GlobalDataContext } from '../../components/Auth/Provider'
 import { useProjectCount, useProjects } from '../../api/hooks/project'
 import { useEvents } from '../../api/hooks/event'
 import { getDateFormatted, parseISOString } from '../../utils/dateUtils'
+import { Linker, LinkType } from '../../components/Linker'
 
 const Dashboard: FC = () => {
   const { projectsCount } = useProjectCount()
@@ -67,9 +68,9 @@ const Dashboard: FC = () => {
 
   const generateIncoming = () =>
     projects &&
-    Object.values(projects).map((value) => (
+    Object.values(projects).map((project) => (
       <Flex
-        key={value.projectKey}
+        key={project.projectKey}
         paddingLeft="10px"
         pr="20px"
         mt="20px"
@@ -78,26 +79,30 @@ const Dashboard: FC = () => {
         alignItems="center"
         fontSize="2xl"
         border={
-          value.typeDefinitionName === 'Projekt'
+          project.typeDefinitionName === 'Projekt'
             ? '2px solid #3B2E61'
             : '2px solid #BBA5E1'
         }
         backgroundColor={
-          value.typeDefinitionName === 'Projekt' ? '#3B2E61' : '#BBA5E1'
+          project.typeDefinitionName === 'Projekt' ? '#3B2E61' : '#BBA5E1'
         }
-        color={value.typeDefinitionName === 'Projekt' ? 'white' : '#1D0B47'}
+        color={project.typeDefinitionName === 'Projekt' ? 'white' : '#1D0B47'}
       >
         <Flex marginTop="5px" alignItems="center" w="85%">
-          <Text w="150px">{value.typeDefinitionName}</Text>
-          <Text ml="20px" w="400px">
-            {value.name}
-          </Text>
-          <Text ml="20px" w="350px">
-            {value.subjectTitle}
-          </Text>
+          <Text w="150px">{project.typeDefinitionName}</Text>
+          <Linker type={LinkType.Projects} typeKey={project.projectKey}>
+            <Text ml="20px" w="400px">
+              {project.name}
+            </Text>
+          </Linker>
+          <Linker type={LinkType.Subjects} typeKey={project.subjectKey}>
+            <Text ml="20px" w="350px">
+              {project.subjectTitle}
+            </Text>
+          </Linker>
         </Flex>
         <Text ml="20px" justifyContent="end" w="15%">
-          {getDateFormatted(value.deadlineTime)}
+          {getDateFormatted(project.deadlineTime)}
         </Text>
       </Flex>
     ))
@@ -138,7 +143,7 @@ const Dashboard: FC = () => {
             '&::-webkit-scrollbar-track': {
               width: '6px',
               background: '#dadada',
-              borderRadius: '24px',
+              //borderRadius: '24px',
             },
             '&::-webkit-scrollbar-thumb': {
               background: '#271257',
@@ -154,7 +159,7 @@ const Dashboard: FC = () => {
             //pl="20px"
             pr="20px"
             mt="20px"
-            borderBottom="4px solid #7b7b7b"
+            borderBottom="4px solid #3B2E61"
             paddingLeft="10px"
             //borderRadius="6px"
             justifyContent="space-between"

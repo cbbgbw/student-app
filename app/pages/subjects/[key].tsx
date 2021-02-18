@@ -16,12 +16,15 @@ const SubjectPage = () => {
   return (
     <Grid
       width="100%"
-      gridColumnGap="80px"
-      gridTemplateColumns="auto"
+      h="100%"
+      gridColumnGap="50px"
+      gridTemplateColumns="3"
+      gridTemplateRows="8"
       gridRowGap="20px"
     >
       <GridItem
         borderRadius="12px"
+        gridRowStart="1"
         rowSpan={1}
         colSpan={1}
         backgroundColor="white"
@@ -39,11 +42,11 @@ const SubjectPage = () => {
           paddingRight="20px"
           fontSize="2xl"
           color="white"
-          backgroundColor="#4CD964"
+          backgroundColor={subject?.isPassed === true ? '#4CD964' : '#FA0000'}
           marginLeft="20px"
           marginRight="20px"
         >
-          zaliczony
+          {subject?.isPassed === true ? 'zaliczony' : 'niezaliczony'}
         </Text>
       </GridItem>
 
@@ -61,10 +64,10 @@ const SubjectPage = () => {
       <GridItem gridColumnStart="1">
         <ProjectList />
       </GridItem>
-      <GridItem gridColumnStart="2" gridRowStart="2">
+      {/* <GridItem gridColumnStart="2" gridRowStart="2">
         <SubjectNote />
-      </GridItem>
-      <GridItem gridColumnStart="2" gridRowStart="3">
+      </GridItem>*/}
+      <GridItem gridColumnStart="2" gridRowStart="2">
         <EventList subjectKey={String(query.key)} />
       </GridItem>
     </Grid>
