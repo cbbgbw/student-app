@@ -12,37 +12,13 @@ import React from 'react'
 import { useProject } from '../../api/hooks/project'
 import { FlexCentered } from '../../components/chakra/FlexCentered'
 import { TinyEditor } from '../../components/page/Projects/Single/TinyEditor'
+import { EventList } from '../../components/ui/common/EventList'
+import { useEvents } from '../../api/hooks/event'
 
 const ProjectPage = () => {
   const { query } = useRouter()
   const { project } = useProject(String(query.key))
-
-  const events = [
-    {
-      date: '21 luty',
-      name: 'Nauka fizyka',
-    },
-    {
-      date: '23 luty',
-      name: 'Spotkanie z Radkiem - nauka na skype',
-    },
-  ]
-
-  const generateEvents = () => (
-    <List px="20px" mt={'20px'}>
-      {events.map(({ name, date }) => (
-        <ListItem
-          borderRadius={'15px'}
-          padding={'20px'}
-          mb="20px"
-          backgroundColor="#ffffff"
-        >
-          <Heading>{date}</Heading>
-          <Text fontSize={'2xl'}>{name}</Text>
-        </ListItem>
-      ))}
-    </List>
-  )
+  const { events } = useEvents()
 
   return (
     <Flex flexDir="row" w="100%" h="100%">
@@ -108,20 +84,9 @@ const ProjectPage = () => {
         <Button borderRadius="15px" backgroundColor="#271257">
           EDYTUJ PROJEKT
         </Button>
-        <Flex
-          h="100%"
-          borderRadius="15px"
-          mt="40px"
-          display="flex"
-          alignItems="center"
-          backgroundColor="#bba5e1"
-          flexDir="column"
-        >
-          <Heading mt="36px" color="#ffffff">
-            WYDARZENIA
-          </Heading>
-          {generateEvents()}
-        </Flex>
+        <EventList
+          events={events?.filter((ev) => ev.projectKey === project?.projectKey)}
+        />
       </Flex>
     </Flex>
   )

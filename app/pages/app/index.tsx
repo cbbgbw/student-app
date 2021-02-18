@@ -8,49 +8,14 @@ import { Box, Flex, Heading, List, ListItem, Text } from '@chakra-ui/react'
 import { GlobalDataContext } from '../../components/Auth/Provider'
 import { useProjectCount, useProjects } from '../../api/hooks/project'
 import { useEvents } from '../../api/hooks/event'
-import { getDateFormatted, parseISOString } from '../../utils/dateUtils'
+import { getDateFormatted } from '../../utils/dateUtils'
+import { EventList } from '../../components/ui/common/EventList'
 import { Linker, LinkType } from '../../components/Linker'
 
 const Dashboard: FC = () => {
   const { projectsCount } = useProjectCount()
   const { projects } = useProjects()
-  const { getEventsParsed } = useEvents()
-  const events = getEventsParsed()
-
-  const generateEvents = () =>
-    events &&
-    Object.keys(events).map((key) => (
-      <List key={key} as={Flex}>
-        <ListItem>
-          <Text
-            padding="6px"
-            color="#1D0B47"
-            backgroundColor="#E3DDF0"
-            borderRadius="12px"
-            fontSize="2xl"
-            w="100px"
-          >
-            {key}
-          </Text>
-          <List mb="16px">
-            {events[key].map((values) => (
-              <ListItem
-                key={key}
-                ml="5px"
-                padding="6px"
-                color="#1D0B47"
-                backgroundColor="#E3DDF0"
-                borderRadius="12px"
-                as={Text}
-                mt="8px"
-              >
-                {values.title}
-              </ListItem>
-            ))}
-          </List>
-        </ListItem>
-      </List>
-    ))
+  const { events } = useEvents()
 
   const { setModalType } = useContext(GlobalDataContext)
 
@@ -156,12 +121,12 @@ const Dashboard: FC = () => {
           </Heading>
 
           <Flex
-            //pl="20px"
+            // pl="20px"
             pr="20px"
             mt="20px"
             borderBottom="4px solid #3B2E61"
             paddingLeft="10px"
-            //borderRadius="6px"
+            // borderRadius="6px"
             justifyContent="space-between"
             fontSize="2xl"
           >
@@ -179,41 +144,12 @@ const Dashboard: FC = () => {
               Data końcowa
             </Text>
           </Flex>
-
           {generateIncoming()}
         </Flex>
       </Box>
-      <Flex>
-        <Flex
-          ml="15px"
-          flexDir="column"
-          borderRadius="12px"
-          padding="15px"
-          backgroundColor="#3B2E61"
-        >
-          <Flex
-            padding="12px"
-            width="250px"
-            justifyContent="space-around"
-            borderRadius="12px"
-            backgroundColor="white"
-            fontSize="2xl"
-          >
-            {generateCounters()}
-          </Flex>
-          <Flex
-            mt="15px"
-            flexDir="column"
-            color="#EAE1FA"
-            justifyContent="center"
-          >
-            <Heading fontSize="4xl" textAlign="center" marginY="20px">
-              Wydarzenia
-            </Heading>
-            {generateEvents()}
-          </Flex>
-        </Flex>
-      </Flex>
+      <Box marginLeft="20px">
+        <EventList events={events} />
+      </Box>
     </Flex>
   )
 }

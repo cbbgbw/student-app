@@ -65,3 +65,14 @@ export const useProject = (projectKey: string) => {
     project: data,
   }
 }
+
+export const useProjectForSubject = (subjectKey: string | undefined) => {
+  const { data, error } = useSWR<Project[] | undefined>(
+    subjectKey ? `project/subject/${subjectKey}` : null,
+    fetcher,
+  )
+
+  return {
+    projects: data,
+  }
+}

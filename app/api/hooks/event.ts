@@ -2,7 +2,7 @@ import useSWR from 'swr'
 import { fetcher } from '../axios'
 import { getDateFormatted, parseISOString } from '../../utils/dateUtils'
 
-interface Event {
+export interface ProjectEvent {
   eventKey: string
   title: string
   content: string
@@ -10,8 +10,8 @@ interface Event {
   setTime: string
 }
 
-const getEventsParsed = (data: Event[]) => {
-  let eventsParsed: Record<string, Event[]> = {}
+const getEventsParsed = (data: ProjectEvent[]) => {
+  let eventsParsed: Record<string, ProjectEvent[]> = {}
 
   data?.forEach((event) => {
     const { setTime } = event
@@ -27,16 +27,20 @@ const getEventsParsed = (data: Event[]) => {
 }
 
 export const useEvents = () => {
-  const { data, error } = useSWR<Event[] | undefined>('event/day/7', fetcher)
+  const { data, error } = useSWR<ProjectEvent[] | undefined>(
+    'event/day/7',
+    fetcher,
+  )
 
   return {
     events: data,
+
     getEventsParsed: () => data && getEventsParsed(data),
   }
 }
 
 export const useEventsForSubject = (subjectKey: string) => {
-  const { data, error } = useSWR<Event[] | undefined>(
+  const { data, error } = useSWR<ProjectEvent[] | undefined>(
     `event/project/${subjectKey}`,
     fetcher,
   )

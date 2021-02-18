@@ -1,24 +1,13 @@
-import { Flex, Heading, Link, ListItem, Text } from '@chakra-ui/react'
+import { Flex, Heading, ListItem, Text } from '@chakra-ui/react'
 import { FC } from 'react'
+import { Linker, LinkType } from '../../../../Linker'
+import { Project } from '../../../../../api/hooks/project'
 
 interface Props {
-  name: string
-  deadlineFormatted: string
-  category: string
-  state: string
-  isRequired: boolean
-  statusName: string
-  onProjectNameClick: () => void
+  project: Project
 }
 
-export const ProjectListItem: FC<Props> = ({
-  name,
-  deadlineFormatted,
-  category,
-  isRequired,
-  statusName,
-  onProjectNameClick,
-}) => (
+export const ProjectListItem: FC<Props> = ({ project }) => (
   <ListItem
     paddingBottom="20px"
     px="20px"
@@ -33,10 +22,10 @@ export const ProjectListItem: FC<Props> = ({
       borderRadius="12px"
       alignItems="center"
     >
-      <Link onClick={onProjectNameClick}>
-        <Heading fontSize="2xl">{name}</Heading>
-      </Link>
-      <Text mr="24px">{deadlineFormatted}</Text>
+      <Linker type={LinkType.Projects} typeKey={project.projectKey}>
+        <Heading fontSize="2xl">{project.name}</Heading>
+      </Linker>
+      <Text mr="24px">{project.deadlineTime}</Text>
     </Flex>
 
     <Flex
@@ -46,17 +35,17 @@ export const ProjectListItem: FC<Props> = ({
       flexDir="column"
     >
       <Flex width="100%" justifyContent="space-between">
-        <Text>{category}</Text>
+        <Text>{project.categoryName}</Text>
         <Text
           borderRadius="12px"
           backgroundColor="white"
           paddingLeft="10px"
           paddingRight="10px"
         >
-          {statusName}
+          {project.projectStatusName}
         </Text>
       </Flex>
-      {isRequired && <Text>Wymagany do zdania przedmiotu</Text>}
+      {project.necessaryToPass && <Text>Wymagany do zdania przedmiotu</Text>}
     </Flex>
   </ListItem>
 )

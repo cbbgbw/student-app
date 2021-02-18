@@ -4,12 +4,13 @@ import React, { useRef, useState } from 'react'
 import { Grid, GridItem, Text, Textarea } from '@chakra-ui/react'
 import { ProjectList } from '../../components/ui/Subjects/ProjectList'
 import { SubjectNote } from '../../components/ui/Subjects/Note'
-import { EventList } from '../../components/ui/Subjects/EventList'
-import { Head } from 'next/document'
+import { useEventsForSubject } from '../../api/hooks/event'
+import { EventList } from '../../components/ui/common/EventList'
 
 const SubjectPage = () => {
   const { query } = useRouter()
   const { subject } = useSubject(String(query.key))
+  const { events } = useEventsForSubject(String(query.key))
 
   const [desc, setDesc] = useState(subject?.description)
 
@@ -62,13 +63,13 @@ const SubjectPage = () => {
         />
       </GridItem>
       <GridItem gridColumnStart="1">
-        <ProjectList />
+        <ProjectList subjectKey={subject?.subjectKey} />
       </GridItem>
       {/* <GridItem gridColumnStart="2" gridRowStart="2">
         <SubjectNote />
-      </GridItem>*/}
+      </GridItem> */}
       <GridItem gridColumnStart="2" gridRowStart="2">
-        <EventList subjectKey={String(query.key)} />
+        <EventList events={events} />
       </GridItem>
     </Grid>
   )

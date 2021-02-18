@@ -15,12 +15,15 @@ interface Props {
 export const Linker: FC<Props> = ({ children, type, typeKey }) => {
   const { push } = useRouter()
 
+  const link = `/${type}/${typeKey}`
+
+  const onClickHandler = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    await push(link)
+  }
+
   return (
-    <Link
-      onClick={async () => {
-        await push(`${type}\\${typeKey}`)
-      }}
-    >
+    <Link href={link} onClick={onClickHandler}>
       {children}
     </Link>
   )

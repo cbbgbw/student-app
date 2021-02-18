@@ -23,6 +23,7 @@
     "clsx": "^1.1.1",
     "framer-motion": "^3.2.1",
     "immer": "^8.0.0",
+    "moment": "^2.29.1",
     "next": "^10.0.5",
     "react": "17.0.1",
     "react-datepicker": "^3.4.1",
