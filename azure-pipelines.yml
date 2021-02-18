@@ -7,6 +7,8 @@
 - task: build front
   inputs: 
     command: 'npm run build'
+    workingDir: '/app'
+
 
 # ASP.NET
 # Build and test ASP.NET projects.
