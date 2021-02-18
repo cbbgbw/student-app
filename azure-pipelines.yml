@@ -1,15 +1,3 @@
-- task: Npm@1
-  inputs:
-    command: 'install'
-    workingDir: '/app'
-
-
-- task: build front
-  inputs: 
-    command: 'npm run build'
-    workingDir: '/app'
-
-
 # ASP.NET
 # Build and test ASP.NET projects.
 # Add steps that publish symbols, save build artifacts, deploy, and more:
