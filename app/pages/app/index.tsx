@@ -4,7 +4,7 @@ import { EntitiesModal } from '../../types/types'
 import { Add } from '../../components/Add/Add'
 
 // import styles from './index.module.scss'
-import { Box, Flex, List, ListItem, Text } from '@chakra-ui/react'
+import { Box, Flex, Heading, List, ListItem, Text } from '@chakra-ui/react'
 import { GlobalDataContext } from '../../components/Auth/Provider'
 import { useProjectCount, useProjects } from '../../api/hooks/project'
 import { useEvents } from '../../api/hooks/event'
@@ -64,7 +64,8 @@ const Dashboard: FC = () => {
     ))
 
   const getDateFormatted = (deadlineTime: string) => {
-    const date = parseISOString(deadlineTime)
+    console.log(deadlineTime)
+    const date = new Date(deadlineTime)
     const day = date.getUTCDate()
     const month = date.getUTCMonth() + 1
     const hour = date.getUTCHours()
@@ -81,20 +82,35 @@ const Dashboard: FC = () => {
     Object.values(projects).map((value) => (
       <Flex
         key={value.projectKey}
-        pl="20px"
+        paddingLeft="10px"
         pr="20px"
-        mt="15px"
-        border="2px solid #8c8c8c"
-        borderRadius="12px"
+        mt="20px"
+        borderRadius="6px"
         justifyContent="space-between"
+        fontSize="2xl"
+        border={
+          value.typeDefinitionName === 'Projekt'
+            ? '2px solid #3B2E61'
+            : '2px solid #BBA5E1'
+        }
+        backgroundColor={
+          value.typeDefinitionName === 'Projekt' ? '#3B2E61' : '#BBA5E1'
+        }
+        color={value.typeDefinitionName === 'Projekt' ? 'white' : '#1D0B47'}
       >
-        <Flex>
-          <Text>{value.typeDefinitionName}</Text>
-          <Text ml="20px">{value.name}</Text>
-          <Text ml="20px">{value.subjectTitle}</Text>
+        <Flex marginTop="5px">
+          <Text w="100px">{value.typeDefinitionName}</Text>
+          <Text ml="20px" w="450px">
+            {value.name}
+          </Text>
+          <Text ml="20px" w="420px">
+            {value.subjectTitle}
+          </Text>
         </Flex>
 
-        <Text ml="20px">{getDateFormatted(value.deadlineTime)}</Text>
+        <Text ml="20px" w="150">
+          {getDateFormatted(value.deadlineTime)}
+        </Text>
       </Flex>
     ))
 
@@ -121,11 +137,53 @@ const Dashboard: FC = () => {
         <Flex
           borderRadius="12px"
           flexDir="column"
-          padding="20px"
+          paddingX="20px"
+          paddingY="10px"
           backgroundColor="white"
           mt="40px"
+          overflow="scroll"
+          css={{
+            '&::-webkit-scrollbar': {
+              width: '10px',
+            },
+            '&::-webkit-scrollbar-track': {
+              width: '6px',
+              background: '#dadada',
+              borderRadius: '24px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: '#271257',
+              borderRadius: '24px',
+            },
+          }}
         >
-          <Text>Nadchodzące</Text>
+          <Heading fontSize="4xl" paddingLeft="10px">
+            Nadchodzące
+          </Heading>
+
+          <Flex
+            //pl="20px"
+            pr="20px"
+            mt="20px"
+            borderBottom="4px solid #7b7b7b"
+            paddingLeft="10px"
+            //borderRadius="6px"
+            justifyContent="space-between"
+            fontSize="2xl"
+          >
+            <Flex>
+              <Text w="100px">Typ</Text>
+              <Text ml="20px" w="400px">
+                Nazwa projektu
+              </Text>
+              <Text ml="20px" w="350px">
+                Przedmiot
+              </Text>
+            </Flex>
+
+            <Text ml="20px">Data końcowa</Text>
+          </Flex>
+
           {generateIncoming()}
         </Flex>
       </Box>
@@ -139,10 +197,11 @@ const Dashboard: FC = () => {
         >
           <Flex
             padding="12px"
-            width="200px"
+            width="250px"
             justifyContent="space-around"
             borderRadius="12px"
             backgroundColor="white"
+            fontSize="2xl"
           >
             {generateCounters()}
           </Flex>
@@ -152,7 +211,9 @@ const Dashboard: FC = () => {
             color="#EAE1FA"
             justifyContent="center"
           >
-            Wydarzenia:
+            <Heading fontSize="3xl" textAlign="center" marginY="20px">
+              Wydarzenia
+            </Heading>
             {generateEvents()}
           </Flex>
         </Flex>

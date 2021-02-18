@@ -38,11 +38,13 @@ export const AddProject: FC = () => {
     setProjectType(e.target.value)
   }
 
-  const onSubjectSubmit = async (data: ProjectFormData) => {
+  const onProjectSubmit = async (data: ProjectFormData) => {
     await postProject({
       ...data,
-      deadlineTime: datePicked,
-    }).then(() => push('/projects'))
+      deadlineTime: datePicked.toISOString(),
+    })
+      .then(() => setModalType(ModalType.None))
+      .then(() => push('/projects'))
   }
   return (
     <ReusableModal
@@ -53,7 +55,7 @@ export const AddProject: FC = () => {
           'Po wpisaniu wymaganych danych przejdziesz do widoku przedmiotu',
       }}
       onClose={() => setModalType(ModalType.None)}
-      onSubmit={handleSubmit(onSubjectSubmit)}
+      onSubmit={handleSubmit(onProjectSubmit)}
       acceptButtonText="Dodaj projekt"
       cancelButtonText="Anuluj"
     >

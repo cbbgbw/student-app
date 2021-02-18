@@ -10,13 +10,14 @@ export interface AddProps {
 
 export const Add: FC<AddProps> = ({ name, onClick }) => (
   <Button
-    h={'140px'}
-    w={'140px'}
+    h={'170px'}
+    w={'170px'}
     d="flex"
-    alignItems="flex-start"
+    alignItems="center"
     flexDir="column"
     justifyContent="space-around"
-    onClick={() => onClick()}
+    fontSize="20px"
+    onClick={onClick}
   >
     <Text>
       Dodaj <br />

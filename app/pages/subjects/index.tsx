@@ -43,7 +43,7 @@ export const SubjectListView = () => {
       as={Flex}
       flexDir="row"
       w="100%"
-      h="100%"
+      //h="100%"
       overflow="auto"
       paddingX="30px"
       css={{

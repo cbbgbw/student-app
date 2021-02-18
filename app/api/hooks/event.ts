@@ -16,8 +16,8 @@ const getEventsParsed = (data: Event[]) => {
   data?.forEach((event) => {
     const { setTime } = event
 
-    const date = parseISOString(setTime)
-    const dayOfTheMonth = 15
+    const date = new Date(setTime)
+    const dayOfTheMonth = date.getUTCDay()
 
     if (!eventsParsed[dayOfTheMonth]) {
       eventsParsed[dayOfTheMonth] = []

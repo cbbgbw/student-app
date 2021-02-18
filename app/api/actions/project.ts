@@ -11,7 +11,7 @@ export interface ProjectFormData {
   subjectKey: string
   categoryKey: string
   description: string
-  deadlineTime: Date
+  deadlineTime: string
   necessaryToPass: boolean
 }
 
