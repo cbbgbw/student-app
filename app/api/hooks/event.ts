@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import { fetcher } from '../axios'
-import { parseISOString } from '../../utils/dateUtils'
+import { getDateFormatted, parseISOString } from '../../utils/dateUtils'
 
 interface Event {
   eventKey: string
@@ -16,13 +16,12 @@ const getEventsParsed = (data: Event[]) => {
   data?.forEach((event) => {
     const { setTime } = event
 
-    const date = new Date(setTime)
-    const dayOfTheMonth = date.getUTCDay()
+    const dateFormatted = getDateFormatted(setTime)
 
-    if (!eventsParsed[dayOfTheMonth]) {
-      eventsParsed[dayOfTheMonth] = []
+    if (!eventsParsed[dateFormatted]) {
+      eventsParsed[dateFormatted] = []
     }
-    eventsParsed[dayOfTheMonth].push(event)
+    eventsParsed[dateFormatted].push(event)
   })
   return eventsParsed
 }

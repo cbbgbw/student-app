@@ -8,7 +8,7 @@ import { Box, Flex, Heading, List, ListItem, Text } from '@chakra-ui/react'
 import { GlobalDataContext } from '../../components/Auth/Provider'
 import { useProjectCount, useProjects } from '../../api/hooks/project'
 import { useEvents } from '../../api/hooks/event'
-import { parseISOString } from '../../utils/dateUtils'
+import { getDateFormatted, parseISOString } from '../../utils/dateUtils'
 
 const Dashboard: FC = () => {
   const { projectsCount } = useProjectCount()
@@ -62,20 +62,6 @@ const Dashboard: FC = () => {
         }}
       />
     ))
-
-  const getDateFormatted = (deadlineTime: string) => {
-    console.log(deadlineTime)
-    const date = new Date(deadlineTime)
-    const day = date.getUTCDate()
-    const month = date.getUTCMonth() + 1
-    const hour = date.getUTCHours()
-    const minute = date.getUTCMinutes()
-    return `${String(day).length === 1 ? 0 : ''}${day}.${
-      String(month).length === 1 ? 0 : ''
-    }${month} | ${String(hour).length === 1 ? 0 : ''}${hour}:${
-      String(minute).length === 1 ? 0 : ''
-    }${minute}`
-  }
 
   const generateIncoming = () =>
     projects &&
