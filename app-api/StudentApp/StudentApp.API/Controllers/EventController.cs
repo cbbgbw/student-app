@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using StudentApp.API.DataContracts.Requests.Event.GET;
 using StudentApp.Services.Contracts;
 using RQ_POST = StudentApp.API.DataContracts.Requests.Event.POST;
 using RQ_PUT = StudentApp.API.DataContracts.Requests.Event.PUT;
@@ -92,10 +93,22 @@ namespace StudentApp.API.Controllers
 
         #endregion
 
+        #region GET ALL BY PROJECT
+
+        [CustomAuth.Authorize]
+        [HttpGet("project/{projectKey}")]
+        public async Task<ICollection<DC.Event>> GetAllByProject(Guid projectKey)
+        {
+            var events = await _eventService.GetAllByProjectAsync(projectKey);
+            return events != null ? _mapper.Map<ICollection<DC.Event>>(events) : null;
+        }
+
+        #endregion
+
         #region GET ALL BY SUBJECT
 
         [CustomAuth.Authorize]
-        [HttpGet("project/{subjectKey}")]
+        [HttpGet("subject/{subjectKey}")]
         public async Task<ICollection<DC.Event>> GetAllBySubject(Guid subjectKey)
         {
             var events = await _eventService.GetAllBySubjectAsync(subjectKey);
@@ -116,6 +129,24 @@ namespace StudentApp.API.Controllers
                 return null;
 
             var events = await _eventService.GetAllEventsInSemesterByDateAsync(userData.CurrentSemesterDefinitionKey, days);
+
+            return events != null ? _mapper.Map<ICollection<DC.Event>>(events) : null;
+        }
+
+        #endregion
+
+        #region GET BY MONTH
+
+        [CustomAuth.Authorize]
+        [HttpGet("month")]
+        public async Task<ICollection<DC.Event>> GetAllInPassedMonth([FromBody] EventMonthYear dateModel)
+        {
+            var userData = (SR.UserResponse)HttpContext.Items["User"];
+
+            if (userData == null)
+                return null;
+
+            var events = await _eventService.GetAllInCurrentMonth(dateModel.year, dateModel.month, userData.CurrentSemesterDefinitionKey);
 
             return events != null ? _mapper.Map<ICollection<DC.Event>>(events) : null;
         }

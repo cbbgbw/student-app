@@ -2779,6 +2779,55 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Get by Project",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ApiURL}}/event/project/DD207C8F-6E90-410D-9B39-B161C0C38442",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"event",
+										"project",
+										"DD207C8F-6E90-410D-9B39-B161C0C38442"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get by month",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"year\": 2022,\r\n    \"month\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ApiURL}}/event/month",
+									"host": [
+										"{{ApiURL}}"
+									],
+									"path": [
+										"event",
+										"month"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},

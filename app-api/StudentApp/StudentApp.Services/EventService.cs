@@ -44,6 +44,17 @@ namespace StudentApp.Services
             return await _context.SaveChangesAsync();
         }
 
+        public async Task<ICollection<Event>> GetAllByProjectAsync(Guid projectKey)
+        {
+            var query = from  p in _context.Project
+                join ev in _context.Event on p.ProjectKey equals ev.ProjectKey
+                orderby ev.SetTime ascending
+                where p.ProjectKey == projectKey
+                select ev;
+
+            return await query.ToListAsync<Event>();
+        }
+
         public async Task<ICollection<Event>> GetAllBySubjectAsync(Guid subjectKey)
         {
             var query = from s in _context.Subject
@@ -69,6 +80,20 @@ namespace StudentApp.Services
                 select e;
 
             return await query.ToListAsync();
+        }
+
+        public async Task<ICollection<Event>> GetAllInCurrentMonth(int year, int month, Guid semesterKey)
+        {
+            var query = from s in _context.Subject
+                join p in _context.Project on s.SubjectKey equals p.SubjectKey
+                join e in _context.Event on p.ProjectKey equals e.ProjectKey
+                orderby e.SetTime ascending
+                where s.SemesterDefinitionKey == semesterKey
+                      && e.SetTime.Month == month
+                      && e.SetTime.Year == year
+                select e;
+
+            return await query.ToListAsync<Event>();
         }
     }
 }
