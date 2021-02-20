@@ -15,26 +15,24 @@ const SubjectPage = () => {
   const [desc, setDesc] = useState(subject?.description)
 
   return (
-    <Grid
-      width="100%"
-      h="100%"
-      gridColumnGap="50px"
-      gridTemplateColumns="3"
-      gridTemplateRows="8"
-      gridRowGap="20px"
-    >
+    <Grid width="100%" h="100%" gridColumnGap="50px" gridRowGap="20px">
       <GridItem
         borderRadius="12px"
         gridRowStart="1"
-        rowSpan={1}
-        colSpan={1}
+        gridRowEnd="2"
+        gridColumnStart="1"
+        gridColumnEnd="3"
         backgroundColor="white"
         display="flex"
         justifyContent="space-between"
         alignItems="center"
       >
-        <Text fontSize="3xl" marginX="30px" marginY="15px">
+        <Text fontSize="4xl" marginX="30px" marginY="15px" fontStyle="">
           {subject?.name}
+        </Text>
+
+        <Text fontSize="2xl" marginX="30px" marginY="15px">
+          {subject?.typeDefinitionName}
         </Text>
 
         <Text
@@ -51,24 +49,64 @@ const SubjectPage = () => {
         </Text>
       </GridItem>
 
-      <GridItem gridColumnStart="1" backgroundColor="white" borderRadius="12px">
+      <GridItem
+        gridColumnStart="1"
+        gridColumnEnd="3"
+        gridRowStart="2"
+        gridRowEnd="4"
+        backgroundColor="white"
+        borderRadius="12px"
+      >
         <Textarea
           height="100%"
           borderRadius="12px"
           placeholder="Opis przedmiotu"
+          fontSize="2xl"
           resize="none"
           value={desc}
           onChange={({ target }) => setDesc(target.value)}
           border="transparent"
+          css={{
+            '&::-webkit-scrollbar': {
+              width: '10px',
+            },
+            '&::-webkit-scrollbar-track': {
+              width: '6px',
+              background: '#dadada',
+              //borderRadius: '24px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: '#271257',
+              borderRadius: '24px',
+            },
+          }}
         />
       </GridItem>
-      <GridItem gridColumnStart="1">
+      <GridItem
+        gridColumnStart="1"
+        gridColumnEnd="3"
+        gridRowStart="4"
+        gridRowEnd="10"
+        overflow="auto"
+        h="100%"
+        css={{
+          '&::-webkit-scrollbar': {
+            width: '10px',
+          },
+          '&::-webkit-scrollbar-track': {
+            width: '6px',
+            background: '#dadada',
+            //borderRadius: '24px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: '#271257',
+            borderRadius: '24px',
+          },
+        }}
+      >
         <ProjectList subjectKey={subject?.subjectKey} />
       </GridItem>
-      {/* <GridItem gridColumnStart="2" gridRowStart="2">
-        <SubjectNote />
-      </GridItem> */}
-      <GridItem gridColumnStart="2" gridRowStart="2">
+      <GridItem gridColumnStart="3" gridRowStart="1" gridRowEnd="10">
         <EventList events={events} />
       </GridItem>
     </Grid>

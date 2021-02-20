@@ -12,7 +12,9 @@ namespace StudentApp.Services.Contracts
         Task<Event> GetSingleAsync(Guid eventKey);
         Task<int> CreateAsync(Event eventModel);
         Task<int> UpdateAsync(Event eventModel);
+        Task<ICollection<Event>> GetAllByProjectAsync(Guid projectKey);
         Task<ICollection<Event>> GetAllBySubjectAsync(Guid subjectKey);
         Task<ICollection<Event>> GetAllEventsInSemesterByDateAsync(Guid semesterKey, int days);
+        Task<ICollection<Event>> GetAllInCurrentMonth(int year, int month, Guid semesterKey);
     }
 }

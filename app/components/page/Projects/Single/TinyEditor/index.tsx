@@ -13,7 +13,7 @@ export const TinyEditor = () => {
       <Editor
         initialValue={'<p>Tutaj możesz wykonać notatki</p>'}
         init={{
-          height: '400px',
+          height: '300px',
           menubar: false,
           plugins: [
             'advlist autolink lists link image charmap print preview anchor',

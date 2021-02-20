@@ -12,7 +12,7 @@ export const ProjectList: FC<Props> = ({ subjectKey }) => {
   const { projects } = useProjectForSubject(subjectKey)
 
   return (
-    <Container maxHeight="300px" name="PROJEKTY">
+    <Container name="PROJEKTY">
       <List px="20px" w="100%" display="flex" flexDir="column">
         {projects?.map((project) => (
           <ProjectListItem key={project.projectKey} project={project} />

@@ -14,7 +14,7 @@ export const Container: FC<Props> = ({
   maxWidth = 'auto',
   children,
 }) => (
-  <Box borderRadius="12px" backgroundColor="#bba5e1" overflow="auto">
+  <Box h="100%" borderRadius="12px" backgroundColor="#3B2E61" overflow="auto">
     <Flex alignItems="center" justifyContent="center" flexDir="column">
       <Heading
         paddingY="10px"

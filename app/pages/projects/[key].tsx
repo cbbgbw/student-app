@@ -14,6 +14,7 @@ import { FlexCentered } from '../../components/chakra/FlexCentered'
 import { TinyEditor } from '../../components/page/Projects/Single/TinyEditor'
 import { EventList } from '../../components/ui/common/EventList'
 import { useEvents } from '../../api/hooks/event'
+import { Linker, LinkType } from '../../components/Linker'
 
 const ProjectPage = () => {
   const { query } = useRouter()
@@ -21,7 +22,7 @@ const ProjectPage = () => {
   const { events } = useEvents()
 
   return (
-    <Flex flexDir="row" w="100%" h="100%">
+    <Flex flexDir="row" w="100%" h="100%" justifyContent="space-between">
       <Box>
         <Flex
           flexDir="row"
@@ -33,7 +34,9 @@ const ProjectPage = () => {
             <Heading>{project?.name}</Heading>
             <FlexCentered mt="36px" backgroundColor="#dcdaf2" h="60px" w="100%">
               <Heading color="#271257" fontSize="xl">
-                {project?.subjectTitle}
+                <Linker type={LinkType.Subjects} typeKey={project?.subjectKey}>
+                  <Text>{project?.subjectTitle}</Text>
+                </Linker>
               </Heading>
             </FlexCentered>
             <Flex flexDir="row">
@@ -73,7 +76,12 @@ const ProjectPage = () => {
             </FlexCentered>
           </Flex>
         </Flex>
-        <Flex flexDir="column" backgroundColor="white" mt="15px">
+        <Flex
+          flexDir="column"
+          backgroundColor="white"
+          mt="15px"
+          borderRadius="15px"
+        >
           <Heading h="80px" display="flex" alignItems="center" ml="25px">
             Notatki
           </Heading>
@@ -81,7 +89,12 @@ const ProjectPage = () => {
         </Flex>
       </Box>
       <Flex ml="30px" w="350px" flexDir="column">
-        <Button borderRadius="15px" backgroundColor="#271257">
+        <Button
+          borderRadius="15px"
+          backgroundColor="#271257"
+          marginBottom="20px"
+          h="7%"
+        >
           EDYTUJ PROJEKT
         </Button>
         <EventList
