@@ -85,7 +85,7 @@ export const AddProject: FC = () => {
         selectOptions={projectCategories}
         labelText="Wybierz z kategorii"
       />
-      <CTextArea name="description" ref={register()} labelText="Opis" />
+      <CTextArea name="description" ref={register()} labelText="Notatka" />
       <Checkbox colorScheme="red" name="hasProjectToPass" ref={register()}>
         Projekt niezbędny dla zaliczenia
       </Checkbox>

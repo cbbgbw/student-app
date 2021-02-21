@@ -65,6 +65,7 @@ export const SubjectListView = () => {
         ({ name, isPassed, typeDefinitionName, subjectKey }) => (
           <SubjectListItem
             name={name}
+            typeName={typeDefinitionName}
             subjectKey={subjectKey}
             isPassed={isPassed}
           />

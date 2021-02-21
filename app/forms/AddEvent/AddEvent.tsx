@@ -35,6 +35,8 @@ export const AddEvent: FC = () => {
       acceptButtonText="Dodaj wydarzenie"
       cancelButtonText="Anuluj"
     >
+      <FormLabel htmlFor="title">Nazwa wydarzenia</FormLabel>
+      <Input name="title" ref={register({ required: true })} />
       <CSelect
         name="projectKey"
         ref={register({ required: true })}
@@ -42,8 +44,6 @@ export const AddEvent: FC = () => {
         labelText="Wybierz projekt"
       />
       <CDayPicker date={datePicked} onDateChange={setDatePicked} />
-      <FormLabel htmlFor="title">Nazwa wydarzenia</FormLabel>
-      <Input name="title" ref={register({ required: true })} />
       <CTextArea name="description" ref={register()} labelText="Notatka" />
     </ReusableModal>
   )

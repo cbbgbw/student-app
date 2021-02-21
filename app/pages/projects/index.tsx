@@ -10,19 +10,24 @@ export const ProjectPage = () => {
   const renderItems = () =>
     projects?.map((project) => (
       <ListItem
-        marginRight="20px"
-        marginBottom="20px"
+        marginRight="35px"
+        marginBottom="35px"
         key={project.name}
         width="300px"
-        height="300px"
+        minH="300px"
         border="1px solid #271257"
         borderRadius="15px"
       >
-        <Flex flexDir="column" justifyContent="space-between">
+        <Flex flexDir="column" justifyContent="space-between" h="100%">
           <Flex alignItems="center" justifyContent="flex-start">
             <Zakladka />
             <Flex flexDir="column">
-              <Heading color="#271257" fontSize="3xl" marginRight="20px">
+              <Heading
+                color="#271257"
+                fontSize="3xl"
+                marginRight="20px"
+                wordBreak="break-word"
+              >
                 <Linker type={LinkType.Subjects} typeKey={project.subjectKey}>
                   {project.subjectTitle}
                 </Linker>
@@ -30,7 +35,7 @@ export const ProjectPage = () => {
             </Flex>
           </Flex>
           <Flex marginY="20px" paddingLeft="10px" flexDir="column">
-            <Heading color="#271257" fontSize="2xl">
+            <Heading color="#271257" fontSize="2xl" wordBreak="break-word">
               <Linker type={LinkType.Projects} typeKey={project.projectKey}>
                 {project.name}
               </Linker>
@@ -67,17 +72,41 @@ export const ProjectPage = () => {
     )) // TODO Dodać odliczanie dni do konkretnego projektu
 
   return (
-    <List
-      as={Flex}
-      padding="20px"
-      backgroundColor="white"
-      borderRadius="15px"
+    <Flex
       width="100%"
       h="100%"
-      overflow="auto"
+      flexDir="column"
+      borderRadius="15px"
+      backgroundColor="#ffffff"
+      padding="30px"
     >
-      {renderItems()}
-    </List>
+      <List
+        as={Flex}
+        flexWrap="wrap"
+        flexDir="row"
+        padding="30px"
+        backgroundColor="white"
+        width="100%"
+        h="100%"
+        overflow="auto"
+        css={{
+          '&::-webkit-scrollbar': {
+            width: '10px',
+          },
+          '&::-webkit-scrollbar-track': {
+            width: '6px',
+            background: '#dadada',
+            borderRadius: '24px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: '#271257',
+            borderRadius: '24px',
+          },
+        }}
+      >
+        {renderItems()}
+      </List>
+    </Flex>
   )
 }
 
