@@ -139,7 +139,7 @@ namespace StudentApp.API.Controllers
 
         [CustomAuth.Authorize]
         [HttpGet("month")]
-        public async Task<ICollection<DC.Event>> GetAllInPassedMonth([FromBody] EventMonthYear dateModel)
+        public async Task<ICollection<DC.Event>> GetAllInPassedMonth([FromQuery] EventMonthYear dateModel)
         {
             var userData = (SR.UserResponse)HttpContext.Items["User"];
 

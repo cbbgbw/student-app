@@ -26,7 +26,7 @@ export const useProjects = () => {
     fetcher,
   )
 
-  const getAsKeyValue = () =>
+  const getAsKeyValue: Record<string, string> | unknown = () =>
     data?.reduce((prev, project) => {
       const { projectKey, name } = project
       return { ...prev, [projectKey]: name }
