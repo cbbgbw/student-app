@@ -15,6 +15,7 @@ import { TinyEditor } from '../../components/page/Projects/Single/TinyEditor'
 import { EventList } from '../../components/ui/common/EventList'
 import { useEvents } from '../../api/hooks/event'
 import { Linker, LinkType } from '../../components/Linker'
+import moment from 'moment'
 
 const ProjectPage = () => {
   const { query } = useRouter()
@@ -66,7 +67,7 @@ const ProjectPage = () => {
           <Flex ml="75px" flexDir="column" justifyContent="space-between">
             <FlexCentered backgroundColor="#271257" h="60px" w="300px">
               <Heading color="white" fontSize="xl">
-                {project?.deadlineTime}
+                {moment(project?.deadlineTime).locale('pl').format('LL')}
               </Heading>
             </FlexCentered>
             <FlexCentered backgroundColor="#271257" h="60px" w="300px">
