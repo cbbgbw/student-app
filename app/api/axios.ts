@@ -23,8 +23,8 @@ const createAxiosClient = () => {
 
 const axiosClient = createAxiosClient()
 
-export const fetcher = async (url: string) =>
-  await axiosClient.get(url).then((res) => res.data)
+export const fetcher = async <T = {}>(url: string, params: T) =>
+  await axiosClient.get(url, { params }).then((res) => res.data)
 
 export enum Path {
   Subject = `subject`,

@@ -1,6 +1,7 @@
 import useSWR from 'swr'
 import { fetcher } from '../axios'
 import { getDateFormatted, parseISOString } from '../../utils/dateUtils'
+import { produce } from 'immer'
 
 export interface ProjectEvent {
   eventKey: string
@@ -48,5 +49,21 @@ export const useEventsForSubject = (subjectKey: string) => {
   return {
     events: data,
     getEventsParsed: () => data && getEventsParsed(data),
+  }
+}
+
+interface EventsForDateProps {
+  year: number
+  month: number
+}
+
+export const useEventsForDate = (month: number, year: number) => {
+  const { data, error } = useSWR<ProjectEvent[] | undefined>(
+    `event/month?month=${month}&year=${year}`,
+    fetcher,
+  )
+
+  return {
+    events: data,
   }
 }

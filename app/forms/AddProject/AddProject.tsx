@@ -1,13 +1,9 @@
 import React, { FC, useContext, useEffect, useState } from 'react'
 import { ReusableModal } from '../../components/ReusableModal/Modal'
 import { GlobalDataContext } from '../../components/Auth/Provider'
-import { ModalType } from '../../types/types'
+import { EntityTypes, ModalType } from '../../types/types'
 import { useForm } from 'react-hook-form'
-import {
-  useProjectTypes,
-  useProjectCategory,
-  useProjectStatuses,
-} from '../../actions/project'
+import { useProjectCategory, useProjectTypes } from '../../actions/project'
 import { CSelect } from '../../components/Forms/CSelect/CSelect'
 import { Checkbox, FormLabel, Input } from '@chakra-ui/react'
 import { CTextArea } from '../../components/Forms/CTextarea/CTextArea'
@@ -30,7 +26,19 @@ export const AddProject: FC = () => {
 
   useEffect(() => {
     if (projectTypes) {
-      setProjectType(Object.keys(projectTypes)[0])
+      const lookForExam = modalType === ModalType.AddExam
+      const lookForProject = modalType === ModalType.AddProject
+
+      Object.keys(projectTypes).forEach((projectTypeKey) => {
+        if (
+          (lookForExam &&
+            projectTypes[projectTypeKey] === EntityTypes.Egzamin) ||
+          (lookForProject &&
+            projectTypes[projectTypeKey] === EntityTypes.Projekt)
+        ) {
+          setProjectType(projectTypeKey)
+        }
+      })
     }
   }, [projectTypes])
 
@@ -73,6 +81,7 @@ export const AddProject: FC = () => {
         labelText="Wybierz przedmiot projektu"
       />
       <CSelect
+        defaultValue={projectType}
         name="typeDefinitionKey"
         ref={register({ required: true })}
         selectOptions={projectTypes}

@@ -1,7 +1,8 @@
 import { Flex, Heading, ListItem, Text } from '@chakra-ui/react'
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { Linker, LinkType } from '../../../../Linker'
 import { Project } from '../../../../../api/hooks/project'
+import moment from 'moment'
 
 interface Props {
   project: Project
@@ -25,7 +26,9 @@ export const ProjectListItem: FC<Props> = ({ project }) => (
       <Linker type={LinkType.Projects} typeKey={project.projectKey}>
         <Heading fontSize="2xl">{project.name}</Heading>
       </Linker>
-      <Text mr="24px">{project.deadlineTime}</Text>
+      <Text mr="24px">
+        {moment(project.deadlineTime).locale('pl').format('LL')}
+      </Text>
     </Flex>
 
     <Flex

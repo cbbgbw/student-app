@@ -8,9 +8,19 @@ import { Linker, LinkType } from '../../../Linker'
 
 interface Props {
   events: ProjectEvent[] | undefined
+  type?: EventListType
 }
 
-export const EventList: FC<Props> = ({ events }) => {
+export enum EventListType {
+  Month,
+  Day,
+  NineDays,
+}
+
+export const EventList: FC<Props> = ({
+  events,
+  type = EventListType.NineDays,
+}) => {
   const { getAsKeyValue } = useProjects()
   const projects = getAsKeyValue()
 
@@ -26,6 +36,12 @@ export const EventList: FC<Props> = ({ events }) => {
       <Heading mx="40px" mt="36px" color={Color.White}>
         WYDARZENIA
       </Heading>
+      {type !== EventListType.NineDays && (
+        <Text fontSize="24px" color={Color.White}>
+          {(type === EventListType.Month && 'Miesiąca') ||
+            (type === EventListType.Day && 'Dnia')}
+        </Text>
+      )}
       <List w="100%" px="20px" mt="20px">
         {events?.map(({ title, setTime, projectKey }) => {
           // @ts-ignore
@@ -39,7 +55,7 @@ export const EventList: FC<Props> = ({ events }) => {
               backgroundColor={Color.White}
             >
               <Linker type={LinkType.Projects} typeKey={projectKey}>
-                <Text>{projects[projectKey] || 'Błąd'}</Text>
+                <Text>{projects?.[projectKey] || 'Błąd'}</Text>
               </Linker>
               <Heading fontSize="2xl">
                 {moment(setTime).locale('pl').format('LL')}
