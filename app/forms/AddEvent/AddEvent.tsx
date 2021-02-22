@@ -44,7 +44,7 @@ export const AddEvent: FC = () => {
         labelText="Wybierz projekt"
       />
       <CDayPicker date={datePicked} onDateChange={setDatePicked} />
-      <CTextArea name="description" ref={register()} labelText="Notatka" />
+      <CTextArea name="content" ref={register()} labelText="Notatka" />
     </ReusableModal>
   )
 }

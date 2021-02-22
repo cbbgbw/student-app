@@ -20,7 +20,9 @@ export const CSelect = forwardRef<HTMLSelectElement, Props>(
 
     return (
       <>
-        <FormLabel htmlFor={name}>{labelText}</FormLabel>
+        <FormLabel htmlFor={name} marginTop="10px">
+          {labelText}
+        </FormLabel>
         <Select
           defaultValue={defaultValue}
           onChange={onChange}

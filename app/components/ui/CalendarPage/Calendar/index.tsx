@@ -82,7 +82,7 @@ export const Calendar = () => {
     selectedDayParsed.getDate()
 
   return (
-    <Flex flexDir="row">
+    <Flex flexDir="row" h="100%">
       <CalendarJSX
         year={currentYear}
         month={currentMonth}

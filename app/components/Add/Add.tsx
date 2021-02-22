@@ -18,6 +18,7 @@ export const Add: FC<AddProps> = ({ name, onClick }) => (
     justifyContent="space-around"
     fontSize="20px"
     onClick={onClick}
+    borderRadius="25px"
   >
     <Text>
       Dodaj <br />

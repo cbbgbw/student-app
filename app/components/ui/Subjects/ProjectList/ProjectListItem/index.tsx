@@ -26,7 +26,7 @@ export const ProjectListItem: FC<Props> = ({ project }) => (
       <Linker type={LinkType.Projects} typeKey={project.projectKey}>
         <Heading fontSize="2xl">{project.name}</Heading>
       </Linker>
-      <Text mr="24px">
+      <Text mr="24px" fontSize="20px">
         {moment(project.deadlineTime).locale('pl').format('LL')}
       </Text>
     </Flex>
@@ -38,17 +38,20 @@ export const ProjectListItem: FC<Props> = ({ project }) => (
       flexDir="column"
     >
       <Flex width="100%" justifyContent="space-between">
-        <Text>{project.categoryName}</Text>
+        <Text fontSize="20px">{project.categoryName}</Text>
         <Text
           borderRadius="12px"
           backgroundColor="white"
           paddingLeft="10px"
           paddingRight="10px"
+          fontSize="20px"
         >
           {project.projectStatusName}
         </Text>
       </Flex>
-      {project.necessaryToPass && <Text>Wymagany do zdania przedmiotu</Text>}
+      {project.necessaryToPass && (
+        <Text color="#3B2E61">Wymagany do zdania przedmiotu</Text>
+      )}
     </Flex>
   </ListItem>
 )

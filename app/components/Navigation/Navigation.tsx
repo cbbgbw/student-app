@@ -4,6 +4,8 @@ import Subjects from '../../public/icons/sidebar/Subjects.svg'
 import { Box, Button, Flex, Link, List } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
+import React from 'react'
+import Zakladka from '../../public/icons/zakladka.svg'
 
 interface Data {
   icon: JSX.Element
@@ -64,6 +66,7 @@ export const Navigation = () => {
       backgroundColor="#2B2E61"
       w="300px"
     >
+      {/* <Zakladka /> */}
       {renderNavigation()}
       <Button
         width="100%"

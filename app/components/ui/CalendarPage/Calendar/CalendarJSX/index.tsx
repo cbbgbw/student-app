@@ -23,7 +23,13 @@ export const CalendarJSX: FC<Props> = ({
   onClickYearForward,
   children,
 }) => (
-  <Box borderRadius={'20px'} w="100%" h="100%" backgroundColor={Color.White}>
+  <Box
+    borderRadius={'20px'}
+    w="100%"
+    h="100%"
+    backgroundColor={Color.White}
+    marginRight="30px"
+  >
     <Flex flexDir="column" px="30px" pt="16px">
       <Flex justifyContent="center" alignItems="center">
         <Button background={'transparent'} onClick={onClickYearBack}>

@@ -1,10 +1,21 @@
-import { Flex, Heading, List, ListItem, Text } from '@chakra-ui/react'
-import React, { FC } from 'react'
+import {
+  Flex,
+  Heading,
+  List,
+  ListItem,
+  Text,
+  Button,
+  Tooltip,
+} from '@chakra-ui/react'
+import React, { FC, useContext } from 'react'
 import { ProjectEvent } from '../../../../api/hooks/event'
 import moment from 'moment'
 import { useProjects } from '../../../../api/hooks/project'
 import { Color } from '../../../../consts/colors'
 import { Linker, LinkType } from '../../../Linker'
+import { ModalType } from '../../../../types/types'
+import { GlobalDataContext } from '../../../Auth/Provider'
+import { useRouter } from 'next/router'
 
 interface Props {
   events: ProjectEvent[] | undefined
@@ -22,6 +33,8 @@ export const EventList: FC<Props> = ({
   type = EventListType.NineDays,
 }) => {
   const { getAsKeyValue } = useProjects()
+  const router = useRouter()
+  const { setModalType } = useContext(GlobalDataContext)
   const projects = getAsKeyValue()
 
   return (
@@ -32,8 +45,22 @@ export const EventList: FC<Props> = ({
       alignItems="center"
       backgroundColor={Color.BlackPurple}
       flexDir="column"
+      w={router.pathname.includes('/calendar') ? '30%' : undefined}
     >
-      <Heading mx="40px" mt="36px" color={Color.White}>
+      {router.pathname.includes('/calendar') && (
+        <Button
+          backgroundColor="#805AD5"
+          w="75%"
+          h="55px"
+          marginTop="20px"
+          fontSize="20px"
+          onClick={() => setModalType(ModalType.AddEvent)}
+        >
+          Dodaj wydarzenie
+        </Button>
+      )}
+
+      <Heading mx="40px" mt="20px" color={Color.White}>
         WYDARZENIA
       </Heading>
       {type !== EventListType.NineDays && (
@@ -42,8 +69,27 @@ export const EventList: FC<Props> = ({
             (type === EventListType.Day && 'Dnia')}
         </Text>
       )}
-      <List w="100%" px="20px" mt="20px">
-        {events?.map(({ title, setTime, projectKey }) => {
+      <List
+        w="100%"
+        px="20px"
+        mt="20px"
+        overflow="auto"
+        css={{
+          '&::-webkit-scrollbar': {
+            width: '10px',
+          },
+          '&::-webkit-scrollbar-track': {
+            width: '6px',
+            background: '#ffffff',
+            borderRadius: '24px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: '#8C8C8C',
+            borderRadius: '24px',
+          },
+        }}
+      >
+        {events?.map(({ title, setTime, projectKey, content }) => {
           // @ts-ignore
           return (
             <ListItem
@@ -60,7 +106,13 @@ export const EventList: FC<Props> = ({
               <Heading fontSize="2xl">
                 {moment(setTime).locale('pl').format('LL')}
               </Heading>
-              <Text fontSize="xl">{title}</Text>
+              <Tooltip
+                label={content === null ? '' : content}
+                aria-label="A tooltip"
+                placement="top"
+              >
+                <Text fontSize="xl">{title}</Text>
+              </Tooltip>
             </ListItem>
           )
         })}

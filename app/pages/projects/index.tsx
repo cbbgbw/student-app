@@ -3,6 +3,7 @@ import React from 'react'
 import Zakladka from '../../public/icons/zakladka.svg'
 import { Linker, LinkType } from '../../components/Linker'
 import { useProjects } from '../../api/hooks/project'
+import moment from 'moment'
 
 export const ProjectPage = () => {
   const { projects } = useProjects()
@@ -15,6 +16,7 @@ export const ProjectPage = () => {
         key={project.name}
         width="300px"
         minH="300px"
+        maxH="400px"
         border="1px solid #271257"
         borderRadius="15px"
       >
@@ -64,7 +66,7 @@ export const ProjectPage = () => {
             borderTop="1px solid #271257"
           >
             <Heading paddingY="10px" fontSize="2xl">
-              5 DNI DO ZAKOŃCZENIA
+              {moment(project.deadlineTime).locale('pl').format('LL')}
             </Heading>
           </Flex>
         </Flex>
@@ -84,7 +86,7 @@ export const ProjectPage = () => {
         as={Flex}
         flexWrap="wrap"
         flexDir="row"
-        padding="30px"
+        paddingX="35px"
         backgroundColor="white"
         width="100%"
         h="100%"

@@ -54,7 +54,7 @@ const Dashboard: FC = () => {
         color={project.typeDefinitionName === 'Projekt' ? 'white' : '#1D0B47'}
       >
         <Flex marginTop="5px" alignItems="center" w="85%">
-          <Text w="150px">{project.typeDefinitionName}</Text>
+          <Text w="100px">{project.typeDefinitionName}</Text>
           <Linker type={LinkType.Projects} typeKey={project.projectKey}>
             <Text ml="20px" w="400px">
               {project.name}
@@ -74,9 +74,21 @@ const Dashboard: FC = () => {
 
   const generateCounters = () =>
     projectsCount?.map((values) => (
-      <Flex key={values.typeDefinitionKey} flexDir="column" alignItems="center">
-        <Text>{values.typeName}</Text>
-        <Text borderRadius="12px" padding="7px" backgroundColor="#E3DDF0">
+      <Flex
+        key={values.typeDefinitionKey}
+        flexDir="column"
+        alignItems="center"
+        marginRight="10px"
+      >
+        <Text fontSize="2xl">
+          {values.typeName === 'Projekt' ? 'Projekty' : 'Egzaminy'}
+        </Text>
+        <Text
+          fontSize="2xl"
+          borderRadius="12px"
+          padding="7px"
+          backgroundColor="#E3DDF0"
+        >
           {values.countValue}
         </Text>
       </Flex>
@@ -116,9 +128,12 @@ const Dashboard: FC = () => {
             },
           }}
         >
-          <Heading fontSize="4xl" paddingLeft="10px">
-            Nadchodzące
-          </Heading>
+          <Flex justifyContent="space-between" alignItems="center">
+            <Heading fontSize="4xl" paddingLeft="10px">
+              Nadchodzące
+            </Heading>
+            <Flex>{generateCounters()}</Flex>
+          </Flex>
 
           <Flex
             // pl="20px"
@@ -131,7 +146,7 @@ const Dashboard: FC = () => {
             fontSize="2xl"
           >
             <Flex w="85%">
-              <Text w="150px">Typ</Text>
+              <Text w="100px">Typ</Text>
               <Text ml="20px" w="400px">
                 Nazwa projektu
               </Text>
@@ -147,7 +162,7 @@ const Dashboard: FC = () => {
           {generateIncoming()}
         </Flex>
       </Box>
-      <Box marginLeft="20px">
+      <Box marginLeft="20px" w="30%">
         <EventList events={events} />
       </Box>
     </Flex>
