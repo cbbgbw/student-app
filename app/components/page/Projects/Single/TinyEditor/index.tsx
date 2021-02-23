@@ -1,20 +1,27 @@
 import { Box } from '@chakra-ui/react'
 import { Editor } from '@tinymce/tinymce-react'
-import React from 'react'
+import React, { FC } from 'react'
+import { Project } from '../../../../../api/hooks/project'
 
-export const TinyEditor = () => {
+interface Props {
+  currentText: string
+  onChange: (key: keyof Project, val: string) => void
+}
+
+export const TinyEditor: FC<Props> = ({ currentText, onChange }) => {
   const onEditorChange = (a: string, editor: any) => {
     console.log(a)
-    console.log(editor)
+    if (currentText !== a) {
+      onChange('description', a)
+    }
   }
 
   return (
-    <Box paddingX={'22px'} paddingBottom={'22px'}>
+    <Box paddingX="22px" w={'100%'} paddingBottom="22px">
       <Editor
-        initialValue={'<p>Tutaj możesz wykonać notatki</p>'}
+        initialValue={currentText}
         init={{
           height: '300px',
-          menubar: false,
           plugins: [
             'advlist autolink lists link image charmap print preview anchor',
             'searchreplace visualblocks code fullscreen',

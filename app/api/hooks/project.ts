@@ -56,13 +56,14 @@ export const useProjectCount = () => {
 }
 
 export const useProject = (projectKey: string) => {
-  const { data, error } = useSWR<Project | undefined>(
+  const { data, mutate, error } = useSWR<Project | undefined>(
     `project/${projectKey}`,
     fetcher,
   )
 
   return {
     project: data,
+    mutate,
   }
 }
 

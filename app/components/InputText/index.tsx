@@ -1,12 +1,19 @@
 import React, { FC, useState } from 'react'
-import { Text, Input, Select } from '@chakra-ui/react'
+import { Text, Input, Heading, Select } from '@chakra-ui/react'
+
+export enum TextType {
+  Text,
+  Heading,
+}
 
 interface Props {
   fontSize: string
+
   text: string
   onTextChanged: (key: string, value: string) => void
-  title: string
+  title?: string
   keyModified: string
+  textType?: TextType
 }
 
 export const InputText: FC<Props> = ({
@@ -15,6 +22,7 @@ export const InputText: FC<Props> = ({
   text,
   title,
   keyModified,
+  textType = TextType.Text,
 }) => {
   const [isEditMode, setIsEditMode] = useState(false)
 
@@ -27,14 +35,25 @@ export const InputText: FC<Props> = ({
   }
 
   return !isEditMode ? (
-    <Text
-      cursor="pointer"
-      title={title}
-      onClick={() => setIsEditMode(true)}
-      fontSize={fontSize}
-    >
-      {text}
-    </Text>
+    textType === TextType.Text ? (
+      <Text
+        cursor="pointer"
+        title={title}
+        onClick={() => setIsEditMode(true)}
+        fontSize={fontSize}
+      >
+        {text}
+      </Text>
+    ) : (
+      <Heading
+        cursor="pointer"
+        title={title}
+        onClick={() => setIsEditMode(true)}
+        fontSize={fontSize}
+      >
+        {text}
+      </Heading>
+    )
   ) : (
     <Input
       onBlur={onInputBlur}

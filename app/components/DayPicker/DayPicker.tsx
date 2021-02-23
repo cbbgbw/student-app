@@ -12,7 +12,7 @@ export const CDayPicker: FC<Props> = ({ date, onDateChange }) => {
   const minute = date.getMinutes()
 
   return (
-    <Flex flex-direction="row">
+    <Flex flex-direction="row" justify={'space-between'}>
       <DayPicker
         selectedDays={date}
         onDayClick={(newDate) => {

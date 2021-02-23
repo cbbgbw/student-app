@@ -36,7 +36,6 @@ const SubjectPage = () => {
     key: keyof Subject,
     value: string | boolean,
   ) => {
-    console.log(key)
     const subjectModified = produce(subject, (draft) => {
       if (draft) {
         // @ts-ignore https://github.com/microsoft/TypeScript/issues/31663
