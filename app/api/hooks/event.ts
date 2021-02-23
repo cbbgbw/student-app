@@ -3,7 +3,7 @@ import { fetcher } from '../axios'
 import { getDateFormatted, parseISOString } from '../../utils/dateUtils'
 import { produce } from 'immer'
 
-export interface ProjectEvent {
+export interface Event {
   eventKey: string
   title: string
   content: string
@@ -11,8 +11,8 @@ export interface ProjectEvent {
   setTime: string
 }
 
-const getEventsParsed = (data: ProjectEvent[]) => {
-  let eventsParsed: Record<string, ProjectEvent[]> = {}
+const getEventsParsed = (data: Event[]) => {
+  let eventsParsed: Record<string, Event[]> = {}
 
   data?.forEach((event) => {
     const { setTime } = event
@@ -28,7 +28,7 @@ const getEventsParsed = (data: ProjectEvent[]) => {
 }
 
 export const useEvents = () => {
-  const { data, error } = useSWR<ProjectEvent[] | undefined>(
+  const { data, error } = useSWR<Event[] | undefined>(
     'event/day/7',
     fetcher,
   )
@@ -41,8 +41,20 @@ export const useEvents = () => {
 }
 
 export const useEventsForSubject = (subjectKey: string) => {
-  const { data, error } = useSWR<ProjectEvent[] | undefined>(
-    `event/project/${subjectKey}`,
+  const { data, error } = useSWR<Event[] | undefined>(
+    `event/subject/${subjectKey}`,
+    fetcher,
+  )
+
+  return {
+    events: data,
+    getEventsParsed: () => data && getEventsParsed(data),
+  }
+}
+
+export const useEventsForProject = (projectKey: string) => {
+  const { data, error } = useSWR<Event[] | undefined>(
+    `event/project/${projectKey}`,
     fetcher,
   )
 
@@ -58,7 +70,7 @@ interface EventsForDateProps {
 }
 
 export const useEventsForDate = (month: number, year: number) => {
-  const { data, error } = useSWR<ProjectEvent[] | undefined>(
+  const { data, error } = useSWR<Event[] | undefined>(
     `event/month?month=${month}&year=${year}`,
     fetcher,
   )

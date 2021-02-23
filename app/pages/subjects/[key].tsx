@@ -1,7 +1,7 @@
 import { useSubject } from '../../api/hooks/subject'
 import { useRouter } from 'next/router'
 import React, { useRef, useState } from 'react'
-import { Grid, GridItem, Text, Textarea } from '@chakra-ui/react'
+import { Flex, Grid, GridItem, Text, Textarea } from '@chakra-ui/react'
 import { ProjectList } from '../../components/ui/Subjects/ProjectList'
 import { SubjectNote } from '../../components/ui/Subjects/Note'
 import { useEventsForSubject } from '../../api/hooks/event'
@@ -87,26 +87,29 @@ const SubjectPage = () => {
         gridColumnEnd="3"
         gridRowStart="4"
         gridRowEnd="10"
-        overflow="auto"
         h="100%"
-        css={{
-          '&::-webkit-scrollbar': {
-            width: '10px',
-          },
-          '&::-webkit-scrollbar-track': {
-            width: '6px',
-            background: '#dadada',
-            //borderRadius: '24px',
-          },
-          '&::-webkit-scrollbar-thumb': {
-            background: '#271257',
-            borderRadius: '24px',
-          },
-        }}
+        w="100%"
+        //   overflow="auto"
+        // css={{
+        //   '&::-webkit-scrollbar': {
+        //     width: '10px',
+        //   },
+        //   '&::-webkit-scrollbar-track': {
+        //     width: '6px',
+        //     background: '#ffffff',
+        //     borderRadius: '24px',
+        //   },
+        //   '&::-webkit-scrollbar-thumb': {
+        //     background: '#8C8C8C',
+        //     borderRadius: '24px',
+        //   },
+        // }}
       >
-        <ProjectList subjectKey={subject?.subjectKey} />
+        <Flex h="100%" w="100%">
+          <ProjectList subjectKey={subject?.subjectKey} />
+        </Flex>
       </GridItem>
-      <GridItem gridColumnStart="3" gridRowStart="1" gridRowEnd="10">
+      <GridItem gridColumnStart="3" gridRowStart="1" gridRowEnd="10" h="100%">
         <EventList events={events} />
       </GridItem>
     </Grid>
