@@ -10,7 +10,7 @@ namespace StudentApp.API.DataContracts.Requests.Project.PUT
 {
     public class ProjectPutValidator : AbstractValidator<ProjectPut>
     {
-        public ProjectPutValidator(IProjectService projectService, Guid userKey)
+        public ProjectPutValidator(IProjectService projectService, Guid userKey, ProjectPutRequest project)
         {
             bool ValidateType(Guid projectTypeKey)
             {
@@ -33,7 +33,7 @@ namespace StudentApp.API.DataContracts.Requests.Project.PUT
                 return categories.SingleOrDefault(c => c.CategoryKey == categoryKey) != null;
             }
 
-            bool ValidateDeadlineTime(DateTime deadlineTime) => deadlineTime >= DateTime.Now ? true : false;
+            bool ValidateDeadlineTime(DateTime deadlineTime, DateTime originDeadlineTime) => deadlineTime >= DateTime.Now || deadlineTime == originDeadlineTime ? true : false;
 
             RuleFor(proj => proj.TypeDefinitionKey)
                 .NotEmpty()
@@ -56,10 +56,10 @@ namespace StudentApp.API.DataContracts.Requests.Project.PUT
                 .NotEmpty()
                 .WithMessage("Nie podano nazwy projektu");
 
-            RuleFor(proj => proj.DeadlineTime)
+            RuleFor(proj => proj)
                 .NotEmpty()
                 .WithMessage("Data zaliczenia nie może być pusta")
-                .Must(ValidateDeadlineTime)
+                .Must(proj => ValidateDeadlineTime(proj.DeadlineTime, project.Project.DeadlineTime))
                 .WithMessage("Podana data zaliczenia musi być większa bądź równa dzisiejszej");
         }
     }

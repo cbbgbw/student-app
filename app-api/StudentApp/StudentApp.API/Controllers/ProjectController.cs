@@ -141,7 +141,7 @@ namespace StudentApp.API.Controllers
         {
             var userData = (SR.UserResponse) HttpContext.Items["User"];
 
-            RQ_PUT.ProjectPutValidator validator = new RQ_PUT.ProjectPutValidator(_projectService, userData.UserKey);
+            RQ_PUT.ProjectPutValidator validator = new RQ_PUT.ProjectPutValidator(_projectService, userData.UserKey, project);
             var results = await validator.ValidateAsync(project.Project);
 
             if (results.IsValid)
