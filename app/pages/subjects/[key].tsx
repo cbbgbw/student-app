@@ -11,6 +11,8 @@ import {
   Switch,
   Textarea,
   useToast,
+  Box,
+  Button,
 } from '@chakra-ui/react'
 import { ProjectList } from '../../components/ui/Subjects/ProjectList'
 import { useEventsForSubject } from '../../api/hooks/event'
@@ -60,151 +62,138 @@ const SubjectPage = () => {
   }
 
   return (
-    <Grid width="100%" h="100%" gridColumnGap="50px" gridRowGap="20px">
-      <GridItem
-        borderRadius="12px"
-        gridRowStart="1"
-        gridRowEnd="2"
-        gridColumnStart="1"
-        gridColumnEnd="3"
-        backgroundColor="white"
-      >
-        <Skeleton
-          display="flex"
-          borderRadius="12px"
-          justifyContent="space-between"
-          alignItems="center"
-          isLoaded={!!subject}
-          w="100%"
-          h="100%"
-          paddingX="30px"
+    <Flex flexDir="row" w="100%" h="100%" justifyContent="space-between">
+      <Flex w="100%" h="100%" marginRight="30px" flexDir="column">
+        <Flex
+          flexDir="row"
+          padding="25px"
+          background="white"
+          borderRadius="15px"
+          marginBottom="30px"
+          h="100px"
         >
-          {subject && (
-            <>
-              <Flex alignItems="center" width="50%">
-                <InputText
-                  fontSize="4xl"
-                  keyModified="name"
-                  text={subject.name}
-                  onTextChanged={onSubjectModified}
-                  title={`Kliknij aby zmienić tytuł przedmiotu ${subject.name}`}
-                />
-              </Flex>
-              <Flex justifyContent="flex-start" width="25%">
-                <SelectText
-                  fontSize="2xl"
-                  keyModified="typeDefinitionKey"
-                  text={subject.typeDefinitionName}
-                  selectedKey={subject.typeDefinitionKey}
-                  options={subjectTypes}
-                  onChange={onSubjectModified}
-                  title="Kliknij aby wybrać typ przedmiotu"
-                />
-              </Flex>
-              <Flex justifyContent="flex-end" width="25%">
-                <Flex
-                  onClick={async (e) => {
-                    await onSubjectModified('isPassed', !subject?.isPassed)
-                    e.stopPropagation()
-                    e.preventDefault()
-                  }}
-                  cursor="pointer"
-                  paddingLeft="20px"
-                  borderRadius="12px"
-                  backgroundColor={subject?.isPassed ? '#4CD964' : '#FA0000'}
-                  alignItems="center"
-                >
-                  <Checkbox
-                    onChange={(e) => {
+          <Skeleton
+            display="flex"
+            borderRadius="12px"
+            justifyContent="space-between"
+            alignItems="center"
+            isLoaded={!!subject}
+            w="100%"
+            h="100%"
+            paddingX="30px"
+          >
+            {subject && (
+              <>
+                <Flex alignItems="center" width="50%">
+                  <InputText
+                    fontSize="4xl"
+                    keyModified="name"
+                    text={subject.name}
+                    onTextChanged={onSubjectModified}
+                    title={`Kliknij aby zmienić tytuł przedmiotu ${subject.name}`}
+                  />
+                </Flex>
+                <Flex justifyContent="flex-start" width="25%">
+                  <SelectText
+                    fontSize="2xl"
+                    keyModified="typeDefinitionKey"
+                    text={subject.typeDefinitionName}
+                    selectedKey={subject.typeDefinitionKey}
+                    options={subjectTypes}
+                    onChange={onSubjectModified}
+                    title="Kliknij aby wybrać typ przedmiotu"
+                  />
+                </Flex>
+                <Flex justifyContent="flex-end" width="25%">
+                  <Flex
+                    onClick={async (e) => {
+                      await onSubjectModified('isPassed', !subject?.isPassed)
                       e.stopPropagation()
                       e.preventDefault()
                     }}
-                    isChecked={subject.isPassed}
-                    size="lg"
-                    colorScheme="#4CD964"
-                  />
-                  <Text
-                    paddingX="20px"
-                    fontSize="2xl"
-                    color="white"
-                    display="flex"
-                    justifyContent="center"
+                    cursor="pointer"
+                    paddingLeft="20px"
+                    borderRadius="12px"
+                    backgroundColor={subject?.isPassed ? '#4CD964' : '#FA0000'}
+                    alignItems="center"
                   >
-                    {subject?.isPassed ? 'zaliczony' : 'niezaliczony'}
-                  </Text>
+                    <Checkbox
+                      onChange={(e) => {
+                        e.stopPropagation()
+                        e.preventDefault()
+                      }}
+                      isChecked={subject.isPassed}
+                      size="lg"
+                      colorScheme="#4CD964"
+                    />
+                    <Text
+                      paddingX="20px"
+                      fontSize="2xl"
+                      color="white"
+                      display="flex"
+                      justifyContent="center"
+                    >
+                      {subject?.isPassed ? 'zaliczony' : 'niezaliczony'}
+                    </Text>
+                  </Flex>
                 </Flex>
-              </Flex>
-            </>
-          )}
-        </Skeleton>
-      </GridItem>
-
-      <GridItem
-        gridColumnStart="1"
-        gridColumnEnd="3"
-        gridRowStart="2"
-        gridRowEnd="4"
-        backgroundColor="white"
-        borderRadius="12px"
-      >
-        <Textarea
-          height="100%"
-          borderRadius="12px"
-          placeholder="Opis przedmiotu"
-          fontSize="2xl"
-          resize="none"
-          defaultValue={subject?.description}
-          onBlur={async (e) =>
-            await onSubjectModified('description', e.currentTarget.value)
-          }
-          border="transparent"
-          css={{
-            '&::-webkit-scrollbar': {
-              width: '10px',
-            },
-            '&::-webkit-scrollbar-track': {
-              width: '6px',
-              background: '#dadada',
-              // borderRadius: '24px',
-            },
-            '&::-webkit-scrollbar-thumb': {
-              background: '#271257',
-              borderRadius: '24px',
-            },
-          }}
-        />
-      </GridItem>
-      <GridItem
-        gridColumnStart="1"
-        gridColumnEnd="3"
-        gridRowStart="4"
-        gridRowEnd="10"
-        h="100%"
-        w="100%"
-        //   overflow="auto"
-        // css={{
-        //   '&::-webkit-scrollbar': {
-        //     width: '10px',
-        //   },
-        //   '&::-webkit-scrollbar-track': {
-        //     width: '6px',
-        //     background: '#ffffff',
-        //     borderRadius: '24px',
-        //   },
-        //   '&::-webkit-scrollbar-thumb': {
-        //     background: '#8C8C8C',
-        //     borderRadius: '24px',
-        //   },
-        // }}
-      >
-        <Flex h="100%" w="100%">
-          <ProjectList subjectKey={subject?.subjectKey} />
+              </>
+            )}
+          </Skeleton>
         </Flex>
-      </GridItem>
-      <GridItem gridColumnStart="3" gridRowStart="1" gridRowEnd="10" h="100%">
+
+        <Flex
+          backgroundColor="white"
+          borderRadius="25px"
+          marginBottom="30px"
+          h="150px"
+        >
+          <Textarea
+            height="100%"
+            borderRadius="12px"
+            placeholder="Opis przedmiotu"
+            fontSize="2xl"
+            resize="none"
+            defaultValue={subject?.description}
+            onBlur={async (e) =>
+              await onSubjectModified('description', e.currentTarget.value)
+            }
+            border="transparent"
+            css={{
+              '&::-webkit-scrollbar': {
+                left: '-10px',
+                width: '10px',
+              },
+              '&::-webkit-scrollbar-track': {
+                width: '10px',
+                background: '#dadada',
+                borderRadius: '12px',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: '#271257',
+                borderRadius: 'px',
+              },
+            }}
+          />
+        </Flex>
+        <Flex w="100%" overflow="auto" h="100%">
+          {/* <Flex> */}
+          <ProjectList subjectKey={subject?.subjectKey} />
+          {/* </Flex> */}
+        </Flex>
+      </Flex>
+      <Flex h="100%" flexDir="column">
+        <Button
+          borderRadius="15px"
+          backgroundColor="#271257"
+          marginBottom="20px"
+          h="8%"
+        >
+          DODAJ PROJEKT
+        </Button>
         <EventList events={events} />
-      </GridItem>
-    </Grid>
+      </Flex>
+    </Flex>
   )
 }
 

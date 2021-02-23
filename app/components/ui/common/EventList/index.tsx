@@ -8,7 +8,7 @@ import {
   Tooltip,
 } from '@chakra-ui/react'
 import React, { FC, useContext } from 'react'
-import { ProjectEvent } from '../../../../api/hooks/event'
+import { Event } from '../../../../api/hooks/event'
 import moment from 'moment'
 import { useProjects } from '../../../../api/hooks/project'
 import { Color } from '../../../../consts/colors'
@@ -18,7 +18,7 @@ import { GlobalDataContext } from '../../../Auth/Provider'
 import { useRouter } from 'next/router'
 
 interface Props {
-  events: ProjectEvent[] | undefined
+  events: Event[] | undefined
   type?: EventListType
 }
 
@@ -45,20 +45,21 @@ export const EventList: FC<Props> = ({
       alignItems="center"
       backgroundColor={Color.BlackPurple}
       flexDir="column"
-      w={router.pathname.includes('/calendar') ? '30%' : undefined}
+      // w={router.pathname.includes('/calendar') ? '100%' : undefined}
     >
-      {router.pathname.includes('/calendar') && (
-        <Button
-          backgroundColor="#805AD5"
-          w="75%"
-          h="55px"
-          marginTop="20px"
-          fontSize="20px"
-          onClick={() => setModalType(ModalType.AddEvent)}
-        >
-          Dodaj wydarzenie
-        </Button>
-      )}
+      {router.pathname.includes('/calendar') ||
+        (router.pathname.includes('/projects') && (
+          <Button
+            backgroundColor="#805AD5"
+            w="75%"
+            h="55px"
+            marginTop="20px"
+            fontSize="20px"
+            onClick={() => setModalType(ModalType.AddEvent)}
+          >
+            Dodaj wydarzenie
+          </Button>
+        ))}
 
       <Heading mx="40px" mt="20px" color={Color.White}>
         WYDARZENIA

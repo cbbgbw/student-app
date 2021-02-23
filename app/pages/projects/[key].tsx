@@ -80,7 +80,7 @@ const ProjectPage = () => {
         <Flex
           flexDir="column"
           backgroundColor="white"
-          mt="15px"
+          mt="30px"
           borderRadius="15px"
         >
           <Heading h="80px" display="flex" alignItems="center" ml="25px">
@@ -90,14 +90,6 @@ const ProjectPage = () => {
         </Flex>
       </Box>
       <Flex ml="30px" w="350px" flexDir="column">
-        <Button
-          borderRadius="15px"
-          backgroundColor="#271257"
-          marginBottom="20px"
-          h="7%"
-        >
-          EDYTUJ PROJEKT
-        </Button>
         <EventList
           events={events?.filter((ev) => ev.projectKey === project?.projectKey)}
         />
