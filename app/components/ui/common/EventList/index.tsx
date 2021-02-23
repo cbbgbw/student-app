@@ -45,7 +45,7 @@ export const EventList: FC<Props> = ({
       alignItems="center"
       backgroundColor={Color.BlackPurple}
       flexDir="column"
-      // w={router.pathname.includes('/calendar') ? '100%' : undefined}
+      // w={router.pathname.includes('/calendar') ? '30%' : undefined}
     >
       {router.pathname.includes('/calendar') ||
         (router.pathname.includes('/projects') && (

@@ -4,7 +4,7 @@ import { Grid, GridItem, List, Text } from '@chakra-ui/react'
 import moment from 'moment'
 
 interface Props {
-  dayOfMonthToday: number
+  dayOfMonthToday: number | undefined
   daysBeforeMonth: number
   firstDayOfWeekInMonth: number
   daysInMonth: number

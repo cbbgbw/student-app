@@ -57,7 +57,6 @@ export const Calendar = () => {
           : currentDateParsed?.getFullYear() - 1,
       )
     }
-    setSelectedDate({ ...selectedDate, isSelected: !selectedDate.isSelected })
     setCurrentDate(currentDateParsed.toISOString())
   }
 
@@ -76,10 +75,17 @@ export const Calendar = () => {
   const selectedDayParsed =
     selectedDate.isSelected && new Date(selectedDate.isoString)
   const selectedDay =
-    selectedDayParsed &&
-    selectedDayParsed.getMonth() === currentDateParsed.getMonth() &&
-    selectedDayParsed.getFullYear() === currentDateParsed.getFullYear() &&
-    selectedDayParsed.getDate()
+    (selectedDayParsed &&
+      selectedDayParsed.getMonth() === currentDateParsed.getMonth() &&
+      selectedDayParsed.getFullYear() === currentDateParsed.getFullYear() &&
+      selectedDayParsed.getDate()) ||
+    undefined
+
+  const todayDayForComps =
+    (todayDay.getMonth() === currentDateParsed.getMonth() &&
+      todayDay.getFullYear() === currentDateParsed.getFullYear() &&
+      todayDay.getDate()) ||
+    undefined
 
   return (
     <Flex flexDir="row" h="100%">
@@ -92,14 +98,14 @@ export const Calendar = () => {
         onClickMonthForward={() => onDateChange(true, true)}
       >
         <CalendarDaysJSX
-          dayOfMonthToday={todayDay.getUTCDate()}
+          dayOfMonthToday={todayDayForComps}
           daysBeforeMonth={firstDayInMonth}
           firstDayOfWeekInMonth={firstDayInMonth}
           daysInMonth={lastDayOfTheMonth}
           daysAfterMonth={2}
           onClickMonthBack={() => onDateChange(false, true)}
           onDateFieldClick={onDateFieldClick}
-          selectedDayOfMonth={selectedDay || undefined}
+          selectedDayOfMonth={selectedDay}
         />
       </CalendarJSX>
       <Box marginLeft="20px">
@@ -119,7 +125,9 @@ export const Calendar = () => {
               : events
           }
           type={
-            selectedDate.isSelected ? EventListType.Day : EventListType.Month
+            selectedDate.isSelected && selectedDay
+              ? EventListType.Day
+              : EventListType.Month
           }
         />
       </Box>

@@ -1,15 +1,18 @@
 import React, { FC, useState } from 'react'
-import { Text, Input, Select } from '@chakra-ui/react'
+import { Text, Input, Select, Heading } from '@chakra-ui/react'
 import { renderMenuItems } from '../Forms/CSelect/CSelect'
+import { TextType } from '../InputText'
+import { FlexCentered } from '../chakra/FlexCentered'
 
 interface Props {
   fontSize: string
   text: string
   onChange: (key: string, value: string) => void
-  title: string
+  title?: string
   options: Record<string, string> | undefined
   keyModified: string
   selectedKey: string
+  textType: TextType
 }
 
 export const SelectText: FC<Props> = ({
@@ -20,6 +23,7 @@ export const SelectText: FC<Props> = ({
   options,
   keyModified,
   selectedKey,
+  textType = TextType.Text,
 }) => {
   const [isEditMode, setIsEditMode] = useState(false)
 
@@ -34,16 +38,28 @@ export const SelectText: FC<Props> = ({
   }
 
   return !isEditMode || !options ? (
-    <Text
-      cursor="pointer"
-      title={title}
-      onClick={() => setIsEditMode(true)}
-      fontSize={fontSize}
-    >
-      {text}
-    </Text>
+    textType === TextType.Text ? (
+      <Text
+        cursor="pointer"
+        title={title}
+        onClick={() => setIsEditMode(true)}
+        fontSize={fontSize}
+      >
+        {text}
+      </Text>
+    ) : (
+      <Heading
+        cursor="pointer"
+        title={title}
+        onClick={() => setIsEditMode(true)}
+        fontSize={fontSize}
+      >
+        {text}
+      </Heading>
+    )
   ) : (
     <Select
+      color={'white'}
       autoFocus
       variant="flushed"
       onBlur={onBlur}
