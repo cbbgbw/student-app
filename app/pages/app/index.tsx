@@ -11,6 +11,7 @@ import { useEvents } from '../../api/hooks/event'
 import { getDateFormatted } from '../../utils/dateUtils'
 import { EventList } from '../../components/ui/common/EventList'
 import { Linker, LinkType } from '../../components/Linker'
+import { SelectSemesterPopover } from '../../components/ui/Dashboard/SelectSemesterPopover'
 
 const Dashboard: FC = () => {
   const { projectsCount } = useProjectCount()
@@ -96,9 +97,6 @@ const Dashboard: FC = () => {
 
   return (
     <Flex w="100%" direction="row" h="100%">
-      {/* <Flex mt={6} mb={6} mr={20} justifyContent="flex-end"> */}
-      {/*  <SelectSemesterPopover /> */}
-      {/* </Flex> */}
       <Box width="100%">
         <Flex mt={15} justify="space-between">
           {generateAddButtons()}

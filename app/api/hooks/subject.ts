@@ -49,7 +49,7 @@ export const useSubjects = () => {
 }
 
 export const useSubject = (key: string | undefined) => {
-  const { data, error } = useSWR<Subject | undefined>(
+  const { data, error, mutate } = useSWR<Subject | undefined>(
     key ? `subject/${key}` : null,
     fetcher,
   )
@@ -57,5 +57,6 @@ export const useSubject = (key: string | undefined) => {
   return {
     isLoading: !data && !error,
     subject: data,
+    mutate,
   }
 }

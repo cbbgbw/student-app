@@ -10,7 +10,7 @@ import { CTextArea } from '../../components/Forms/CTextarea/CTextArea'
 import 'react-day-picker/lib/style.css'
 import { CDayPicker } from '../../components/DayPicker/DayPicker'
 import { useRouter } from 'next/router'
-import { PostProps } from '../../api/actions/subject'
+import { SubjectCreateModel } from '../../api/actions/subject'
 import { useSubjects } from '../../api/hooks/subject'
 import { postProject, ProjectFormData } from '../../api/actions/project'
 
@@ -20,7 +20,7 @@ export const AddProject: FC = () => {
   const [projectType, setProjectType] = useState<string>()
   const { projectCategories } = useProjectCategory(projectType)
   const { getAsKeyValue } = useSubjects()
-  const { handleSubmit, register } = useForm<PostProps>()
+  const { handleSubmit, register } = useForm<SubjectCreateModel>()
   const { modalType, setModalType } = useContext(GlobalDataContext)
   const [datePicked, setDatePicked] = useState(new Date())
 

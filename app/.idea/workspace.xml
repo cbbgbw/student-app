@@ -5,52 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c4dde2a-edd9-4a1e-a788-fc0bcb9ad7cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/api/actions/event.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/actions/project.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/actions/subject.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/hooks/event.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/hooks/project.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/hooks/subject.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/Search/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/icons/dashboard/search.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/icons/sidebar/calendar.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/icons/sidebar/dashboard.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/icons/sidebar/projects.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/icons/sidebar/subjects.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/dateUtils.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/prettier.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/prettier.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/Linker/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/icons/zakladka.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/InputText/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/SelectText/asdasd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/SelectText/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/actions/project.ts" beforeDir="false" afterPath="$PROJECT_DIR$/actions/project.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/actions/subject.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/actions/user/useUser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/actions/user/useUser.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/actions/subject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/actions/subject.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/axios.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/hooks/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/hooks/user.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Add/Add.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Add/Add.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/hooks/project.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/hooks/project.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/hooks/subject.ts" beforeDir="false" afterPath="$PROJECT_DIR$/api/hooks/subject.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Auth/Provider/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Auth/Provider/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Navigation/Navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Navigation/Navigation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Forms/CSelect/CSelect.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Forms/CSelect/CSelect.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/ui/CalendarPage/Calendar/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/ui/CalendarPage/Calendar/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/forms/AddEvent/AddEvent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/AddEvent/AddEvent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Navigation/Navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Navigation/Navigation.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/forms/AddProject/AddProject.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/AddProject/AddProject.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/forms/AddSubject/AddSubject.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/AddSubject/AddSubject.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/forms/ModalWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/forms/ModalWrapper.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hooks/useStateWithLocalStorage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/hooks/useStateWithLocalStorage.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_app.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/app/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/projects/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/projects/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/subjects/[key].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/subjects/[key].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/app/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/projects/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/projects/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/subjects/[key].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/subjects/[key].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/subjects/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/subjects/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +29,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="0.0.1" />
+        <entry key="$PROJECT_DIR$/.." value="0.0.2" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -84,6 +53,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -101,7 +71,7 @@
     <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/jest" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="E:\2021\DEV\student-app\app\node_modules\prettier" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.HTML" />
+    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
     <property name="ts.external.directory.path" value="E:\2021\DEV\student-app\app\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -124,18 +94,13 @@
       <recent name="E:\2021\DEV\student-app\app\api\actions\user.ts" />
       <recent name="E:\2021\DEV\student-app\app\api\axios.ts" />
     </key>
-    <key name="es6.move.members.recent.items">
-      <recent name="E:\2021\DEV\student-app\app\api\actions\subject.ts" />
-      <recent name="E:\2021\DEV\student-app\app\api\hooks\subject.ts" />
-      <recent name="E:\2021\DEV\student-app\app\api\actions\user.ts" />
-      <recent name="E:\2021\DEV\student-app\app\api\axios.ts" />
-    </key>
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="npm install typescript" />
       <command value="npm run build" />
       <command value="npm install" />
+      <command value="cls" />
       <command value="npm run dev" />
     </option>
   </component>
@@ -214,8 +179,6 @@
         <item itemvalue="Jest.View actions" />
         <item itemvalue="npm.build" />
         <item itemvalue="Jest.View actions" />
-        <item itemvalue="Jest.User selectors and actions" />
-        <item itemvalue="Jest.User actions" />
       </list>
     </recent_temporary>
   </component>
@@ -282,6 +245,16 @@
       <workItem from="1613292009668" duration="719000" />
       <workItem from="1613400044440" duration="12843000" />
       <workItem from="1613486045192" duration="1149000" />
+      <workItem from="1613571760038" duration="772000" />
+      <workItem from="1613574045348" duration="11766000" />
+      <workItem from="1613663008451" duration="593000" />
+      <workItem from="1613752648006" duration="10709000" />
+      <workItem from="1613808393183" duration="3096000" />
+      <workItem from="1613813252054" duration="2286000" />
+      <workItem from="1613902106582" duration="15483000" />
+      <workItem from="1614006264507" duration="2746000" />
+      <workItem from="1614012189298" duration="15539000" />
+      <workItem from="1614089825286" duration="432000" />
     </task>
     <task id="LOCAL-00001" summary="Poprawki eslintowe/prettierowe bo cos sie wygrzmociło XD">
       <created>1609922949286</created>
@@ -325,14 +298,6 @@
       <option name="project" value="LOCAL" />
       <updated>1612021287540</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
-    <task id="LOCAL-00006" summary="CSPE_DEV-36 Obsługa logowania, rejestracji&#10;Dodanie obsługi semestru po autoryzacji">
-      <created>1612021287540</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1612021287540</updated>
-    </task>
     <task id="LOCAL-00007" summary="Dashboard">
       <created>1612883963666</created>
       <option name="number" value="00007" />
@@ -347,7 +312,49 @@
       <option name="project" value="LOCAL" />
       <updated>1613148938439</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Widok projektu">
+      <created>1613665774258</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1613665774258</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Poprawka na daty">
+      <created>1613669170610</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1613669170610</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Ogólnieszerokopojętepoprawki&#10;Poprawki na pobieranie projektow dla przedmiotu&#10;Poprawki na wyświetlanie części dat&#10;Inne">
+      <created>1613681631846</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1613681631846</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Kalendarz oraz fixy&#10;Dodanie widoku kalendarza&#10;CSPE_DEV-118 [Dodanie projektu/egzaminu z Dashboard - ustawiać typ projektu w zależności od klikniętej opcji]  - fix">
+      <created>1613906020890</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1613906020890</updated>
+    </task>
+    <task id="LOCAL-00013" summary="CSPE_DEV-118 [Poprawić wyświetlaną datę na widoku projektu (project.DeadlineTime)] - fix">
+      <created>1613906656656</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1613906656656</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Poprawki">
+      <created>1613907851419</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1613907851419</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -358,7 +365,13 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="false" />
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -375,25 +388,30 @@
     <MESSAGE value="Poprawki na wydanie wersji 0.0.1" />
     <MESSAGE value="Obsługa użytkownika" />
     <MESSAGE value="CSPE_DEV-36 Obsługa logowania, rejestracji&#10;Dodanie obsługi semestru po autoryzacji" />
-    <option name="LAST_COMMIT_MESSAGE" value="CSPE_DEV-36 Obsługa logowania, rejestracji&#10;Dodanie obsługi semestru po autoryzacji" />
     <MESSAGE value="Obsługa użytkownika" />
     <MESSAGE value="CSPE_DEV-36 Obsługa logowania, rejestracji&#10;Dodanie obsługi semestru po autoryzacji" />
     <MESSAGE value="Dashboard" />
     <MESSAGE value="Ekran przedmiotu" />
     <MESSAGE value="CSPE_DEV-46 Dodanie wylogowywania" />
-    <option name="LAST_COMMIT_MESSAGE" value="CSPE_DEV-46 Dodanie wylogowywania" />
+    <MESSAGE value="Widok projektu" />
+    <MESSAGE value="Poprawka na daty" />
+    <MESSAGE value="Ogólnieszerokopojętepoprawki&#10;Poprawki na pobieranie projektow dla przedmiotu&#10;Poprawki na wyświetlanie części dat&#10;Inne" />
+    <MESSAGE value="Kalendarz oraz fixy&#10;Dodanie widoku kalendarza&#10;CSPE_DEV-118 [Dodanie projektu/egzaminu z Dashboard - ustawiać typ projektu w zależności od klikniętej opcji]  - fix" />
+    <MESSAGE value="CSPE_DEV-118 [Poprawić wyświetlaną datę na widoku projektu (project.DeadlineTime)] - fix" />
+    <MESSAGE value="Poprawki" />
+    <option name="LAST_COMMIT_MESSAGE" value="Poprawki" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/forms/AddSubject/AddSubject.tsx</url>
-          <line>16</line>
+          <line>17</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/components/Auth/Provider/index.tsx</url>
-          <line>52</line>
+          <line>50</line>
           <option name="timeStamp" value="38" />
         </line-breakpoint>
       </breakpoints>

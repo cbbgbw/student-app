@@ -8,16 +8,15 @@ interface Props extends InputHTMLAttributes<HTMLSelectElement> {
   selectOptions: Record<string, string> | undefined
 }
 
+export const renderMenuItems = (selectOptions: Record<string, string>) =>
+  Object.keys(selectOptions).map((opt) => (
+    <option key={opt} value={opt}>
+      {selectOptions[opt]}
+    </option>
+  ))
+
 export const CSelect = forwardRef<HTMLSelectElement, Props>(
   ({ selectOptions, labelText, name, onChange, defaultValue }, ref) => {
-    const renderMenuItems = () =>
-      selectOptions &&
-      Object.keys(selectOptions).map((opt) => (
-        <option key={opt} value={opt}>
-          {selectOptions[opt]}
-        </option>
-      ))
-
     return (
       <>
         <FormLabel htmlFor={name} marginTop="10px">
@@ -30,7 +29,7 @@ export const CSelect = forwardRef<HTMLSelectElement, Props>(
           ref={ref}
           name={name}
         >
-          {renderMenuItems()}
+          {selectOptions && renderMenuItems(selectOptions)}
         </Select>
       </>
     )

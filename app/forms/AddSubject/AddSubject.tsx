@@ -8,7 +8,7 @@ import { Checkbox, FormLabel, Input } from '@chakra-ui/react'
 import { CSelect } from '../../components/Forms/CSelect/CSelect'
 import { CTextArea } from '../../components/Forms/CTextarea/CTextArea'
 import { useSemesters } from '../../api/hooks/semester'
-import { PostProps, subjectPost } from '../../api/actions/subject'
+import { SubjectCreateModel, subjectPost } from '../../api/actions/subject'
 import { useSubjects, useSubjectTypes } from '../../api/hooks/subject'
 
 export const AddSubject: FC = () => {
@@ -17,11 +17,11 @@ export const AddSubject: FC = () => {
   const { currentSemester } = useSemesters()
   const { modalType, setModalType } = useContext(GlobalDataContext)
 
-  const { handleSubmit, register } = useForm<PostProps>()
+  const { handleSubmit, register } = useForm<SubjectCreateModel>()
 
   const { subjectTypes } = useSubjectTypes()
 
-  const onSubjectSubmit = async (data: PostProps) => {
+  const onSubjectSubmit = async (data: SubjectCreateModel) => {
     await subjectPost(data, currentSemester?.[0])
       .then(() => setModalType(ModalType.None))
       .then(() => {
