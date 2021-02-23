@@ -2,7 +2,7 @@ import moment from 'moment'
 import React, { useState } from 'react'
 import { CalendarJSX } from './CalendarJSX'
 import { CalendarDaysJSX } from './CalendarDaysJSX'
-import { Flex } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import { EventList, EventListType } from '../../common/EventList'
 import { useEventsForDate } from '../../../../api/hooks/event'
 
@@ -102,23 +102,27 @@ export const Calendar = () => {
           selectedDayOfMonth={selectedDay || undefined}
         />
       </CalendarJSX>
-      <EventList
-        events={
-          selectedDate.isSelected
-            ? events?.filter((event) => {
-                const evDate = new Date(event.setTime)
-                const isDayEqual = evDate.getDate() === selectedDay
-                const isMonthEqual =
-                  evDate.getMonth() === currentDateParsed.getMonth()
-                const isYearEqual =
-                  evDate.getFullYear() === currentDateParsed.getFullYear()
+      <Box marginLeft="20px">
+        <EventList
+          events={
+            selectedDate.isSelected
+              ? events?.filter((event) => {
+                  const evDate = new Date(event.setTime)
+                  const isDayEqual = evDate.getDate() === selectedDay
+                  const isMonthEqual =
+                    evDate.getMonth() === currentDateParsed.getMonth()
+                  const isYearEqual =
+                    evDate.getFullYear() === currentDateParsed.getFullYear()
 
-                return isDayEqual && isMonthEqual && isYearEqual
-              })
-            : events
-        }
-        type={selectedDate.isSelected ? EventListType.Day : EventListType.Month}
-      />
+                  return isDayEqual && isMonthEqual && isYearEqual
+                })
+              : events
+          }
+          type={
+            selectedDate.isSelected ? EventListType.Day : EventListType.Month
+          }
+        />
+      </Box>
     </Flex>
   )
 }

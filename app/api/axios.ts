@@ -40,6 +40,12 @@ export const postByScheme = async <T, Y = {}>(path: Path, data: T) =>
     [path]: data,
   })
 
+export const putByScheme = async <T, Y = {}>(path: Path, data: T) =>
+  await axiosClient.put<Y>(path, {
+    date: new Date().toISOString(),
+    [path]: data,
+  })
+
 export const postByQuery = async (query: string) =>
   await axiosClient.post(query)
 

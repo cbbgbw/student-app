@@ -1,18 +1,63 @@
-import { useSubject } from '../../api/hooks/subject'
+import { Subject, useSubject, useSubjectTypes } from '../../api/hooks/subject'
 import { useRouter } from 'next/router'
-import React, { useRef, useState } from 'react'
-import { Grid, GridItem, Text, Textarea } from '@chakra-ui/react'
+import React, { useState } from 'react'
+import {
+  Flex,
+  Grid,
+  GridItem,
+  Skeleton,
+  Text,
+  Checkbox,
+  Switch,
+  Textarea,
+  useToast,
+} from '@chakra-ui/react'
 import { ProjectList } from '../../components/ui/Subjects/ProjectList'
-import { SubjectNote } from '../../components/ui/Subjects/Note'
 import { useEventsForSubject } from '../../api/hooks/event'
 import { EventList } from '../../components/ui/common/EventList'
+import { subjectPut } from '../../api/actions/subject'
+import { InputText } from '../../components/InputText'
+import { SelectText } from '../../components/SelectText'
+import produce from 'immer'
 
 const SubjectPage = () => {
+  const toast = useToast()
+  const { subjectTypes } = useSubjectTypes()
+
   const { query } = useRouter()
-  const { subject } = useSubject(String(query.key))
+  const { subject, isLoading, mutate } = useSubject(String(query.key))
   const { events } = useEventsForSubject(String(query.key))
 
-  const [desc, setDesc] = useState(subject?.description)
+  const [isSubjectNameClicked, setIsSubjectNameClicked] = useState(false)
+
+  type KeysEnum<T> = { [P in keyof Required<T>]: true }
+
+  const onSubjectModified = async (
+    key: keyof Subject,
+    value: string | boolean,
+  ) => {
+    console.log(key)
+    const subjectModified = produce(subject, (draft) => {
+      if (draft) {
+        // @ts-ignore https://github.com/microsoft/TypeScript/issues/31663
+        draft[key] = value
+      }
+      return draft
+    })
+
+    if (subjectModified && subjectModified !== subject) {
+      await mutate(subjectModified, false)
+      await subjectPut(subjectModified)
+      await mutate()
+
+      toast({
+        title: 'Przedmiot został zmodyfikowany pomyślnie',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      })
+    }
+  }
 
   return (
     <Grid width="100%" h="100%" gridColumnGap="50px" gridRowGap="20px">
@@ -23,30 +68,75 @@ const SubjectPage = () => {
         gridColumnStart="1"
         gridColumnEnd="3"
         backgroundColor="white"
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
       >
-        <Text fontSize="4xl" marginX="30px" marginY="15px" fontStyle="">
-          {subject?.name}
-        </Text>
-
-        <Text fontSize="2xl" marginX="30px" marginY="15px">
-          {subject?.typeDefinitionName}
-        </Text>
-
-        <Text
+        <Skeleton
+          display="flex"
           borderRadius="12px"
-          paddingLeft="20px"
-          paddingRight="20px"
-          fontSize="2xl"
-          color="white"
-          backgroundColor={subject?.isPassed === true ? '#4CD964' : '#FA0000'}
-          marginLeft="20px"
-          marginRight="20px"
+          justifyContent="space-between"
+          alignItems="center"
+          isLoaded={!!subject}
+          w="100%"
+          h="100%"
+          paddingX="30px"
         >
-          {subject?.isPassed === true ? 'zaliczony' : 'niezaliczony'}
-        </Text>
+          {subject && (
+            <>
+              <Flex alignItems="center" width="50%">
+                <InputText
+                  fontSize="4xl"
+                  keyModified="name"
+                  text={subject.name}
+                  onTextChanged={onSubjectModified}
+                  title={`Kliknij aby zmienić tytuł przedmiotu ${subject.name}`}
+                />
+              </Flex>
+              <Flex justifyContent="flex-start" width="25%">
+                <SelectText
+                  fontSize="2xl"
+                  keyModified="typeDefinitionKey"
+                  text={subject.typeDefinitionName}
+                  selectedKey={subject.typeDefinitionKey}
+                  options={subjectTypes}
+                  onChange={onSubjectModified}
+                  title="Kliknij aby wybrać typ przedmiotu"
+                />
+              </Flex>
+              <Flex justifyContent="flex-end" width="25%">
+                <Flex
+                  onClick={async (e) => {
+                    await onSubjectModified('isPassed', !subject?.isPassed)
+                    e.stopPropagation()
+                    e.preventDefault()
+                  }}
+                  cursor="pointer"
+                  paddingLeft="20px"
+                  borderRadius="12px"
+                  backgroundColor={subject?.isPassed ? '#4CD964' : '#FA0000'}
+                  alignItems="center"
+                >
+                  <Checkbox
+                    onChange={(e) => {
+                      e.stopPropagation()
+                      e.preventDefault()
+                    }}
+                    isChecked={subject.isPassed}
+                    size="lg"
+                    colorScheme="#4CD964"
+                  />
+                  <Text
+                    paddingX="20px"
+                    fontSize="2xl"
+                    color="white"
+                    display="flex"
+                    justifyContent="center"
+                  >
+                    {subject?.isPassed ? 'zaliczony' : 'niezaliczony'}
+                  </Text>
+                </Flex>
+              </Flex>
+            </>
+          )}
+        </Skeleton>
       </GridItem>
 
       <GridItem
@@ -63,8 +153,10 @@ const SubjectPage = () => {
           placeholder="Opis przedmiotu"
           fontSize="2xl"
           resize="none"
-          value={desc}
-          onChange={({ target }) => setDesc(target.value)}
+          defaultValue={subject?.description}
+          onBlur={async (e) =>
+            await onSubjectModified('description', e.currentTarget.value)
+          }
           border="transparent"
           css={{
             '&::-webkit-scrollbar': {
@@ -73,7 +165,7 @@ const SubjectPage = () => {
             '&::-webkit-scrollbar-track': {
               width: '6px',
               background: '#dadada',
-              //borderRadius: '24px',
+              // borderRadius: '24px',
             },
             '&::-webkit-scrollbar-thumb': {
               background: '#271257',
@@ -96,7 +188,7 @@ const SubjectPage = () => {
           '&::-webkit-scrollbar-track': {
             width: '6px',
             background: '#dadada',
-            //borderRadius: '24px',
+            // borderRadius: '24px',
           },
           '&::-webkit-scrollbar-thumb': {
             background: '#271257',

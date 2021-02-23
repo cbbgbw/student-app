@@ -6,13 +6,13 @@ import { CDayPicker } from '../../components/DayPicker/DayPicker'
 import { useForm } from 'react-hook-form'
 import { FormLabel, Input } from '@chakra-ui/react'
 import { CTextArea } from '../../components/Forms/CTextarea/CTextArea'
-import { PostProps } from '../../api/actions/subject'
+import { SubjectCreateModel } from '../../api/actions/subject'
 import { EventFormData, postEvent } from '../../api/actions/event'
 import { useProjects } from '../../api/hooks/project'
 import { CSelect } from '../../components/Forms/CSelect/CSelect'
 
 export const AddEvent: FC = () => {
-  const { handleSubmit, register } = useForm<PostProps>()
+  const { handleSubmit, register } = useForm<SubjectCreateModel>()
   const { projects, getAsKeyValue } = useProjects()
   const { modalType, setModalType } = useContext(GlobalDataContext)
   const [datePicked, setDatePicked] = useState(new Date())

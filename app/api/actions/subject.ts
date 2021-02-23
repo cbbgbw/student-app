@@ -1,12 +1,13 @@
 import { v4 as uuidv4 } from 'uuid'
-import { Path, postByBody, postByScheme } from '../axios'
+import { Path, postByScheme, putByScheme } from '../axios'
+import { Subject } from '../hooks/subject'
 
-type Post = PostProps & {
+export type SubjectModel = SubjectCreateModel & {
   subjectKey: string
   semesterDefinitionKey: string | undefined
 }
 
-export interface PostProps {
+export interface SubjectCreateModel {
   name: string
   description: string
   hasProjectToPass: boolean
@@ -14,15 +15,18 @@ export interface PostProps {
 }
 
 export const subjectPost = async (
-  newSubject: PostProps,
+  newSubject: SubjectCreateModel,
   semesterDefinitionKey: string | undefined,
 ) => {
-  const subject: Post = {
+  const subject: SubjectModel = {
     ...newSubject,
     subjectKey: uuidv4(),
     semesterDefinitionKey: semesterDefinitionKey,
   }
-  return postByScheme<Post>(Path.Subject, subject).then(
+  return postByScheme<SubjectModel>(Path.Subject, subject).then(
     () => subject.subjectKey,
   )
 }
+
+export const subjectPut = async (subjectModified: Subject) =>
+  putByScheme<Subject>(Path.Subject, subjectModified)
