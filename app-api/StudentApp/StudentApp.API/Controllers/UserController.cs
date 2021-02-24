@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using StudentApp.API.Common.Settings;
 using StudentApp.API.DataContracts.Requests.User;
+using StudentApp.API.DataContracts.Requests.User.PUT;
 using StudentApp.API.DataContracts.Responses.User;
 using StudentApp.Services.Contracts;
 using CustomAuth = StudentApp.Tools.Helpers;
@@ -48,6 +49,35 @@ namespace StudentApp.API.Controllers
 
             // return basic user info and authentication token
             return Ok(new AuthenticateResponse(user, token));
+        }
+
+        #endregion
+
+        #region CHANGE PASSWORD
+
+        [HttpPut("password")]
+        public async Task<ActionResult> ChangePassowrd([FromBody] UserPasswordChange newPasswordModel)
+        {
+            var user = await _userService.GetSingleByLoginAsync(newPasswordModel.LoginName);
+
+            if (user == null)
+                return BadRequest(new { message = "Nie znaleziono użytkownika o podanym loginie" });
+
+            UserChangePasswordValidator validator = new UserChangePasswordValidator(_userService);
+            var validationResult = await validator.ValidateAsync(newPasswordModel);
+
+            if (validationResult.IsValid)
+            {
+                var result = await _userService.UpdatePassword(newPasswordModel.LoginName, newPasswordModel.OldPassword,
+                    newPasswordModel.NewPassword);
+
+                if (result == -1)
+                    return BadRequest("Aktualne hasło nieprawidłowe");
+
+                return result == 1 ? Ok() : Problem("Brak dostępu do bazy danych", null, 500);
+            }
+
+            return BadRequest(validationResult.Errors);
         }
 
         #endregion

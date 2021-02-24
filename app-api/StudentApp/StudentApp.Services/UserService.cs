@@ -44,6 +44,11 @@ namespace StudentApp.Services
             return await _context.User.SingleAsync(user => user.UserKey == userKey);
         }
 
+        public async Task<User> GetSingleByLoginAsync(string loginName)
+        {
+            return await _context.User.SingleAsync(user => user.LoginName == loginName);
+        }
+
         public async Task<UserResponse> GetSingleWithCurrentSemesterAsync(Guid userKey)
         {
             if (userKey == Guid.Empty)
@@ -64,6 +69,24 @@ namespace StudentApp.Services
         }
 
         public async Task<ICollection<User>> GetAllAsync() => await  _context.User.ToListAsync();
+
+        public async Task<int> UpdatePassword(string loginName, string oldPassword, string newPassword)
+        {
+            var modifyingUser = await _context.User.FirstOrDefaultAsync(u => u.LoginName == loginName);
+
+            if (PasswordHash.VerifyPasswordHash(oldPassword, modifyingUser.PasswordHash, modifyingUser.PasswordSalt) ==
+                false)
+                return -1;
+
+            byte[] passwordHash, passwordSalt;
+            PasswordHash.CreatePasswordHash(newPassword, out passwordHash, out passwordSalt);
+
+            modifyingUser.PasswordHash = passwordHash;
+            modifyingUser.PasswordSalt = passwordSalt;
+            modifyingUser.ModifyTime = DateTime.Now;
+
+            return await _context.SaveChangesAsync();
+        }
 
         public async Task<int> CreateAsync(User user, string password, int semesterValue)
         {

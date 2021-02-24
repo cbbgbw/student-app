@@ -11,7 +11,9 @@ namespace StudentApp.Services.Contracts
         Task<User> AuthenticateAsync(string loginName, string password);
         Task<int> CreateAsync(User user, string password, int semesterValue);
         Task<User> GetSingleAsync(Guid userKey);
+        Task<User> GetSingleByLoginAsync(string loginName);
         Task<UserResponse> GetSingleWithCurrentSemesterAsync(Guid userKey);
         Task<ICollection<User>> GetAllAsync();
+        Task<int> UpdatePassword(string loginName, string oldPassword, string newPassword);
     }
 }
