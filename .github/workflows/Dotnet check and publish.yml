@@ -25,4 +25,4 @@ jobs:
       uses: azure/appservice-actions/webapp@master
       with: 
         app-name: StudentAppA
-        publish-profile: ${{ secrets.azureWebAppPublishProfile }}    
+        publish-profile: ${{ secrets.AZURE }}    
