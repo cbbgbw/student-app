@@ -1,9 +1,9 @@
 name: .NET
 
 on:
-  push:
-    branches: 
-    - '**'
+#   push:
+#     branches: 
+#     - '**'
   pull_request:
     branches: 
     - '**'
@@ -19,8 +19,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.101
-    - name: Check directory
-      run: ls
     - name: Restore dependencies
       run: dotnet restore ./app-api
     - name: Build
