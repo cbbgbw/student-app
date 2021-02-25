@@ -3,6 +3,7 @@ import { Popover, PopoverArrow } from '@chakra-ui/popover'
 import {
   Button,
   PopoverBody,
+  Heading,
   PopoverCloseButton,
   PopoverContent,
   PopoverHeader,
@@ -48,7 +49,14 @@ export const SelectSemesterPopover = () => {
   return (
     <Popover placement="auto-start">
       <PopoverTrigger>
-        <Button variant="ghost">Semestr {currentSemester?.[1]}</Button>
+        <Button
+          marginY="20px"
+          height="60px"
+          borderRadius="25px"
+          variant="ghost"
+        >
+          <Heading>Semestr {currentSemester?.[1]}</Heading>
+        </Button>
       </PopoverTrigger>
       <Portal>
         <PopoverContent>

@@ -70,54 +70,62 @@ export const EventList: FC<Props> = ({
             (type === EventListType.Day && 'Dnia')}
         </Text>
       )}
-      <List
-        w="100%"
-        px="20px"
-        mt="20px"
-        overflow="auto"
-        css={{
-          '&::-webkit-scrollbar': {
-            width: '10px',
-          },
-          '&::-webkit-scrollbar-track': {
-            width: '6px',
-            background: '#ffffff',
-            borderRadius: '24px',
-          },
-          '&::-webkit-scrollbar-thumb': {
-            background: '#8C8C8C',
-            borderRadius: '24px',
-          },
-        }}
-      >
-        {events?.map(({ title, setTime, projectKey, content }) => {
-          // @ts-ignore
-          return (
-            <ListItem
-              w="100%"
-              key={title}
-              borderRadius="15px"
-              padding="20px"
-              mb="20px"
-              backgroundColor={Color.White}
-            >
-              <Linker type={LinkType.Projects} typeKey={projectKey}>
-                <Text>{projects?.[projectKey] || 'Błąd'}</Text>
-              </Linker>
-              <Heading fontSize="2xl">
-                {moment(setTime).locale('pl').format('LL')}
-              </Heading>
-              <Tooltip
-                label={content === null ? '' : content}
-                aria-label="A tooltip"
-                placement="top"
+      {events?.length ? (
+        <List
+          w="100%"
+          px="20px"
+          mt="20px"
+          overflow="auto"
+          css={{
+            '&::-webkit-scrollbar': {
+              width: '10px',
+            },
+            '&::-webkit-scrollbar-track': {
+              width: '6px',
+              background: '#ffffff',
+              borderRadius: '24px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: '#8C8C8C',
+              borderRadius: '24px',
+            },
+          }}
+        >
+          {events.map(({ title, setTime, projectKey, content }) => {
+            // @ts-ignore
+            return (
+              <ListItem
+                w="100%"
+                key={title}
+                borderRadius="15px"
+                padding="20px"
+                mb="20px"
+                backgroundColor={Color.White}
               >
-                <Text fontSize="xl">{title}</Text>
-              </Tooltip>
-            </ListItem>
-          )
-        })}
-      </List>
+                <Linker type={LinkType.Projects} typeKey={projectKey}>
+                  <Text>{projects?.[projectKey] || 'Błąd'}</Text>
+                </Linker>
+                <Heading fontSize="2xl">
+                  {moment(setTime).locale('pl').format('LL')}
+                </Heading>
+                <Tooltip
+                  label={content === null ? '' : content}
+                  aria-label="A tooltip"
+                  placement="top"
+                >
+                  <Text fontSize="xl">{title}</Text>
+                </Tooltip>
+              </ListItem>
+            )
+          })}
+        </List>
+      ) : (
+        <Flex alignItems="center" justifyContent="center" h="100%">
+          <Heading textAlign="center" color="white">
+            Brak wydarzeń do wyświetlenia
+          </Heading>
+        </Flex>
+      )}
     </Flex>
   )
 }

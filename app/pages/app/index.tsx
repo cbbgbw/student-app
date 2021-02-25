@@ -118,7 +118,7 @@ const Dashboard: FC = () => {
             '&::-webkit-scrollbar-track': {
               width: '6px',
               background: '#dadada',
-              //borderRadius: '24px',
+              // borderRadius: '24px',
             },
             '&::-webkit-scrollbar-thumb': {
               background: '#271257',
@@ -160,9 +160,18 @@ const Dashboard: FC = () => {
           {generateIncoming()}
         </Flex>
       </Box>
-      <Box marginLeft="20px" w="30%">
+      <Flex
+        justifyContent="space-between"
+        flexDir="column"
+        alignItems="center"
+        marginLeft="20px"
+        w="30%"
+        h="100%"
+      >
+        <SelectSemesterPopover />
+
         <EventList events={events} />
-      </Box>
+      </Flex>
     </Flex>
   )
 }

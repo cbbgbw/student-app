@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Checkbox,
   Flex,
   Heading,
   PopoverArrow,
@@ -231,6 +232,10 @@ const ProjectPage = () => {
                   </Button>
                 </PopoverContent>
               </Popover>
+            </FlexCentered>
+
+            <FlexCentered>
+              <Checkbox></Checkbox>
             </FlexCentered>
 
             <FlexCentered
