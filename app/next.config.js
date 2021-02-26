@@ -6,6 +6,10 @@ module.exports = withSourceMaps({
       test: /\.svg$/,
       use: ['@svgr/webpack'],
     })
+    config.module.rules.push({
+      test: /\.(png|jpe?g|gif)$/i,
+      use: ['file-loader'],
+    })
     return config
   },
 })

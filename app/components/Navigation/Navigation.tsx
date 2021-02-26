@@ -6,6 +6,7 @@ import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import Zakladka from '../../public/icons/zakladka.svg'
+import Image from 'next/image'
 
 interface Data {
   icon: JSX.Element
@@ -58,27 +59,37 @@ export const Navigation = () => {
 
   return (
     <Flex
-      justifyContent="space-between"
-      alignItems="center"
-      pt={200}
+      pt="80px"
       flexDir="column"
       h="100vh"
       backgroundColor="#2B2E61"
       w="300px"
     >
-      {/* <Zakladka /> */}
-      {renderNavigation()}
-      <Button
-        width="100%"
-        height="55px"
-        fontSize="26px"
-        onClick={() => {
-          localStorage.setItem('token', '')
-          push('/login')
-        }}
-      >
-        Wyloguj
-      </Button>
+      <Box position="absolute" top={-5} left={5}>
+        <Zakladka />
+      </Box>
+      <Box width="250px" height="250px">
+        <Image
+          src="/icons/sidebar/logo.png"
+          alt="logo"
+          width="250px"
+          height="250px"
+        />
+      </Box>
+      <Flex flexDir="column" height="100%" justifyContent="space-between">
+        {renderNavigation()}
+        <Button
+          width="100%"
+          height="55px"
+          fontSize="26px"
+          onClick={async () => {
+            localStorage.setItem('token', '')
+            await push('/login')
+          }}
+        >
+          Wyloguj
+        </Button>
+      </Flex>
     </Flex>
   )
 }
