@@ -12,7 +12,7 @@ interface Props {
   options: Record<string, string> | undefined
   keyModified: string
   selectedKey: string
-  textType: TextType
+  textType?: TextType
 }
 
 export const SelectText: FC<Props> = ({

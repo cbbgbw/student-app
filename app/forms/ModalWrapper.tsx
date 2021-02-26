@@ -1,9 +1,9 @@
 import React, { FC, useContext } from 'react'
-import { AddSubject } from './AddSubject/AddSubject'
+import { AddSubject } from './AddSubject'
 import { ModalType } from '../types/types'
 import { GlobalDataContext } from '../components/Auth/Provider'
-import { AddProject } from './AddProject/AddProject'
-import { AddEvent } from './AddEvent/AddEvent'
+import { AddProject } from './AddProject'
+import { AddEvent } from './AddEvent'
 
 export const ModalWrapper: FC = () => {
   const { modalType } = useContext(GlobalDataContext)

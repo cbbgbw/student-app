@@ -26,11 +26,11 @@ export const useProjects = () => {
     fetcher,
   )
 
-  const getAsKeyValue: Record<string, string> | unknown = () =>
+  const getAsKeyValue: () => Record<string, string> = () =>
     data?.reduce((prev, project) => {
       const { projectKey, name } = project
       return { ...prev, [projectKey]: name }
-    }, {})
+    }, {}) as Record<string, string>
 
   return {
     projects: data,

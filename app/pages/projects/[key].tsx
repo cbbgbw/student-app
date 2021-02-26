@@ -39,14 +39,15 @@ const ProjectPage = () => {
   const toast = useToast()
   const { query } = useRouter()
 
-  const { project, mutate } = useProject(String(query.key))
-  const { events } = useEvents()
-  const { isError, isLoading, projectStatuses } = useProjectStatuses()
-  const { projectTypes } = useProjectTypes()
+  const [datePicked, setDatePicked] = useState(new Date())
   const [projectType, setProjectType] = useState<string>()
   const [projectCategory, setProjectCategory] = useState<string>()
+
+  const { project, mutate } = useProject(String(query.key))
+  const { events } = useEvents()
+  const { projectStatuses } = useProjectStatuses()
+  const { projectTypes } = useProjectTypes()
   const { projectCategories } = useProjectCategory(projectType)
-  const [datePicked, setDatePicked] = useState(new Date())
 
   useEffect(() => {
     if (project) {
@@ -135,6 +136,7 @@ const ProjectPage = () => {
                   textType={TextType.Heading}
                   fontSize="4xl"
                 />
+                b
                 <FlexCentered
                   mt="36px"
                   backgroundColor="#dcdaf2"
