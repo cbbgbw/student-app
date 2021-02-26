@@ -1,6 +1,6 @@
 import Calendar from '../../public/icons/sidebar/calendar.svg'
-import Dashboard from '../../public/icons/sidebar/Dashboard.svg'
-import Subjects from '../../public/icons/sidebar/Subjects.svg'
+import Dashboard from '../../public/icons/sidebar/dashboard.svg'
+import Subjects from '../../public/icons/sidebar/subjects.svg'
 import { Box, Button, Flex, Link, List } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
