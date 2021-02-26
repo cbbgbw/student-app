@@ -3,7 +3,6 @@ import { ReusableModal } from '../../components/ReusableModal/Modal'
 import { GlobalDataContext } from '../../components/Auth/Provider'
 import { EntityTypes, ModalType } from '../../types/types'
 import { useForm } from 'react-hook-form'
-import { useProjectCategory, useProjectTypes } from '../../actions/project'
 import { CSelect } from '../../components/Forms/CSelect/CSelect'
 import { Checkbox, FormLabel, Input } from '@chakra-ui/react'
 import { CTextArea } from '../../components/Forms/CTextarea/CTextArea'
@@ -13,6 +12,7 @@ import { useRouter } from 'next/router'
 import { SubjectCreateModel } from '../../api/actions/subject'
 import { useSubjects } from '../../api/hooks/subject'
 import { postProject, ProjectFormData } from '../../api/actions/project'
+import { useProjectCategory, useProjectTypes } from '../../api/hooks/project'
 
 export const AddProject: FC = () => {
   const { push } = useRouter()

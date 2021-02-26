@@ -13,7 +13,13 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { Project, useProject } from '../../api/hooks/project'
+import {
+  Project,
+  useProject,
+  useProjectCategory,
+  useProjectStatuses,
+  useProjectTypes,
+} from '../../api/hooks/project'
 import { FlexCentered } from '../../components/chakra/FlexCentered'
 import { TinyEditor } from '../../components/page/Projects/Single/TinyEditor'
 import { EventList } from '../../components/ui/common/EventList'
@@ -26,11 +32,6 @@ import { InputText, TextType } from '../../components/InputText'
 import { SelectText } from '../../components/SelectText'
 import { Popover } from '@chakra-ui/popover'
 import { CSelect } from '../../components/Forms/CSelect/CSelect'
-import {
-  useProjectCategory,
-  useProjectStatuses,
-  useProjectTypes,
-} from '../../actions/project'
 import { CDayPicker } from '../../components/DayPicker/DayPicker'
 import { ReusableModal } from '../../components/ReusableModal/Modal'
 

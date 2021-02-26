@@ -9,6 +9,9 @@ export const ButtonStylesOverride = {
     solid: {
       bg: 'purple.500',
       color: 'white',
+      __hover: {
+        bg: 'purple.600',
+      },
     },
   },
   // The default size and variant values

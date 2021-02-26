@@ -1,6 +1,5 @@
 import { Path, postByBody, postByScheme } from '../axios'
 import { v4 as uuidv4 } from 'uuid'
-import { customPost } from '../../actions/common/common'
 
 export interface UserAuthorizeData {
   loginName: string
@@ -47,9 +46,3 @@ interface AuthenticateUserPostResponse {
   lastName: string
   loginName: string
 }
-
-export const postAuthenticateUser = async (data: AuthenticateUserFormData) =>
-  await customPost<AuthenticateUserPost, AuthenticateUserPostResponse>(
-    Path.User + '/authenticate',
-    data,
-  )
