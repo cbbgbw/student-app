@@ -46,7 +46,7 @@ export const AuthProvider: FC = (props) => {
       push('/login')
     }
     setIsLogin(!!isAbleToAuthorize)
-  }, [])
+  }, [pathname])
 
   if (!isLogin && !isPageWithoutAuth) {
     return <LoadingPage />
