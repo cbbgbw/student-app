@@ -20,3 +20,4 @@ Changelog:
 - Dodana została funkcjonalność zmiany semestrów https://ig-manag.myjetbrains.com/youtrack/issue/CSPE_DEV-44
 
 Powyższe funkcjonalności są do przetestowania manualnego podczas wydania wersji 0.0.2
+test
