@@ -22,6 +22,7 @@ import { InputText } from '../../components/InputText'
 import { SelectText } from '../../components/SelectText'
 import produce from 'immer'
 import { ModalType } from '../../types/types'
+import { GlobalDataContext } from '../../components/Auth/Provider'
 
 
 const SubjectPage = () => {
