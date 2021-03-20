@@ -21,10 +21,13 @@ import { subjectPut } from '../../api/actions/subject'
 import { InputText } from '../../components/InputText'
 import { SelectText } from '../../components/SelectText'
 import produce from 'immer'
+import { ModalType } from '../../types/types'
+
 
 const SubjectPage = () => {
   const toast = useToast()
   const { subjectTypes } = useSubjectTypes()
+  const { setModalType } = useContext(GlobalDataContext)
 
   const { query } = useRouter()
   const { subject, isLoading, mutate } = useSubject(String(query.key))
@@ -183,6 +186,7 @@ const SubjectPage = () => {
       </Flex>
       <Flex h="100%" flexDir="column">
         <Button
+          onClick={() => setModalType(ModalType.AddProject)}
           borderRadius="15px"
           backgroundColor="#271257"
           marginBottom="20px"
