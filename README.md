@@ -1,3 +1,5 @@
+Wersja finalna pracy inżynierskiej 
+
 Aplikacja dla studentów.
 
 
